@@ -3,6 +3,7 @@ project:
 
 website:
   title: "Seedcase Propagate"
+  site-url: "https://propagate.seedcase-project.org"
   repo-url: "https://github.com/seedcase-project/seedcase-propagate"
   page-navigation: true
   navbar:

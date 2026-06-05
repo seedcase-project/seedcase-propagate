@@ -16,7 +16,7 @@ jobs:
     concurrency:
       group: build-website-group
       cancel-in-progress: true
-    
+
     steps:
       # This is a useful security step to check for unexpected outbound calls from the runner,
       # which could indicate a compromised token or runner.
@@ -31,4 +31,8 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@8a96df13519ee81fd526f2dfca5962811136661b # v2.2.0
 
-      
+      - name: Render and publish to Netlify
+        uses: quarto-dev/quarto-actions/publish@8a96df13519ee81fd526f2dfca5962811136661b # v2.2.0
+        with:
+          target: netlify
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
