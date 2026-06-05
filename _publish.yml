@@ -1,5 +1,4 @@
 - source: project
   netlify:
-    # TODO: Add correct ID and URL
-    - id: ""
+    - id: "816488bd-344e-4120-9241-a48be6dd09d6"
       url: "https://seedcase-propagate.netlify.app"
