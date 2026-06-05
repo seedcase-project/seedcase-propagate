@@ -1,0 +1,9 @@
+gh:
+  org: "seedcase-project"
+  repo: "seedcase-propagate"
+
+tagline: "Submit requests for data in a data package"
+
+links:
+  github: "https://github.com/seedcase-project/seedcase-propagate"
+  site: "https://propagate.seedcase-project.org"
