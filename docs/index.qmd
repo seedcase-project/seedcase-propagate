@@ -2,22 +2,24 @@
 title: "Overview"
 ---
 
-How can a researcher request only the specific data they need, in a reproducible
-and machine-readable way, without requiring the data owner to interpret long
-emails and manually produce a query for such requests?
+> *How can a researcher request only the specific data they need, in a
+> reproducible and machine-readable way, without requiring the data owner to
+> interpret long emails and manually produce a query for such requests?*
 
 Meet Propagate, a tool for creating, exchanging, and executing data subset
 requests against structured datasets. Propagate mediates between *requesters*
 (researchers/analysts who want data) and *owners* (data managers who control the
-data) and provides a standardized way to define dataset requests from a larger
-pool of data.
+data) and provides a standardized way to define dataset requests from a Data
+Package.
 
-Propagate is essentially a requesision system: A *requester* creates
-instructions containing e.g., which variables/columns they need, which
-tables/resources they need, and which row filters should be applied.
-Additionally, the *requester* provides *project metadata* (who they are, why
-they need the data). The *owner* then uses those instructions together with the
-metadata from the available data to generate a reproducible subset.
+Propagate is essentially a requisition system:
+
+- A *requester* creates instructions containing e.g., which variables/columns
+  they need, which tables/resources they need, and which row filters should be
+  applied. Additionally, the *requester* provides *project metadata* (who they
+  are, why they need the data).
+- The *owner* then uses those instructions together with the metadata from the
+  Data Package to generate a reproducible subset.
 
 ## Why use Propagate?
 
@@ -27,40 +29,47 @@ build tools that make data more
 and more likely to be (re)used. To support this goal, Propagate solves two
 critical issues.
 
-*Data requesting* Allow a researcher to create subset requests interactively
-through a website, which hosts the dataset metadata. Based on this information,
-the requester can select columns and filters visually, and export or submit a
-request for accessing the (sub)-dataset.
+### Easy data requesting
 
-*Data curation* Allow a data owner to execute those requests without a server
-infrastructure required. The format guarantees reproducible execution and
-provides validation against metadata to generate the new data resource (a
-.parquet file).
+Propagate web app supports researchers in creating requests interactively
+through a website, which hosts the `datapackage.json` (see
+[Sprout](https://sprout.seedcase-project.org)). The requester is visually guided
+in selecting columns and applying filters, which can be exported or submitted as
+a request to the data owner for accessing data resources from the data package.
+
+### Automatic checking and querying requests
+
+Propagate CLI can be used by the data owner to inspect and execute the requested
+data query. The requested query is check against the `datapackage.json`, which
+guarantees reproducible execution and validation against metadata to generate
+the new data resources in `.parquet`.
+
+### Solving the issue of "reasonable request"
 
 Propagate improves the accessibility of data, which helps with making data
 (re)use more appealing for requesters and less of a dauting task for owners.
 This is an important part in making data FAIR, as the notion of providing data
-upon "reasonable request" has, paradoxically, turned into an inside joke and a
-meme in the scientific community. Propagate aims to formalize and theirby lower
-the friction of sharing data.
+upon "reasonable request" has, paradoxically, turned into an inside joke in the
+scientific community. Propagate aims to lower the friction of sharing data.
 
 Propagate fills a special role within the scientific community, as few tools are
 available that mediate between data requesters and data owners.
 
-## The tools of Propagate:
+## The tools of Propagate
 
 Propagate has two tools; a *web app* for the data requester and a *CLI* for the
 data owner.
 
-The Web app reads metadata and displays available resources and variables. From
-this, it allows column selection, row filtering, and simple table joins. It also
-collects project information and generates and requesition file that can be
+The Web app reads metadata and displays available data resources and variables.
+From this, it allows column selection, row filtering, and simple table joins. It
+also collects project information, and generates a requisition file that can be
 saved/exported/sent to the data owner.
 
-The CLI app is only used by the data owner and helps with reading the
-requesition file, validating it against metadata, and converting the request
-into executable query that generates the new data resource as a .parquet file.
-Propagate supports [Flower](https://flower.seedcase-project.org).
+The CLI is only used by the data owner and helps with reading the requisition
+file, validating it against metadata, and converting the request into executable
+query that generates the new data resource as a `.parquet file`. Propagate
+supports websites made by our other package,
+[Flower](https://flower.seedcase-project.org).
 
 ## Learning more
 
