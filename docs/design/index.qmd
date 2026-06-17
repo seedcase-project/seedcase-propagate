@@ -1,3 +1,63 @@
 ---
 title: "Design"
 ---
+
+The purpose of these design documents is to describe the design of Propagate in
+enough detail to guide a sustainable implementation (i.e., maintainable in the
+long term) and to ensure that the team has a shared understanding of the
+package's scope and architecture.
+
+Propagate's design builds on our overall Seedcase
+[design principles and patterns](https://design.seedcase-project.org/) and
+follows the same principles and patterns described there.
+
+## Purpose
+
+The overall purpose of Propagate is to streamline requesting and subsetting data
+based on a data package's metadata, i.e., a `datapackage.json` file from the
+[Data Package](https://datapackage.org/) standard or a `data-dict.yaml` from the
+[data-dict](https://data-dict.tidyverse.org/) standard. This purpose is
+structured around two main user roles, Requesters and Owners, who interact with
+Propagate in different ways:
+
+1. **Requester**: Requests a subset of a data package's data, e.g. specific
+   resources, columns, and rows.
+2. **Owner**: Creates a subset of data from a data package based on a request.
+
+## Requirements
+
+The requirements are split into two parts based on the above two user roles.
+Underlying both is one shared requirement. Propagate must:
+
+- Produce a machine-readable but human-legible set of instructions that allows
+  for making a subset of data in Parquet format, along with enough information
+  to recreate that subset from a data package in the future, e.g., the data
+  package name and version, a timestamp, the name and contact information of the
+  requester, as well as the instructions specifying the resources, fields, and
+  filters to apply to the data package.
+
+### Requester
+
+From the requester's perspective, Propagate must:
+
+1. Create instructions interactively from a data package's metadata, including
+   the ability to save in-progress work and return to it later.
+2. Create the instructions through a link or connection to a data package's
+   website, without needing to download anything.
+3. Make it easy to send the instructions to data owners by creating a
+   copy-pasteable query or a downloadable file and providing the necessary
+   information (name and email) to be able to send the instructions to the
+   owner.
+
+<!-- TODO: How do we want to save in-progress work? -->
+<!-- TODO: What *specifically* do we mean by "link or connection"? A URL? -->
+
+### Owner
+
+From the owner's perspective, Propagate must:
+
+1. Generate the files needed for a static website (no server required to set up,
+   maintain, pay for, or manage), so Requesters can access the interactive
+   instruction-creation form.
+2. Use the instructions submitted by Requesters to reproducibly produce a subset
+   of data from a data package, through a CLI and a Rust API.
