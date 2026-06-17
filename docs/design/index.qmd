@@ -1,3 +1,86 @@
 ---
 title: "Design"
 ---
+
+The purpose of these design documents is to describe the design of Propagate in
+enough detail to guide a sustainable implementation (i.e., maintainable in the
+long term) and to ensure that the team has a shared understanding of the
+package's scope and architecture.
+
+Propagate's design builds on our overall Seedcase [design principles and
+patterns](https://design.seedcase-project.org/) and follows the same principles
+and patterns described there.
+
+## Purpose
+
+The overall aim of Propagate is to streamline requesting and subsetting data
+from a data package. This can be a [Frictionless Data
+Package](https://datapackage.org) or another compatible metadata-annotated data
+source.
+
+Propagate supports two primary user types:
+
+1. **Requester**: A researcher or analyst who wants to request a subset of data,
+   such as specific variables/columns or records/rows.
+2. **Owner**: A data owner or data manager who receives requests and generates
+   subsets from the source data.
+
+The central concept in Propagate is a set of **instructions** that describe a
+requested subset of data. These instructions are intended to be both
+machine-readable and human-readable, allowing them to be shared, reviewed,
+archived, and reproduced.
+
+Overall, Propagate:
+
+1. Creates structured instructions for requesting a subset of data.
+2. Provides an interactive interface for creating those instructions from
+   metadata.
+3. Checks the instructions against the metadata before applying them to the
+   data.
+4. Generates reproducible subsets from source data based on the instructions.
+
+## Requirements
+
+Specifically, Propagate must:
+
+### Core functionality
+
+- Define a machine-readable and human-readable instruction format for requesting
+  data subsets.
+- Store enough information in the instructions to reproduce the subset in the
+  future.
+- Support checking instructions against the metadata before generating a subset.
+
+### Requester functionality
+
+- Generate instructions from a website or web application without requiring the
+  requester to download or install software.
+- Create instructions interactively from metadata.
+- Support an "export" functionality: completed instructions should be
+  downloadable as a file.
+- Support a "send" functionality: the requester's email client should be opened
+  with a pre-filled email to the data owner containing the instruction file as
+  an attachment.
+- Allow users to save and resume partially completed requests.
+- Include request metadata in the instructions (e.g., date, (meta)data version,
+  requester name and email, project name, rationale or motivation).
+
+### Owner functionality
+
+- Generate an interface for creating instructions interactively. This should be
+  in the form of a web component that can be inserted into a static website and
+  deployed without requiring a server.
+- Generate data subsets from instructions and source data.
+- Support previewing the planned subset operation before execution.
+- Expose its functionality through both a command-line interface (CLI) and a
+  programming language API.
+
+### Out of scope
+
+Propagate does not:
+
+- Manage data access approvals.
+- Transfer instructions or data subsets between parties.
+- Host web services.
+- Modify source data or metadata.
+- Act as a general-purpose query engine.
