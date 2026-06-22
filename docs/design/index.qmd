@@ -14,8 +14,10 @@ and patterns described there.
 ## Purpose
 
 The overall aim of Propagate is to streamline requesting and subsetting data
-from a data package based on its metadata, i.e., a `datapackage.json` file following the [Frictionless Data
-Package](https://datapackage.org) standard or a `data-dict.yaml` file from the [data-dict](https://data-dict.tidyverse.org/) standard.
+from a data package based on its metadata, i.e., a `datapackage.json` file
+following the [Frictionless Data Package](https://datapackage.org) standard or a
+`data-dict.yaml` file from the [data-dict](https://data-dict.tidyverse.org/)
+standard.
 
 Propagate supports two primary user types:
 
@@ -26,8 +28,9 @@ Propagate supports two primary user types:
 
 The central concept in Propagate is a set of **instructions** that describe a
 requested subset of data. These instructions are intended to be both
-machine-readable and human-readable, allowing them to be shared, reviewed,
-and archived, while also providing a reproducible specification for regenerating the same data subset at a later time.
+machine-readable and human-readable, allowing them to be shared, reviewed, and
+archived, while also providing a reproducible specification for regenerating the
+same data subset at a later time.
 
 Overall, Propagate:
 
@@ -52,7 +55,8 @@ Specifically, Propagate must:
 
 ### Requester functionality
 
-- Generate instructions interactively from the data package metadata via a web interface without downloading or installing software.
+- Generate instructions interactively from the data package metadata via a web
+  interface without downloading or installing software.
 - Support an "export" functionality: completed instructions should be
   downloadable as a file.
 - Support a "send" functionality: the requester's email client should be opened
@@ -60,12 +64,17 @@ Specifically, Propagate must:
   an attachment.
 - Allow users to save and resume partially completed requests.
 - Include request metadata in the instructions (e.g., requester name and email).
-- For experienced users, provide a terminal interface to create the request interactively without needing to open a web app.
+- For experienced users, provide a terminal interface to create the request
+  interactively without needing to open a web app.
+
 ### Owner functionality
 
-- Generate a web component via a command-line interface or Rust API for creating instructions interactively from data package metadata.
-- Support embedding the component in a static website without requiring a server.
-- Generate data subsets, in Parquet format for rectangular data, from instructions and data package data.
+- Generate a web component via a command-line interface or Rust API for creating
+  instructions interactively from data package metadata.
+- Support embedding the component in a static website without requiring a
+  server.
+- Generate data subsets, in Parquet format for rectangular data, from
+  instructions and data package data.
 - Support previewing the planned subset operation before execution.
 
 ### Out of scope
