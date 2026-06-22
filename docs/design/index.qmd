@@ -59,9 +59,8 @@ Specifically, Propagate must:
   with a pre-filled email to the data owner containing the instruction file as
   an attachment.
 - Allow users to save and resume partially completed requests.
-- Include request metadata in the instructions (e.g., date, (meta)data version,
-  requester name and email, project name, rationale or motivation).
-
+- Include request metadata in the instructions (e.g., requester name and email).
+- For experienced users, provide a terminal interface to create the request interactively without needing to open a web app.
 ### Owner functionality
 
 - Generate a web component via a command-line interface or Rust API for creating instructions interactively from data package metadata.
