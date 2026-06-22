@@ -14,21 +14,20 @@ and patterns described there.
 ## Purpose
 
 The overall aim of Propagate is to streamline requesting and subsetting data
-from a data package. This can be a [Frictionless Data
-Package](https://datapackage.org) or another compatible metadata-annotated data
-source.
+from a data package based on its metadata, i.e., a `datapackage.json` file following the [Frictionless Data
+Package](https://datapackage.org) standard or a `data-dict.yaml` file from the [data-dict](https://data-dict.tidyverse.org/) standard.
 
 Propagate supports two primary user types:
 
 1. **Requester**: A researcher or analyst who wants to request a subset of data,
-   such as specific variables/columns or records/rows.
+   such as specific resource variables/columns or records/rows.
 2. **Owner**: A data owner or data manager who receives requests and generates
-   subsets from the source data.
+   subsets from the source data based on the requests.
 
 The central concept in Propagate is a set of **instructions** that describe a
 requested subset of data. These instructions are intended to be both
 machine-readable and human-readable, allowing them to be shared, reviewed,
-archived, and reproduced.
+and archived, while also providing a reproducible specification for regenerating the same data subset at a later time.
 
 Overall, Propagate:
 
@@ -37,7 +36,7 @@ Overall, Propagate:
    metadata.
 3. Checks the instructions against the metadata before applying them to the
    data.
-4. Generates reproducible subsets from source data based on the instructions.
+4. Generates reproducible subsets from a data package based on the instructions.
 
 ## Requirements
 
@@ -53,9 +52,7 @@ Specifically, Propagate must:
 
 ### Requester functionality
 
-- Generate instructions from a website or web application without requiring the
-  requester to download or install software.
-- Create instructions interactively from metadata.
+- Generate instructions interactively from the data package metadata via a web interface without downloading or installing software.
 - Support an "export" functionality: completed instructions should be
   downloadable as a file.
 - Support a "send" functionality: the requester's email client should be opened
@@ -67,13 +64,10 @@ Specifically, Propagate must:
 
 ### Owner functionality
 
-- Generate an interface for creating instructions interactively. This should be
-  in the form of a web component that can be inserted into a static website and
-  deployed without requiring a server.
-- Generate data subsets from instructions and source data.
+- Generate a web component via a command-line interface or Rust API for creating instructions interactively from data package metadata.
+- Support embedding the component in a static website without requiring a server.
+- Generate data subsets, in Parquet format for rectangular data, from instructions and data package data.
 - Support previewing the planned subset operation before execution.
-- Expose its functionality through both a command-line interface (CLI) and a
-  programming language API.
 
 ### Out of scope
 
