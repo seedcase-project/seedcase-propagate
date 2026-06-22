@@ -30,32 +30,33 @@ examples](/docs/examples/index.qmd){.btn .about-link}
 ::: hero-banner
 ::::: landing-page-block
 ::::::: hero-text
-Propagate is a data requisition system hosted on a website that help researchers
-apply for access to (re)use data stored in a [Data
-Package](https://datapackage.org/). The data owner also gets equipped with a
-command-line interface (CLI) for managing, checking, and executing the data
-requisitions.
+Propagate is a data request system hosted on a website that help researchers
+apply for access to (re)use data stored as a package. The data owner also gets
+equipped with a command-line interface (CLI) for managing, checking, and
+executing the data requests.
 
 ## :sparkles: Key features
 
 *Data requester:*
 
-- Request data from a Flower's webpage and Data Package's `datapackage.json`
-  file.
-- Upload data requisition to the appropriate data owner in a reproducible and
-  structured format.
+- Request data from a webpage (e.g. one made with
+  [Flower](https://flower.seedcase-project.org). file.
+- Send the data request to the data owner in a reproducible and structured
+  format.
 
 *Data Owner:*
 
-- Receive reproducible and query-ready instructions for your data resource.
-- Test the compatibility of the data request query against your meta-data.
-- Generate a new resource, in the format of a .parquet file, based on the unique
-  request a user has uploaded.
+- Receive reproducible and query-ready instructions for creating a subset from
+  your data package.
+- Test the compatibility of the data request query against your metadata.
+- Generate a subset, as Parquet files for rectangular data or set of files for
+  other file types (e.g. images), based on the unique request a user has
+  uploaded.
 
-Propagate focuses on data accessibility by hosting an online requisition system
-and a CLI for the data owner to execute and manage the request. For creating the
-Data Packages with metadata stored in `datapackage.json`, see, our Python
-package [Sprout](https://sprout.seedcase-project.org). For making human-readable
+Propagate focuses on data accessibility by hosting an online request system and
+a CLI for the data owner to execute and manage the request. For creating the
+data packages with metadata, see, our Python package
+[Sprout](https://sprout.seedcase-project.org). For making human-readable
 documentation of the data package, see
 [Flower](https://flower.seedcase-project.org).
 :::::::

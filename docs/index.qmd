@@ -12,64 +12,66 @@ requests against structured datasets. Propagate mediates between *requesters*
 data) and provides a standardized way to define dataset requests from a Data
 Package.
 
-Propagate is essentially a requisition system:
+Propagate is essentially a request system:
 
 - A *requester* creates instructions containing e.g., which variables/columns
   they need, which tables/resources they need, and which row filters should be
   applied. Additionally, the *requester* provides *project metadata* (who they
   are, why they need the data).
-- The *owner* then uses those instructions together with the metadata from the
-  Data Package to generate a reproducible subset.
+- The *owner* then uses those instructions together with the data package
+  metadata to generate a reproducible subset.
 
 ## Why use Propagate?
 
 The overall aim of the [Seedcase Project](https://seedcase-project.org) is to
-build tools that make data more
-[FAIR](https://www.go-fair.org/fair-principles/), easier to access and share,
-and more likely to be (re)used. To support this goal, Propagate solves two
-critical issues.
+build tools that make data more [FAIR](https://www.go-fair.org/fair-principles/)
+and [tidy](https://vita.had.co.nz/papers/tidy-data.html), easier to access and
+share, and more likely to be (re)used. To support this goal, Propagate
+simplifies two tasks.
 
 ### Easy data requesting
 
-Propagate web app supports researchers in creating requests interactively
-through a website, which hosts the `datapackage.json` (see
-[Sprout](https://sprout.seedcase-project.org)). The requester is visually guided
+Propagate's web app supports researchers in creating requests interactively
+through a website, which hosts the data package's metadata (see
+[Flower](https://flower.seedcase-project.org)). The requester is visually guided
 in selecting columns and applying filters, which can be exported or submitted as
 a request to the data owner for accessing data resources from the data package.
 
 ### Automatic checking and querying requests
 
-Propagate CLI can be used by the data owner to inspect and execute the requested
-data query. The requested query is check against the `datapackage.json`, which
+Propagate's CLI can be used by the data owner to inspect and execute the
+requested data query. The requested query is checked against the metadata, which
 guarantees reproducible execution and validation against metadata to generate
-the new data resources in `.parquet`.
+the new subset of the data package (usually as Parquet files).
 
 ### Solving the issue of "reasonable request"
 
 Propagate improves the accessibility of data, which helps with making data
 (re)use more appealing for requesters and less of a dauting task for owners.
 This is an important part in making data FAIR, as the notion of providing data
-upon "reasonable request" has, paradoxically, turned into an inside joke in the
-scientific community. Propagate aims to lower the friction of sharing data.
+upon "reasonable request" has, paradoxically, turned into an [inside
+joke](https://www.nature.com/articles/s41597-021-00981-0) in the scientific
+community. Propagate aims to lower the friction of sharing data.
 
 Propagate fills a special role within the scientific community, as few tools are
 available that mediate between data requesters and data owners.
 
 ## The tools of Propagate
 
-Propagate has two tools; a *web app* for the data requester and a *CLI* for the
-data owner.
+Propagate has two tools; a *web app* for the data requester (or a terminal
+interface for experienced users) and a *CLI* for the data owner.
 
-The Web app reads metadata and displays available data resources and variables.
+The web app reads metadata and displays available data resources and variables.
 From this, it allows column selection, row filtering, and simple table joins. It
-also collects project information, and generates a requisition file that can be
+also collects project information, and generates a request file that can be
 saved/exported/sent to the data owner.
 
-The CLI is only used by the data owner and helps with reading the requisition
-file, validating it against metadata, and converting the request into executable
-query that generates the new data resource as a `.parquet file`. Propagate
-supports websites made by our other package,
-[Flower](https://flower.seedcase-project.org).
+The CLI is only used by the data owner and helps with reading the request file,
+validating it against metadata, and converting the request into executable query
+that generates the new subset of the data package. Propagate supports websites
+made by [static site
+generators](https://en.wikipedia.org/wiki/Static_site_generator), such as those
+made by our other package, [Flower](https://flower.seedcase-project.org).
 
 ## Learning more
 
@@ -78,7 +80,8 @@ details about the interface.
 
 - [How-to guide](/docs/guide/index.qmd): The guide section provides a
   step-by-step introduction to Propagate, including installing, using the
-  website app, using the command-line interface, and setting configurations.
+  website app and terminal interface, using the command-line interface, and
+  setting configurations.
 - [Reference](/docs/reference/index.qmd): The reference section contains
   detailed information about Propagate's CLI and setting up a Propagate website
   for requesters.
