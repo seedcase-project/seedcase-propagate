@@ -161,3 +161,12 @@ flowchart TD
     style seedcase-propagate fill:#FFFFFF, color:#000000
     style input fill:none, color:transparent, stroke:none
 ```
+
+### Component/code
+
+In C4, a [component](https://c4model.com/abstractions/component) is "a grouping
+of related functionality encapsulated behind a well-defined interface", like a
+class or a module, while [code](https://c4model.com/abstractions/code) refers to
+the basic building blocks, such as classes and functions.
+
+<!-- TODO: Add component/code diagrams. -->
