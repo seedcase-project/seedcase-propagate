@@ -1,3 +1,163 @@
 ---
 title: "Architecture"
 ---
+
+This document contains a description of Propagate's expected user types and
+naming scheme and fleshes out its architecture in a series of C4 models. For
+design details of the Seedcase Project as a whole, see the [Seedcase
+Design](https://design.seedcase-project.org) documentation.
+
+The purpose of this page is to ensure that the team shares a common
+understanding of the implementation and to outline the design to anyone else
+interested in the internal workings of the package.
+
+## User types {#user-types}
+
+Propagate supports two primary user types:
+
+1. **Requester**: A researcher or analyst who wants to request a subset of data,
+   such as specific resource variables/columns or records/rows.
+
+2. **Owner**: A data owner or data manager who receives requests and generates
+   subsets from the source data based on the requests.
+
+## Naming
+
+  | Object         | Description                                                                                                             |
+  | -------------- | ----------------------------------------------------------------------------------------------------------------------- |
+  | package        | A data package that contains a collection of related data resources and metadata.                                       |
+  | resource       | One or more data files that are part of a data package.                                                                 |
+  | metadata       | Information about the data, such as its description, structure, and origin.                                             |
+  | data           | The actual data within a data package given in Parquet format.                                                          |
+  | instruction(s) | Instructions specifying the subset of data requested by the requester, together with metadata about the request itself. |
+
+  : Concepts and entities in Propagate.
+
+  | Action | Description                                                                         |
+  | ------ | ----------------------------------------------------------------------------------- |
+  | build  | Generate the WASM bundle that makes up the web component for creating instructions. |
+  | check  | Check the instructions against the metadata.                                        |
+  | subset | Generate a subset of data based on the instructions provided.                       |
+
+  : CLI commands and Rust API functions used in Propagate.
+
+  | Action          | Description                                                                                                          |
+  | --------------- | -------------------------------------------------------------------------------------------------------------------- |
+  | select resource | Add instructions for selecting a specific resource from the data package.                                            |
+  | select column   | Add instructions for selecting a specific column from the resource.                                                  |
+  | add filter      | Add instructions for filtering the data based on certain criteria.                                                   |
+  | save progress   | Save the current contents of the instructions form to local storage in the browser.                                  |
+  | export          | Download the contents of the instructions form as an instructions file.                                              |
+  | send            | Open the user's email client with an email to the data owner pre-filled with the instructions file as an attachment. |
+
+  : Web-based functionality in Propagate.
+
+## C4 Models
+
+This section contains the [C4 Models](https://c4model.com/) for Propagate. The
+C4 Model is an established visualisation approach to describe the architecture
+of a software system. It breaks the system down into four levels of
+architectural abstraction: system context, containers, components, and code.
+
+### System context
+
+The system context diagram shows the users and external systems that interact
+with Propagate.
+
+```{mermaid}
+%%| label: fig-c4-context
+%%| fig-cap: "C4 system context diagram showing the users and external systems Propagate interacts with."
+
+flowchart TD
+
+    subgraph Users
+    user_requester("Requester<br>[person]")
+    user_owner("Owner<br>[person]")
+    end
+
+    data("Data<br>[Parquet]")
+    metadata("Metadata<br>[e.g. datapackage.json]")
+    instructions("Instructions<br>[yaml]")
+
+    propagate("seedcase-propagate<br>[Rust app]")
+    template_dp("template-data-package<br>[Python package]")
+    website("Static website<br>[Quarto]")
+
+    subset("Data subset<br>[Parquet]")
+
+    metadata --"Describes data"--> propagate
+    data --"Contains data"--> propagate
+    instructions --"Specifies subset"--> propagate
+
+    user_owner --"Prepares data subset,<br>Builds instructions form"--> propagate
+    user_owner --"Optionally builds website"--> template_dp
+    user_requester --"Queries metadata,<br>creates instructions,<br>downloads instructions"--> website
+    template_dp --"Uses to generate<br>form assets"--> propagate
+
+    template_dp --"Builds"--> website
+    website --"Generates instructions<br>from requester input"--> instructions
+    propagate --"Generates subset<br>from instructions"--> subset
+
+    user_requester --"Receives and uses"--> subset
+
+    %% Styling
+    style Users fill:#FFFFFF, color:#000000
+```
+
+[Template Data Package](https://template-data-package.seedcase-project.org/) is
+a Python package that makes working with data packages easier. One of its
+features is building a website that displays package metadata. Optionally, it
+can also include the interactive instructions form generated by Propagate. The
+owner can use Template Data Package to build the website with the instructions
+form or they can generate the form directly from Propagate.
+
+### Container
+
+In C4, a [container diagram](https://c4model.com/diagrams/container) zooms in on
+the system to show the *containers* within it, such as web applications or
+databases. This diagram displays the main containers in Propagate, their
+responsibilities, and how they interact, including the technologies used for
+each.
+
+Propagate is primarily designed for use as a CLI, but its core functionality is
+also available through a Rust API.
+
+```{mermaid}
+%%| label: fig-c4-container
+%%| fig-cap: "C4 container diagram showing the main Rust crates in Propagate and the command-line interface."
+
+flowchart TD
+
+  subgraph "input"
+    data("Data<br>[Parquet]")
+    metadata("Metadata<br>[e.g. datapackage.json]")
+    instructions("Instructions<br>[yaml]")
+  end
+
+  subgraph "seedcase-propagate"
+    core("Core<br>[Rust]<br>Instruction checking,<br>data subsetting")
+    common("Common<br>[Rust]<br>Shared domain<br>models and logic")
+    web("Web<br>[Rust, Leptos?]<br>Instructions form")
+    cli("CLI<br>[Rust]<br>Build, check, and<br>subset commands")
+
+    core -- "Uses" --> common
+    web -- "Uses" --> common
+    cli -- "Uses" --> core
+    cli -- "Uses" --> web
+  end
+
+    subset("Data subset<br>[Parquet]")
+    form_assets("Instructions<br>form assets<br>[WASM bundle]")
+
+    instructions --"Read by"--> seedcase-propagate
+    data --"Read by"--> seedcase-propagate
+    metadata --"Read by"--> seedcase-propagate
+
+    web --"Builds"--> form_assets
+    form_assets --"Exports when<br>run in browser"--> instructions
+    cli --"Outputs"--> subset
+
+    %% Styling
+    style seedcase-propagate fill:#FFFFFF, color:#000000
+    style input fill:none, color:transparent, stroke:none
+```
