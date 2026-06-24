@@ -16,7 +16,9 @@ interested in the internal workings of the package.
 Propagate supports two primary user types:
 
 1. **Requester**: A researcher or analyst who wants to request a subset of data,
-   such as specific resource variables/columns or records/rows.
+   such as specific resource variables/columns or records/rows. Requesters can
+   generate subset instructions using a web interface or directly via Propagate
+   in the terminal.
 
 2. **Owner**: A data owner or data manager who receives requests and generates
    subsets from the source data based on the requests.
@@ -33,11 +35,12 @@ Propagate supports two primary user types:
 
   : Concepts and entities in Propagate.
 
-  | Action | Description                                                                         |
-  | ------ | ----------------------------------------------------------------------------------- |
-  | build  | Generate the WASM bundle that makes up the web component for creating instructions. |
-  | check  | Check the instructions against the metadata.                                        |
-  | subset | Generate a subset of data based on the instructions provided.                       |
+  | Action  | Description                                                                         |
+  | ------- | ----------------------------------------------------------------------------------- |
+  | build   | Generate the WASM bundle that makes up the web component for creating instructions. |
+  | check   | Check the instructions against the metadata.                                        |
+  | subset  | Generate a subset of data based on the instructions provided.                       |
+  | request | Create an instructions file interactively using the terminal.                       |
 
   : CLI commands in Propagate.
 
@@ -50,7 +53,8 @@ Propagate supports two primary user types:
   | export          | Download the contents of the instructions form as an instructions file.                                              |
   | send            | Open the user's email client with an email to the data owner pre-filled with the instructions file as an attachment. |
 
-  : Web-based functionality in Propagate.
+  : Web-based functionality in Propagate. The TUI supports a subset of this
+    functionality.
 
 ## C4 Models
 
@@ -70,7 +74,8 @@ with Propagate.
 
 flowchart TD
 
-    user_requester("Requester<br>[person]")
+    user_requester_web("Web UI Requester<br>[person]")
+    user_requester_tui("TUI Requester<br>[person]")
     user_owner("Owner<br>[person]")
 
     data(["Data<br>[Parquet]"])
@@ -83,20 +88,22 @@ flowchart TD
 
     subset(["Data subset<br>[Parquet]"])
 
-    metadata --"Describes data"--> propagate
-    data --"Contains data"--> propagate
-    instructions --"Specifies subset"--> propagate
+    propagate --"Uses"--> metadata
+    propagate --"Uses"--> data
+    propagate --"Uses"--> instructions
 
-    user_owner --"Prepares data subset,<br>Builds instructions form"--> propagate
-    user_owner --"Optionally builds website"--> template_dp
-    user_requester --"Queries metadata,<br>creates instructions,<br>downloads instructions"--> website
-    template_dp --"Uses to generate<br>form assets"--> propagate
+    user_owner --"Uses"--> propagate
+    user_owner --"Optionally uses"--> template_dp
+    user_requester_web --"Uses"--> website
+    user_requester_tui --"Uses"--> propagate
+    template_dp --"Uses"--> propagate
 
     template_dp --"Builds"--> website
-    website --"Generates instructions<br>from requester input"--> instructions
-    propagate --"Generates subset<br>from instructions"--> subset
+    website --"Generates"--> instructions
+    propagate --"Generates"--> instructions
+    propagate --"Generates"--> subset
 
-    user_requester --"Receives and uses"--> subset
+    user_requester_web --"Uses"--> subset
 
     %% Styling
     classDef artifact fill:transparent, stroke-dasharray: 5 5
@@ -126,40 +133,30 @@ Propagate is primarily designed for use as a CLI.
 
 flowchart TD
 
-  subgraph "input"
-    data(["Data<br>[Parquet]"])
-    metadata(["Metadata<br>[e.g. datapackage.json]"])
-    instructions(["Instructions<br>[yaml]"])
-  end
-
   subgraph "seedcase-propagate"
-    core("Core<br>[Rust]<br>Instruction checking,<br>data subsetting")
     common("Common<br>[Rust]<br>Shared domain<br>models and logic")
-    web("Web<br>[Rust, Leptos?]<br>Instructions form")
-    cli("CLI<br>[Rust]<br>Build, check, and<br>subset commands")
+    instruction_builder("Instruction builder<br>[Rust]<br>Shared logic")
+    subset_builder("Subset builder<br>[Rust]")
+    web("Web<br>[Rust, Leptos?]<br>UI components")
+    tui("TUI<br>[Rust]<br>UI components")
+    cli("CLI<br>[Rust]<br>Build, check, subset<br>and request commands")
 
-    core -- "Uses" --> common
-    web -- "Uses" --> common
-    cli -- "Uses" --> core
+    subset_builder -- "Uses" --> common
+    instruction_builder -- "Uses" --> common
+    web -- "Uses" --> instruction_builder
+    tui -- "Uses" --> instruction_builder
+    cli -- "Uses" --> subset_builder
     cli -- "Uses" --> web
+    cli -- "Uses" --> tui
   end
 
-    subset(["Data subset<br>[Parquet]"])
-    form_assets("Instructions<br>form assets<br>[WASM bundle]")
+  form_assets(["Instruction<br>form web assets<br>[WASM bundle]"])
 
-    instructions --"Read by"--> seedcase-propagate
-    data --"Read by"--> seedcase-propagate
-    metadata --"Read by"--> seedcase-propagate
+  web --"Builds"--> form_assets
 
-    web --"Builds"--> form_assets
-    form_assets --"Exports when<br>run in browser"--> instructions
-    cli --"Outputs"--> subset
-
-    %% Styling
-    style seedcase-propagate fill:#FFFFFF, color:#000000
-    style input fill:none, color:transparent, stroke:none
-    classDef artifact fill:transparent, stroke-dasharray: 5 5
-    class metadata,data,instructions,subset artifact
+  %% Styling
+  style seedcase-propagate fill:#FFFFFF, color:#000000
+  style form_assets fill:transparent, stroke-dasharray: 5 5
 ```
 
 ### Component/code
