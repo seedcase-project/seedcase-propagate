@@ -70,20 +70,18 @@ with Propagate.
 
 flowchart TD
 
-    subgraph Users
     user_requester("Requester<br>[person]")
     user_owner("Owner<br>[person]")
-    end
 
-    data("Data<br>[Parquet]")
-    metadata("Metadata<br>[e.g. datapackage.json]")
-    instructions("Instructions<br>[yaml]")
+    data(["Data<br>[Parquet]"])
+    metadata(["Metadata<br>[e.g. datapackage.json]"])
+    instructions(["Instructions<br>[yaml]"])
 
     propagate("seedcase-propagate<br>[Rust app]")
     template_dp("template-data-package<br>[Python package]")
     website("Static website<br>[Quarto]")
 
-    subset("Data subset<br>[Parquet]")
+    subset(["Data subset<br>[Parquet]"])
 
     metadata --"Describes data"--> propagate
     data --"Contains data"--> propagate
@@ -101,7 +99,8 @@ flowchart TD
     user_requester --"Receives and uses"--> subset
 
     %% Styling
-    style Users fill:#FFFFFF, color:#000000
+    classDef artifact fill:transparent, stroke-dasharray: 5 5
+    class metadata,data,instructions,subset artifact
 ```
 
 [Template Data Package](https://template-data-package.seedcase-project.org/) is
@@ -129,9 +128,9 @@ also available through a Rust API.
 flowchart TD
 
   subgraph "input"
-    data("Data<br>[Parquet]")
-    metadata("Metadata<br>[e.g. datapackage.json]")
-    instructions("Instructions<br>[yaml]")
+    data(["Data<br>[Parquet]"])
+    metadata(["Metadata<br>[e.g. datapackage.json]"])
+    instructions(["Instructions<br>[yaml]"])
   end
 
   subgraph "seedcase-propagate"
@@ -146,7 +145,7 @@ flowchart TD
     cli -- "Uses" --> web
   end
 
-    subset("Data subset<br>[Parquet]")
+    subset(["Data subset<br>[Parquet]"])
     form_assets("Instructions<br>form assets<br>[WASM bundle]")
 
     instructions --"Read by"--> seedcase-propagate
@@ -160,6 +159,8 @@ flowchart TD
     %% Styling
     style seedcase-propagate fill:#FFFFFF, color:#000000
     style input fill:none, color:transparent, stroke:none
+    classDef artifact fill:transparent, stroke-dasharray: 5 5
+    class metadata,data,instructions,subset artifact
 ```
 
 ### Component/code
