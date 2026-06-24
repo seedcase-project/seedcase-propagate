@@ -9,7 +9,7 @@ Requester and Owner, referred to below.
 
 The outputs are:
 
-- HTML and WebAssembly (WASM) files for a web component for Requesters to fill
+- HTML and WebAssembly (WASM) files for a web component where Requesters can fill
   in a data request.
 
 - A `request.toml` file created by the Requester based on their selections in
@@ -21,8 +21,8 @@ The outputs are:
 
 ## HTML and WebAssembly (WASM) files for a web component
 
-Based on the data package metadata file (`datapackage.json`), the Owner uses
-Propagate to create HTML and WASM files that form a web component. This
+The Owner uses Propagate to create HTML and WASM files that form a web
+component from the data package metadata file (`datapackage.json`). This
 component allows Requesters to browse and select the fields they want to include
 in their request. The component can be added to a static website.
 
@@ -59,7 +59,7 @@ The request includes:
 
 - Name of the project the data is requested for.
 - Rationale for the request.
-- The date and time of the request creation.
+- The date and time of request creation.
 - The Requester's name and email address.
 - A SQL-like query (resource fields and rows to include) that can be used to
   create the data subset.
