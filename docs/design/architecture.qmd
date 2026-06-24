@@ -39,7 +39,7 @@ Propagate supports two primary user types:
   | check  | Check the instructions against the metadata.                                        |
   | subset | Generate a subset of data based on the instructions provided.                       |
 
-  : CLI commands and Rust API functions used in Propagate.
+  : CLI commands in Propagate.
 
   | Action          | Description                                                                                                          |
   | --------------- | -------------------------------------------------------------------------------------------------------------------- |
@@ -118,8 +118,7 @@ databases. This diagram displays the main containers in Propagate, their
 responsibilities, and how they interact, including the technologies used for
 each.
 
-Propagate is primarily designed for use as a CLI, but its core functionality is
-also available through a Rust API.
+Propagate is primarily designed for use as a CLI.
 
 ```{mermaid}
 %%| label: fig-c4-container
