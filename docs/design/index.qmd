@@ -45,8 +45,8 @@ Specifically, Propagate must:
 
 ### Core functionality
 
-- Define a machine-readable and human-readable instruction format for requesting
-  data subsets.
+- Define a machine-readable and human-readable instruction specification for
+  requesting data subsets.
 - Store enough information in the instructions to reproduce the subset in the
   future.
 - Support checking instructions against the metadata before generating a subset.
