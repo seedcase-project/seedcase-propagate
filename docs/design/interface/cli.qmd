@@ -50,8 +50,8 @@ seedcase-propagate build [SOURCE] [OUTPUT-DIR]
 <!-- TODO: Do we include theming capability? -->
 <!-- TODO: Include other default metadata files to search for? -->
 
-The default for `OUTPUT-DIR` is `./docs/request/` and for `SOURCE` is
-`./datapackage.json`. The diagram below shows the flow of inputs and outputs for
+By default, `SOURCE` is set to
+`./datapackage.json` and `OUTPUT-DIR` to `./docs/request/` . The diagram below shows the flow of inputs and outputs for
 `build`:
 
 ```{mermaid}
@@ -71,7 +71,7 @@ flowchart LR
 ```
 
 The main argument to `build` is the location of the metadata file as a `SOURCE`
-(e.g. a filepath or a URL) to build the documentation from. Propagate supports
+(e.g. a filepath or a URL) to build the web component from. Propagate supports
 the following sources:
 
 - {{< var planned >}} `file://` or a path without `file://`
@@ -106,7 +106,7 @@ the following sources:
 
 The `subset` command takes four arguments: an instructions
 [`request.toml`](inputs.qmd) file for what to subset, the data package's
-metadata file (e.g. `datapackage.json`), the output directory, and a plan flag.
+metadata file (e.g. `datapackage.json`), the output directory, and a show plan flag.
 It outputs a data file or files as Parquet, with metadata from the metadata file
 (e.g. `datapackage.json`) embedded into the metadata of the Parquet file(s). It
 has the following signature that is positional as well as keyword-based:
@@ -116,7 +116,7 @@ seedcase-propagate subset [REQUEST] [SOURCE] [OUTPUT-DIR] [SHOW-PLAN]
 ```
 
 The only required argument is `REQUEST`, which is the path to the `request.toml`
-file that contains the instructions on what to subset. That's because the
+file that contains the instructions for what to subset. This is because the
 `subset` command is meant to be run by the data owner or data manager while in
 the data package folder, which means that the metadata file (e.g.
 `datapackage.json`) is likely in the same folder.
@@ -131,10 +131,10 @@ file(s) will be determined either from:
   type of `name` field.
 
 The `SHOW-PLAN` flag is a boolean that defaults to `false`. If `true`, the CLI
-will output a plan of what the `subset` command will do to create the subset.
+outputs a plan of what the `subset` command will do to create the subset.
 The output is a SQL set of commands, because SQL is the language of data and
-will be likely understood by most users. This is useful for users to check what
-set of commands the subset will run when creating the subset.
+will be likely understood by most users. This is meant for users to check what
+set of commands Propagate will run when creating the subset.
 
 The diagram below shows the flow of inputs and outputs for `subset`:
 
@@ -173,9 +173,10 @@ seedcase-propagate request [SOURCE]
 Because of the nature of using an interactive terminal user interface, the
 default file created from the `request` command is `./request.toml` in the
 current working directory. The user is then responsible for sending the request
-file to the data owner or data manager to create the subset.
+file to the data owner or data manager to create the subset,
+just like when creating request instructions via the website forms.
 
-The diagram below shows the flow of inputs and outputs for `request`:
+The diagram below shows the flow of inputs and outputs of the `request` command:
 
 ```{mermaid}
 %%| label: fig-cli-request-flow
