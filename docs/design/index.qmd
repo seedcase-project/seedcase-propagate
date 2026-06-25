@@ -16,14 +16,6 @@ and patterns described there.
 The overall aim of Propagate is to streamline requesting and subsetting data
 from a data package.
 
-Propagate supports two primary user types:
-
-1. **Requester**: A researcher or analyst who wants to request a subset of data,
-   such as specific variables/columns or records/rows from specific resources in
-   the data package.
-2. **Owner**: A data owner or data manager who receives requests and generates
-   subsets from the source data based on the requests.
-
 The central concept in Propagate is a set of **instructions** that describe a
 requested subset of data. These instructions are intended to be both
 machine-readable and human-readable, allowing them to be shared, reviewed, and
@@ -51,7 +43,7 @@ Specifically, Propagate must:
   future.
 - Support checking instructions against the metadata before generating a subset.
 
-### Requester functionality
+### Data request functionality
 
 - Generate instructions interactively from the data package metadata via a web
   interface without downloading or installing software.
@@ -65,7 +57,7 @@ Specifically, Propagate must:
 - For experienced users, provide a terminal interface to create the request
   interactively without needing to open a web app.
 
-### Owner functionality
+### Data management functionality
 
 - Generate a web component via a command-line interface for creating
   instructions interactively from data package metadata.
