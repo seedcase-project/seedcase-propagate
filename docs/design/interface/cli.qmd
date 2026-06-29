@@ -5,7 +5,7 @@ title: "Command line interface"
 This document describes the command-line interface (CLI) as a development
 reference and to track implementation status. See the
 [Architecture](/docs/design/architecture.qmd) document for a description of the
-user types (Owner and Requester), which we use when describing the CLI commands
+user types (Owner and Requester), which we use when describing the CLI commands.
 
 {{< include /docs/includes/_design-status.qmd >}}
 
@@ -75,7 +75,7 @@ flowchart LR
 ```
 
 The main argument to `build` is the location of the metadata file as a `SOURCE`
-(e.g. a filepath or a URL) to build the web component from. Propagate supports
+(e.g. a filepath or a URL) to build the web application from. Propagate supports
 the following sources:
 
 - {{< var planned >}} `file://` or a path without `file://`
@@ -110,9 +110,9 @@ the following sources:
 The `subset` command takes four arguments: an instructions
 [`request.yaml`](inputs.qmd) file for what to subset, the data package's
 metadata file (for now, `datapackage.json`), the output directory, and a show
-plan flag. It outputs a data file or files as Parquet, with metadata from the
-metadata file (for now, `datapackage.json`) as well as from the request file
-embedded into the metadata of the Parquet file(s). It has the following
+plan flag. It outputs one or more Parquet files, embedding metadata from both the
+metadata file (for now, `datapackage.json`) and the request file into each output file.
+It has the following
 signature with the first argument being positional and the remaining arguments
 being keyword-based:
 
@@ -174,9 +174,9 @@ flowchart LR
 The `check` command confirms that the `request.yaml` file is correctly
 structured and that it matches the content of the source metadata file. While
 internally `build`, `subset`, and `create-request` run this check when
-processing or creating the `request.yaml` file, we also expose it if the user
-wants to manually verify the request file (e.g. if included within an automated
-pipeline). It has the following signature that has two positional arguments:
+processing or creating the `request.yaml` file, we also expose it so the user
+can manually check the request file (e.g. if included within an automated
+pipeline). It has the following signature with two positional arguments:
 
 ```bash {filename="Terminal"}
 seedcase-propagate check [REQUEST] [SOURCE]
@@ -197,7 +197,7 @@ flowchart LR
     source[/"datapackage.json<br>[SOURCE: file, https,<br>gh/github]"/]
     check["check"]
     request[/"request.yaml<br>[REQUEST: request.yaml<br>instructions for subsetting]"/]
-    output[/"Result<br>[Success or<br>error messages]"/]
+    output[/"Result<br>[Success or<br>error message(s)]"/]
 
     request --> check
     source --> check
@@ -208,7 +208,7 @@ flowchart LR
 
 The `create-request` command takes a source metadata file and opens up a
 terminal user interface to interactively create a `request.yaml` file from the
-metadata. It essentially is a terminal-based version of the web application that
+metadata. It is a terminal-based version of the web application that
 is built by the `build` command. It is designed for the more technically
 experienced user as a way of quickly creating a request file without having to
 use the web application. This is also an alternative to creating a request file
@@ -222,8 +222,8 @@ seedcase-propagate create-request [SOURCE]
 Because of the nature of using an interactive terminal user interface, the
 default file created from the `create-request` command is `request.yaml` in the
 current working directory. The user is then responsible for sending the request
-file to the Owner to create the subset, just like when creating request
-instructions via the website forms.
+file to the Owner to create the subset, just like when creating the request
+via the web application.
 
 The diagram below shows the flow of inputs and outputs of the `create-request`
 command:
