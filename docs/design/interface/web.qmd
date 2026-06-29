@@ -14,10 +14,9 @@ With Propagate, the Owner can build a web application enabling Requesters to:
 The web application's front end consists of these six "steps" that are described
 in detail below.
 
-At each step, except Step 1, it is possible to save the in-progress request by
-clicking a "Save" button.
-
-The application also saves in-progress requests to the browser cache so that work is not lost if the page is closed or refreshed.
+At each step, except Step 1, it is possible to download the in-progress request
+by clicking a "Save" button. The application also saves in-progress requests to
+the browser cache so that work is not lost if the page is closed or refreshed.
 
 ## Step 1: New or existing request?
 
