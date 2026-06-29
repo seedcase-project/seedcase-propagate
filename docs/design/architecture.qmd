@@ -20,38 +20,39 @@ Propagate supports two primary user types:
    generate subset instructions using a web interface or directly via Propagate
    in the terminal.
 
-2. **Owner**: A data owner or data manager who receives requests and generates
-   subsets from the source data based on the requests.
+2. **Owner**: A data owner or data manager who receives and approves requests.
+   They use Propagate to build the web application where requests can be
+   submitted and to generate subsets from the source data based on the requests.
 
 ## Naming
 
-  | Object         | Description                                                                                                             |
-  | -------------- | ----------------------------------------------------------------------------------------------------------------------- |
-  | package        | A data package that contains a collection of related data resources and metadata.                                       |
-  | resource       | One or more data files that are part of a data package.                                                                 |
-  | metadata       | Information about the data, such as its description, structure, and origin.                                             |
-  | data           | The actual data within a data package given in Parquet format.                                                          |
-  | instruction(s) | Instructions specifying the subset of data requested by the requester, together with metadata about the request itself. |
+  | Object   | Description                                                                                                                                        |
+  | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | package  | A data package that contains a collection of related data resources and metadata.                                                                  |
+  | resource | One or more data files that are part of a data package.                                                                                            |
+  | metadata | Information about the data, such as its description, structure, and origin.                                                                        |
+  | data     | The actual data within a data package given in Parquet format.                                                                                     |
+  | request  | The contents of the `request.yaml` file specifying the subset of data requested by the requester, together with metadata about the request itself. |
 
   : Concepts and entities in Propagate.
 
-  | Action  | Description                                                                         |
-  | ------- | ----------------------------------------------------------------------------------- |
-  | build   | Generate the WASM bundle that makes up the web component for creating instructions. |
-  | check   | Check the instructions against the metadata.                                        |
-  | subset  | Generate a subset of data based on the instructions provided.                       |
-  | request | Create an instructions file interactively using the terminal.                       |
+  | Action         | Description                                                                     |
+  | -------------- | ------------------------------------------------------------------------------- |
+  | build          | Generate the WASM bundle that makes up the web component for creating requests. |
+  | check          | Check the request against the metadata.                                         |
+  | subset         | Generate a subset of data based on the request provided.                        |
+  | create-request | Create a request file interactively using the terminal.                         |
 
   : CLI commands in Propagate.
 
-  | Action          | Description                                                                                                          |
-  | --------------- | -------------------------------------------------------------------------------------------------------------------- |
-  | select resource | Add instructions for selecting a specific resource from the data package.                                            |
-  | select column   | Add instructions for selecting a specific column from the resource.                                                  |
-  | add filter      | Add instructions for filtering the data based on certain criteria.                                                   |
-  | save progress   | Save the current contents of the instructions form to local storage in the browser.                                  |
-  | export          | Download the contents of the instructions form as an instructions file.                                              |
-  | send            | Open the user's email client with an email to the data owner pre-filled with the instructions file as an attachment. |
+  | Action          | Description                                                                                                     |
+  | --------------- | --------------------------------------------------------------------------------------------------------------- |
+  | select resource | Add instructions for selecting a specific resource from the data package.                                       |
+  | select field    | Add instructions for selecting a specific field from the resource.                                              |
+  | add filter      | Add instructions for filtering the data based on certain criteria.                                              |
+  | save progress   | Save the current contents of the request form to local storage in the browser.                                  |
+  | export          | Download the contents of the request form as a request file.                                                    |
+  | send            | Open the user's email client with an email to the data owner pre-filled with the request file as an attachment. |
 
   : Web-based functionality in Propagate. The TUI supports a subset of this
     functionality.
@@ -82,7 +83,7 @@ flowchart TD
 
     data(["Data<br>[Parquet]"])
     metadata(["Metadata<br>[e.g. datapackage.json]"])
-    instructions(["Instructions<br>[yaml]"])
+    request(["Request<br>[yaml]"])
 
     propagate("seedcase-propagate<br>[Rust app]")
     template_dp("template-data-package<br>[Copier template]")
@@ -92,7 +93,7 @@ flowchart TD
 
     propagate --"Uses"--> metadata
     propagate --"Uses"--> data
-    propagate --"Uses"--> instructions
+    propagate --"Uses"--> request
 
     user_owner --"Uses"--> propagate
     user_owner --"Optionally uses"--> template_dp
@@ -101,25 +102,26 @@ flowchart TD
     template_dp --"Uses"--> propagate
 
     template_dp --"Builds"--> website
-    website --"Generates"--> instructions
-    propagate --"Generates"--> instructions
+    website --"Generates"--> request
+    propagate --"Generates"--> request
     propagate --"Generates"--> subset
 
-    user_requester_web --"Uses"--> subset
+    user_requester_web --"Receives"--> subset
+    user_requester_tui --"Receives"--> subset
 
     %% Styling
     classDef artifact fill:transparent, stroke-dasharray: 5 5
-    class metadata,data,instructions,subset artifact
+    class metadata,data,request,subset artifact
 ```
 
 [Template Data Package](https://template-data-package.seedcase-project.org/) is
 a [Copier template](https://copier.readthedocs.io/en/stable/) that makes
 creating and developing data packages easier. One of its features is building a
 website (via [Flower](https://flower.seedcase-project.org)) that displays
-package metadata. Optionally, it can also include the interactive instructions
-form generated by Propagate. The owner can use Template Data Package to build
-the website with the instructions form or they can generate the form directly
-from Propagate.
+package metadata. Optionally, it can also include the interactive request form
+generated by Propagate. The owner can use Template Data Package to build the
+website with the request form or they can generate the form directly from
+Propagate.
 
 ### Container
 
@@ -141,22 +143,22 @@ flowchart TD
 
   subgraph "seedcase-propagate"
     common("Common<br>[Rust]<br>Shared domain<br>models and logic")
-    instruction_builder("Instruction builder<br>[Rust]<br>Shared logic")
+    request_builder("Request builder<br>[Rust]<br>Shared logic")
     subset_builder("Subset builder<br>[Rust]")
     web("Web<br>[Rust, Leptos?]<br>UI components")
     tui("TUI<br>[Rust, ratatui?]<br>UI components")
     cli("CLI<br>[Rust]<br>Build, check, subset<br>and request commands")
 
     subset_builder -- "Uses" --> common
-    instruction_builder -- "Uses" --> common
-    web -- "Uses" --> instruction_builder
-    tui -- "Uses" --> instruction_builder
+    request_builder -- "Uses" --> common
+    web -- "Uses" --> request_builder
+    tui -- "Uses" --> request_builder
     cli -- "Uses" --> subset_builder
     cli -- "Uses" --> web
     cli -- "Uses" --> tui
   end
 
-  form_assets(["Instruction<br>form web assets<br>[WASM bundle]"])
+  form_assets(["Request<br>form web assets<br>[WASM bundle]"])
 
   web --"Builds"--> form_assets
 
@@ -171,5 +173,9 @@ In C4, a [component](https://c4model.com/abstractions/component) is "a grouping
 of related functionality encapsulated behind a well-defined interface", like a
 class or a module, while [code](https://c4model.com/abstractions/code) refers to
 the basic building blocks, such as classes and functions.
+
+::: callout-warning
+This section is a work in progress.
+:::
 
 <!-- TODO: Add component/code diagrams. -->
