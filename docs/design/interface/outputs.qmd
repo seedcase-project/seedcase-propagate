@@ -22,11 +22,11 @@ The outputs are:
 
 ## HTML and WebAssembly (WASM) files for a web application
 
-The Owner uses Propagate to create HTML and WASM files that form a web application
-from the data package metadata file (for example, but not exclusively, a
-`datapackage.json` file). This application allows Requesters to browse and select
-the fields they want to include in their request. The application can be added to
-a static website.
+The Owner uses Propagate to create HTML and WASM files that form a web
+application from the data package metadata file (for example, but not
+exclusively, a `datapackage.json` file). This application allows Requesters to
+browse and select the fields they want to include in their request. The
+application can be added to a static website.
 
 The web application includes:
 
@@ -56,8 +56,8 @@ request outside of Propagate.
 
 ## Data request
 
-The data request file, `request.yaml`, is the output of the Requester's inputs and
-selections in the web application or terminal interface.
+The data request file, `request.yaml`, is the output of the Requester's inputs
+and selections in the web application or terminal interface.
 
 The request includes:
 
@@ -65,7 +65,8 @@ The request includes:
 - Rationale for the request.
 - The date and time of request creation.
 - The Requester's name and email address.
-- Details about which resources, columns, and rows the requester wants for the data subset.
+- Details about which resources, columns, and rows the requester wants for the
+  data subset.
 
 ## Data subset
 
