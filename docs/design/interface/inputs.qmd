@@ -11,7 +11,7 @@ The inputs include:
 
 - A structured metadata file for the data package, for example the
   `datapackage.json` from the [Data
-  Package](https://specs.frictionlessdata.io/data-package/) specification.
+  Package](https://datapackage.org) specification.
   Owners use this file to generate a web component through which a Requester can
   create a data request.
 
