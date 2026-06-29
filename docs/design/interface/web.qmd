@@ -17,7 +17,7 @@ in detail below.
 At each step, except Step 1, it is possible to save the in-progress request by
 clicking a "Save" button.
 
-<!-- TODO: Can we include an autosave feature, so all is not lost, if a Requester forgets to save? -->
+The application also saves in-progress requests to the browser cache so that work is not lost if the page is closed or refreshed.
 
 ## Step 1: New or existing request?
 
