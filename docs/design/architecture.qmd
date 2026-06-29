@@ -82,7 +82,7 @@ flowchart TD
 
     data(["Data<br>[Parquet]"])
     metadata(["Metadata<br>[e.g. datapackage.json]"])
-    instructions(["Instructions<br>[toml]"])
+    instructions(["Instructions<br>[yaml]"])
 
     propagate("seedcase-propagate<br>[Rust app]")
     template_dp("template-data-package<br>[Copier template]")
