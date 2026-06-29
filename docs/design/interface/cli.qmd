@@ -49,7 +49,7 @@ seedcase-propagate build [SOURCE] --output-dir/-o [OUTPUT-DIR]
 <!-- TODO: Do we include a config? And if so, what would it have? -->
 
 By default, `SOURCE` is set to find a metadata file (for now, only
-`./datapackage.json`) and `OUTPUT-DIR` to `./docs/requests/` . The diagram below
+`datapackage.json`) and `OUTPUT-DIR` to `docs/requests/` . The diagram below
 shows the flow of inputs and outputs for `build`:
 
 ```{mermaid}
@@ -63,7 +63,7 @@ shows the flow of inputs and outputs for `build`:
 flowchart LR
     source[/"datapackage.json<br>[SOURCE: file, https,<br>gh/github]"/]
     build["build"]
-    output_dir[/"./docs/requests/<br>[OUTPUT-DIR: folder]"/]
+    output_dir[/"docs/requests/<br>[OUTPUT-DIR: folder]"/]
     output[/"Output<br>[HTML and<br>WASM files]"/]
 
     source --> build
@@ -83,7 +83,7 @@ the following sources:
 
 - If nothing is given, `build` by default assumes that `source` is a filepath to
   a common metadata file such as `datapackage.json` in the current working
-  directory, e.g. it will look for `./datapackage.json`.
+  directory, e.g. it will look for `datapackage.json`.
 - If a relative path to a folder is given, `build` will parse it to the absolute
   path and append the metadata file (for now, `datapackage.json`), so that the
   path becomes `/ABSOLUTE_PATH/datapackage.json`.
@@ -124,7 +124,7 @@ directory, since `subset` is meant to be run by the data owner or data manager
 while in the data package folder.
 
 The `SOURCE` argument is the same as the `SOURCE` argument used above for
-`build`. The default for `OUTPUT-DIR` is `./subsets/`. The final output path is
+`build`. The default for `OUTPUT-DIR` is `subsets/`. The final output path is
 created from the requester's project `name` field in the request file and the
 resource(s) `name` fields of the source file. For example, if the requester's
 project is `diet-diabetes` and asks for two resources, `resource1` and
@@ -156,8 +156,8 @@ flowchart LR
     subset["subset"]
     request[/"request.yaml<br>[REQUEST: request.yaml<br>instructions for subsetting]"/]
     show_plan[/"--show-plan<br>[--show-plan: flag to output SQL plan]"/]
-    output_dir[/"./subsets/<br>[OUTPUT-DIR: folder]"/]
-    output[/"./subsets/<project-name>/<resource-name>.parquet<br>[Parquet file(s)]"/]
+    output_dir[/"subsets/<br>[OUTPUT-DIR: folder]"/]
+    output[/"subsets/<project-name>/<resource-name>.parquet<br>[Parquet file(s)]"/]
 
     request --> subset
     source --> subset
@@ -217,10 +217,10 @@ seedcase-propagate create-request [SOURCE]
 ```
 
 Because of the nature of using an interactive terminal user interface, the
-default file created from the `create-request` command is `./request.toml` in
-the current working directory. The user is then responsible for sending the
-request file to the data owner or data manager to create the subset, just like
-when creating request instructions via the website forms.
+default file created from the `create-request` command is `request.toml` in the
+current working directory. The user is then responsible for sending the request
+file to the data owner or data manager to create the subset, just like when
+creating request instructions via the website forms.
 
 This command is meant to be used by a requester who wants to create a request
 file from the metadata of a data
@@ -240,7 +240,7 @@ flowchart LR
     source[/"datapackage.json<br>[SOURCE: file, https,<br>gh/github]"/]
     request["request"]
     tui["Terminal user interface<br>[Interactive]"]
-    output[/"./request.toml<br>[Instructions file]"/]
+    output[/"request.toml<br>[Instructions file]"/]
 
     source --> request
     request --> tui
