@@ -47,27 +47,10 @@ are shown in a table with the following columns:
 
 - Selection check box
 - Resource name
-- Field (name and title)
-- Field data type
-- Field description
+- Field name
+- Field title
 
 
-Using a part of the example `datapackage.json`,
-[Flora](https://github.com/seedcase-project/seedcase-soil/blob/main/src/seedcase_soil/example-datapackages/flora.json),
-the field selection table (embedded here without any interactivity or any of the
-advanced features described below) looks like:
-
-|     | Resource           | Field                                    | Data type | Description                                   |
-|-----|--------------------|------------------------------------------|-----------|-----------------------------------------------|
-| ☐   | `species_catalog`  | `species_id` <br> Species ID             | integer   | The unique identifier for each species.       |
-| ☐   | `species_catalog`  | `scientific_name` <br> Scientific name   | string    | The Latin name of the species.                |
-| ☐   | `species_catalog`  | `common_name` <br> Common name           | string    | The common name of the species.               |
-| ☐   | `location_catalog` | `region` <br> Region                     | string    | The region the location is in.                |
-| ☐   | `location_catalog` | `country` <br> Country                   | string    | The country the location is in.               |
-| ☐   | `growth_records`   | `record_id` <br> Record ID               | integer   | The unique identifier for each growth record. |
-| ☐   | `growth_records`   | `species_id` <br> Species                | integer   | The species the observation was made for.     |
-| ☐   | `growth_records`   | `observation_date` <br> Observation date | date      | The date when the observation was made.       |
-| ☐   | `growth_records`   | `growth_stage` <br> Growth Stage         | string    | The observed growth stage of the species.     |
 
 This step also includes the ability to:
 
@@ -122,7 +105,6 @@ AND ⏷
 ```
 
 <!-- TODO: Add a button to delete everything within a group? -->
-<!-- TODO: Do we want to add a live preview of the query below this? -->
 
 The plus, `+`, denotes the possibility to add a condition or group, the arrow
 down symbol, `⏷` denotes a dropdown menu, and the waste bin symbol, `[ 🗑️ ]`,
@@ -161,4 +143,4 @@ Below is a text-based mock-up of how the Owner(s) are shown:
 After the request has been sent to the Owner by email, the remaining steps
 (e.g., whether or not the Owner approves the request) are outside of the web
 application's scope. If or when the request is approved, the Owner uses the
-[CLI](/docs/design/interface/cli.qmd) to extract the data subset.
+[CLI](/docs/design/interface/cli.qmd) to subset the data.
