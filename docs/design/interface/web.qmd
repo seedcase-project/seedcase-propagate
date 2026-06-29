@@ -89,8 +89,7 @@ package:
 [ + Add condition ] [ + Add group ]
 
 Group: OR --------------------------------------------------------------
-[ NOT ✗ ] [common_name ⏷ ] [ == ⏷ ] [ "rose" ]                [ 🗑️ ]
-[ NOT ✗ ] [common_name ⏷ ] [ == ⏷ ] [ "tulip" ]               [ 🗑️ ]
+[ NOT ✗ ] [common_name ⏷ ] [ in ⏷ ] [ "rose", "tulip" ]       [ 🗑️ ]
 
 [ + Add condition to group ]
 ------------------------------------------------------------------------
