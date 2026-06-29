@@ -32,6 +32,9 @@ The web component includes:
   resources and fields they are interested in, including a filter for showing
   only the selected fields.
 - Checkboxes to select which resources and fields to include in the request.
+- The selection of multiple fields (using `Shift+click` for selecting a range of
+  fields and `Ctrl+click`/`Cmd+click` for selecting multiple non-adjacent
+  fields).
 - Row filters based on specific values with `AND`, `OR`, and `NOT` logic (e.g.,
   only include rows with a field value above a certain threshold or with a
   specific value).
