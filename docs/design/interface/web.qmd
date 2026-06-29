@@ -1,6 +1,7 @@
 ---
-title: "Web frontend"
+title: "Web application front end"
 ---
+
 With Propagate, the Owner can build a web application enabling Requesters to:
 
 1. Start a new request or continue an existing one.
