@@ -3,7 +3,9 @@ title: "Command line interface"
 ---
 
 This document describes the command-line interface (CLI) as a development
-reference and to track implementation status.
+reference and to track implementation status. See the
+[Architecture](/docs/design/architecture.qmd) document for a description of the
+user types (Owner and Requester), which we use when describing the CLI commands
 
 {{< include /docs/includes/_design-status.qmd >}}
 
@@ -120,13 +122,13 @@ seedcase-propagate subset [REQUEST] --source/-s [SOURCE] --output-dir/-o [OUTPUT
 The only argument without a default is `REQUEST`, which is the path to the
 `request.yaml` file that contains the instructions for what to subset. `SOURCE`
 has a default value of a metadata file (`datapackage.json`) in the working
-directory, since `subset` is meant to be run by the data owner or data manager
-while in the data package folder.
+directory, since `subset` is meant to be run by the Owner or data manager while
+in the data package folder.
 
 The `SOURCE` argument is the same as the `SOURCE` argument used above for
 `build`. The default for `OUTPUT-DIR` is `subsets/`. The final output path is
-created from the requester's project `name` field in the request file and the
-resource(s) `name` fields of the source file. For example, if the requester's
+created from the Requester's project `name` field in the request file and the
+resource(s) `name` fields of the source file. For example, if the Requester's
 project is `diet-diabetes` and asks for two resources, `resource1` and
 `resource2`, the output will be:
 
@@ -209,20 +211,20 @@ metadata. It essentially is a terminal-based version of the web application that
 is built by the `build` command. It is designed for the more technically
 experienced user as a way of quickly creating a request file without having to
 use the web application. This is also an alternative to creating a request file
-if the data owner decided to not set up the web application for the data package
-or who hasn't yet set it up. It has the following signature:
+if the Owner decided to not set up the web application for the data package or
+who hasn't yet set it up. It has the following signature:
 
 ```bash {filename="Terminal"}
 seedcase-propagate create-request [SOURCE]
 ```
 
 Because of the nature of using an interactive terminal user interface, the
-default file created from the `create-request` command is `request.toml` in the
+default file created from the `create-request` command is `request.yaml` in the
 current working directory. The user is then responsible for sending the request
-file to the data owner or data manager to create the subset, just like when
-creating request instructions via the website forms.
+file to the Owner to create the subset, just like when creating request
+instructions via the website forms.
 
-This command is meant to be used by a requester who wants to create a request
+This command is meant to be used by a Requester who wants to create a request
 file from the metadata of a data
 
 The diagram below shows the flow of inputs and outputs of the `create-request`
@@ -240,7 +242,7 @@ flowchart LR
     source[/"datapackage.json<br>[SOURCE: file, https,<br>gh/github]"/]
     request["request"]
     tui["Terminal user interface<br>[Interactive]"]
-    output[/"request.toml<br>[Instructions file]"/]
+    output[/"request.yaml<br>[Instructions file]"/]
 
     source --> request
     request --> tui
