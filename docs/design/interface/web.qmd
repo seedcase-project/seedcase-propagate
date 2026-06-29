@@ -7,7 +7,7 @@ With Propagate, the Owner can build a web application enabling Requesters to:
 1. Start a new request or continue an existing one.
 2. Fill out the basic information about the project.
 3. See all the fields available and select the fields needed for their project.
-4. Select filters for e.g., excluding rows with particular values.
+4. Select filters for e.g., keeping rows with particular values.
 5. Review the request.
 6. Select the email address of (one of the) Owners to send the request to.
 
@@ -38,7 +38,6 @@ motivation for the project as well as their own name and email address.
 All these fields are free-text fields, with some basic checks (e.g., email
 format).
 
-<!-- TODO: Include a length limit for these texts? Especially thinking of the rationale/motivation -->
 
 ## Step 3: Field selection
 
@@ -48,12 +47,10 @@ are shown in a table with the following columns:
 
 - Selection check box
 - Resource name
-  <!-- TODO: Omitted the resource title to keep the table less busy, but do we want include it? -->
 - Field (name and title)
 - Field data type
 - Field description
 
-<!-- TODO: Do we want to include the resource description? If yes, how? -->
 
 Using a part of the example `datapackage.json`,
 [Flora](https://github.com/seedcase-project/seedcase-soil/blob/main/src/seedcase_soil/example-datapackages/flora.json),
@@ -85,7 +82,7 @@ This step also includes the ability to:
 ## Step 4: Filter conditions
 
 Now that the relevant fields have been selected, the Requester can apply filters
-to them. Leaving this step empty is valid; the request will then include all
+to them. If this step is empty, it means the request includes all
 rows for the selected fields.
 
 The filter user interface is a visual query builder, where each filter condition
@@ -93,7 +90,7 @@ is one row. Each row consists of:
 
 - A field dropdown, only including the fields selected in Step 3.
 - An operator dropdown, adapted to the field's data type:
-  - String fields: `==`, `!=`, `contains`, `starts with`, and `ends with`
+  - String fields: `==`, `!=`, `in` (multiple values), `contains`, `starts with`, and `ends with`
   - Integer and number fields: `==`, `!=`, `<`, `>`, `<=`, and `>=`
   - Date fields: `==`, `!=`, `before`, `after`, and `between`
 - A value input adapted to the field's data type
@@ -102,8 +99,8 @@ is one row. Each row consists of:
 Conditions are combined using `AND` or `OR` between rows. They can also be
 grouped using parentheses to control the order of evaluation.
 
-Below is a text-based mock-up of the user interface based on the Flora data
-package example used in the step above:
+Below is a text-based mock-up of the user interface based on the [Flora](https://github.com/seedcase-project/seedcase-soil/blob/main/src/seedcase_soil/example-datapackages/flora.json) example data
+package:
 
 ```text
 [ + Add condition ] [ + Add group ]
@@ -126,7 +123,6 @@ AND ⏷
 
 <!-- TODO: Add a button to delete everything within a group? -->
 <!-- TODO: Do we want to add a live preview of the query below this? -->
-<!-- TODO: Should there be a check/warning if a filter returns 0 rows? -->
 
 The plus, `+`, denotes the possibility to add a condition or group, the arrow
 down symbol, `⏷` denotes a dropdown menu, and the waste bin symbol, `[ 🗑️ ]`,
