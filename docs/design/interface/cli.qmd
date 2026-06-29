@@ -30,13 +30,12 @@ As a convenience, we provide the command `propagate` as a shorthand for
 instances.
 :::
 
-`seedcase-propagate` includes common CLI commands like `version`, `verbose`, and
-`help` (which is the same output as `seedcase-propagate --help`) as well as
-these Propagate commands: `build`, `subset`, `check`, and `request`.
+`seedcase-propagate` includes common CLI commands like `version`, `verbose`
+(outputting log information as the command runs), and `help` (which is the same
+output as `seedcase-propagate --help`) as well as these Propagate commands:
+`build`, `subset`, `check`, and `request`.
 
 ## {{< var planned >}} `seedcase-propagate build`
-
-<!-- TODO: Call it `METADATA` or `SOURCE`? `SOURCE` was used in Flower, but should that be the same here?  -->
 
 The `build` command builds the HTML and WebAssembly (WASM) files for the
 client-side web application that can be inserted into static websites (described
@@ -110,11 +109,10 @@ the following sources:
 The `subset` command takes four arguments: an instructions
 [`request.yaml`](inputs.qmd) file for what to subset, the data package's
 metadata file (for now, `datapackage.json`), the output directory, and a show
-plan flag. It outputs one or more Parquet files, embedding metadata from both the
-metadata file (for now, `datapackage.json`) and the request file into each output file.
-It has the following
-signature with the first argument being positional and the remaining arguments
-being keyword-based:
+plan flag. It outputs one or more Parquet files, embedding metadata from both
+the metadata file (for now, `datapackage.json`) and the request file into each
+output file. It has the following signature with the first argument being
+positional and the remaining arguments being keyword-based:
 
 ```bash {filename="Terminal"}
 seedcase-propagate subset [REQUEST] --source/-s [SOURCE] --output-dir/-o [OUTPUT-DIR] --show-plan/-p
@@ -140,9 +138,9 @@ subsets/diet-diabetes/resource2.parquet
 
 The `--show-plan` flag is a boolean that defaults to `false`. If `true`, the CLI
 outputs a plan of what the `subset` command will do to create the subset. The
-output is a SQL set of commands, because SQL is the language of data and will be
-likely understood by most users. This is meant for users to check what set of
-commands Propagate will run when creating the subset.
+output is a SQL query, because SQL is the language of data and will be likely
+understood by most users. This is meant for users to check what set of commands
+Propagate will run when creating the subset.
 
 The diagram below shows the flow of inputs and outputs for `subset`:
 
@@ -208,12 +206,12 @@ flowchart LR
 
 The `create-request` command takes a source metadata file and opens up a
 terminal user interface to interactively create a `request.yaml` file from the
-metadata. It is a terminal-based version of the web application that
-is built by the `build` command. It is designed for the more technically
-experienced user as a way of quickly creating a request file without having to
-use the web application. This is also an alternative to creating a request file
-if the Owner decided to not set up the web application for the data package or
-hasn't yet set it up. It has the following signature:
+metadata. It is a terminal-based version of the web application that is built by
+the `build` command. It is designed for the more technically experienced user as
+a way of quickly creating a request file without having to use the web
+application. This is also an alternative to creating a request file if the Owner
+decided to not set up the web application for the data package or hasn't yet set
+it up. It has the following signature:
 
 ```bash {filename="Terminal"}
 seedcase-propagate create-request [SOURCE]
@@ -222,8 +220,8 @@ seedcase-propagate create-request [SOURCE]
 Because of the nature of using an interactive terminal user interface, the
 default file created from the `create-request` command is `request.yaml` in the
 current working directory. The user is then responsible for sending the request
-file to the Owner to create the subset, just like when creating the request
-via the web application.
+file to the Owner to create the subset, just like when creating the request via
+the web application.
 
 The diagram below shows the flow of inputs and outputs of the `create-request`
 command:
