@@ -49,7 +49,7 @@ seedcase-propagate build [SOURCE] --output-dir/-o [OUTPUT-DIR]
 <!-- TODO: Do we include a config? And if so, what would it have? -->
 
 By default, `SOURCE` is set to find a metadata file (for now, only
-`datapackage.json`) and `OUTPUT-DIR` to `docs/requests/` . The diagram below
+`datapackage.json`) in the working directory  and `OUTPUT-DIR` is set to `docs/requests/`. The diagram below
 shows the flow of inputs and outputs for `build`:
 
 ```{mermaid}
@@ -93,7 +93,7 @@ the following sources:
   `github:OWNER/REPO`. It's possible to add `@REF` to specify a Git ref, like a
   branch name, tag, or commit hash. `build` will parse this source to the raw
   `https:` URL of supported common metadata file formats (e.g.
-  `datapackage.json`) by first checks which metadata format exists in the repo
+  `datapackage.json`) by first checking which metadata format exists in the repo
   (whichever returns a non-404 URL) and selecting that format. For example:
   - `gh:seedcase-project/seedcase-flower` will parse to
     `https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/main/datapackage.json`.
@@ -126,8 +126,8 @@ while in the data package folder.
 The `SOURCE` argument is the same as the `SOURCE` argument used above for
 `build`. The default for `OUTPUT-DIR` is `subsets/`. The final output path is
 created from the requester's project `name` field in the request file and the
-resource(s) `name` fields of the source file. For example, if the requester's
-project is `diet-diabetes` and asks for two resources, `resource1` and
+resource `name` field(s) of the source file. For example, if the requester's
+project is `diet-diabetes` and the request file asks for two resources, `resource1` and
 `resource2`, the output will be:
 
 ```
@@ -210,7 +210,7 @@ is built by the `build` command. It is designed for the more technically
 experienced user as a way of quickly creating a request file without having to
 use the web application. This is also an alternative to creating a request file
 if the data owner decided to not set up the web application for the data package
-or who hasn't yet set it up. It has the following signature:
+or hasn't yet set it up. It has the following signature:
 
 ```bash {filename="Terminal"}
 seedcase-propagate create-request [SOURCE]
@@ -221,9 +221,6 @@ default file created from the `create-request` command is `request.toml` in the
 current working directory. The user is then responsible for sending the request
 file to the data owner or data manager to create the subset, just like when
 creating request instructions via the website forms.
-
-This command is meant to be used by a requester who wants to create a request
-file from the metadata of a data
 
 The diagram below shows the flow of inputs and outputs of the `create-request`
 command:
