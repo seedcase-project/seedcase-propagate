@@ -13,7 +13,7 @@ The outputs are:
   fill in a data request.
 
 - A `request.yaml` file created by the Requester based on their selections in
-  the web component or terminal interface. The file includes the selected
+  the web application or terminal interface. The file includes the selected
   resources and fields, as well as any additional information about the request
   and the Requester.
 
