@@ -64,8 +64,8 @@ check-fmt:
 
 # Format the code and fix issues
 format-rust:
-  cargo fix
-  cargo clippy --fix
+  cargo fix --allow-dirty
+  cargo clippy --fix --allow-dirty -- -W clippy::pedantic
   cargo fmt
 
 # Format Markdown files
