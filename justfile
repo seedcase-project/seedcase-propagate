@@ -30,6 +30,7 @@ install-precommit:
     uvx pre-commit install
     uvx pre-commit autoupdate
     uvx pre-commit run --all-files
+
 # Update the Quarto seedcase-theme extension
 update-quarto-theme:
   # Add theme if it doesn't exist, update if it does
@@ -41,8 +42,11 @@ check-spelling:
 
 # Check that URLs work
 check-urls:
+  # Ignore pre-commit.ci and GitHub URLs, since they are often block "bot" requests
     lychee . \
       --verbose \
+    --exclude 'pre-commit\.ci' \
+    --exclude 'github\.com' \
       --exclude-path "_badges.qmd"
 
 # Checks and lints with clippy
