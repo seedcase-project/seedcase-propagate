@@ -15,8 +15,10 @@ Propagate font." height="50px"}
 ## {{< meta tagline >}}
 
 [Overview](/docs/index.qmd){.btn .about-link} [Explore
-guide](/docs/guide/index.qmd){.btn .about-link} [See
-examples](/docs/examples/index.qmd){.btn .about-link}
+guide](/docs/guide/index.qmd){.btn .about-link}
+<!--TODO: Add examples button when the section has been created
+[See examples](/docs/examples/index.qmd){.btn .about-link}
+-->
 :::::::
 :::::
 :::
@@ -30,21 +32,20 @@ examples](/docs/examples/index.qmd){.btn .about-link}
 ::: hero-banner
 ::::: landing-page-block
 ::::::: hero-text
-Propagate is a data request system hosted on a website that help researchers
-apply for access to (re)use data stored as a package. The data owner also gets
-equipped with a command-line interface (CLI) for managing, checking, and
-executing the data requests.
+Propagate is a multi-tool connecting data analysts and data owners: the analyst
+can request access to a data package through a website, while data owners can
+manage, check, and execute the data requests through a Rust-based
+command-line-interface (CLI).
 
 ## :sparkles: Key features
 
-*Data requester:*
+### Data requester
 
-- Request data from a webpage (e.g. one made with
-  [Flower](https://flower.seedcase-project.org). file.
+- Request data via a webpage.
 - Send the data request to the data owner in a reproducible and structured
   format.
 
-*Data Owner:*
+### Data owner
 
 - Receive reproducible and query-ready instructions for creating a subset from
   your data package.
@@ -69,13 +70,11 @@ documentation of the data package, see
 
 Propagate is part of the [**Seedcase Project**](https://seedcase-project.org),
 which helps research projects manage and process data in line with the
-[FAIR](https://www.go-fair.org/fair-principles/) principles.
+[FAIR](https://www.go-fair.org/fair-principles/) principles. Use
 
 ::::::: text-center
-[Check out Seedcase](https://seedcase-project.org/){.btn .about-link} [Explore
-the
-template](https://template-data-package.seedcase-project.org/){.btn
-.about-link}
+[Start making your data
+package](https://template-data-package.seedcase-project.org){.btn .about-link}
 :::::::
 :::::
 :::
