@@ -34,8 +34,8 @@ guide](/docs/guide/index.qmd){.btn .about-link}
 ::::::: hero-text
 Propagate is a multi-tool connecting data analysts and data owners: the analyst
 can request access to a data package through a website, while data owners can
-manage, check, and execute the data requests through a Rust-based
-command-line-interface (CLI).
+manage, check, and execute the data requests through a command-line interface
+(CLI).
 
 ## :sparkles: Key features
 
