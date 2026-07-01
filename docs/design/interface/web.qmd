@@ -34,8 +34,8 @@ edit as needed.
 
 ## 2. Project overview
 
-In this step, the Requester fills in the name of their project, the rationale or
-motivation for the project as well as their own name and email address.
+In this step, the Requester fills in the name of their project, a description of
+the project as well as their own name and email address.
 
 All fields are free-text with some basic checks (e.g., email format).
 
