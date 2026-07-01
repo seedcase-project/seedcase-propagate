@@ -1,3 +1,92 @@
 ---
-title: "Welcome!"
+toc: false
+page-layout: custom
 ---
+
+::: landing-page-block
+::::: hero-text
+::::::: text-center
+![](_extensions/seedcase-project/seedcase-theme/logos/propagate/icon.svg){fig-alt="Seedcase
+Propagate logo." width="150px"}
+
+![](_extensions/seedcase-project/seedcase-theme/logos/propagate/font.svg){fig-alt="Seedcase
+Propagate font." height="50px"}
+
+## {{< meta tagline >}}
+
+[Overview](/docs/index.qmd){.btn .about-link} [Explore
+guide](/docs/guide/index.qmd){.btn .about-link}
+<!--TODO: Add examples button when the section has been created
+[See examples](/docs/examples/index.qmd){.btn .about-link}
+-->
+:::::::
+:::::
+:::
+
+::: landing-page-block
+::::: {#hero-heading}
+{{< include /docs/includes/_badges.qmd >}}
+:::::
+:::
+
+::: hero-banner
+::::: landing-page-block
+::::::: hero-text
+Propagate is a multi-tool connecting data analysts and data owners: the analyst
+can request access to a data package through a website, while data owners can
+manage, check, and execute the data requests through a command-line interface
+(CLI).
+
+## :sparkles: Key features
+
+### Data requester
+
+- Request data via a webpage.
+- Send the data request to the data owner in a reproducible and structured
+  format.
+
+### Data owner
+
+- Receive reproducible and query-ready instructions for creating a subset from
+  your data package.
+- Test the compatibility of the data request query against your metadata.
+- Generate a subset, as Parquet files for rectangular data or set of files for
+  other file types (e.g. images), based on the unique request a user has
+  uploaded.
+
+Propagate focuses on data accessibility by hosting an online request system and
+a CLI for the data owner to execute and manage the request. For creating the
+data packages with metadata, see, our Python package
+[Sprout](https://sprout.seedcase-project.org). For making human-readable
+documentation of the data package, see
+[Flower](https://flower.seedcase-project.org).
+:::::::
+:::::
+:::
+
+::: landing-page-block
+::::: hero-text
+## About the Seedcase Project
+
+Propagate is part of the [**Seedcase Project**](https://seedcase-project.org),
+which helps research projects manage and process data in line with the
+[FAIR](https://www.go-fair.org/fair-principles/) principles. Use
+
+::::::: text-center
+[Start making your data
+package](https://template-data-package.seedcase-project.org){.btn .about-link}
+:::::::
+:::::
+:::
+
+::: hero-banner
+::::: landing-page-block
+::::::: hero-text
+## Want to contribute?
+
+We would love your feedback or contributions! Head over to the [GitHub
+repository]({{< meta links.github >}}) to share your ideas or contribute code.
+Your input makes us better!
+:::::::
+:::::
+:::
