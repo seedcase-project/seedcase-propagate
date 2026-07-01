@@ -1,3 +1,246 @@
 ---
 title: "Command line interface"
 ---
+
+This document describes the command-line interface (CLI) as a development
+reference and to track implementation status. See the
+[Architecture](/docs/design/architecture.qmd) document for a description of the
+user types (Owner and Requester), which we use when describing the CLI commands.
+
+{{< include /docs/includes/_design-status.qmd >}}
+
+## {{< var planned >}} `seedcase-propagate`
+
+`seedcase-propagate` has the following signature:
+
+```bash {filename="Terminal"}
+seedcase-propagate <COMMAND> [PARAMETERS]
+```
+
+When used on its own, `seedcase-propagate` shows the help message as a shorthand
+for `--help`:
+
+```bash {filename="Terminal"}
+seedcase-propagate
+```
+
+::: callout-note
+As a convenience, we provide the command `propagate` as a shorthand for
+`seedcase-propagate`. It can be used in place of `seedcase-propagate` in all
+instances.
+:::
+
+`seedcase-propagate` includes common CLI commands like `version`, `verbose`
+(outputting log information as the command runs), and `help` (which is the same
+output as `seedcase-propagate --help`) as well as these Propagate commands:
+`build`, `subset`, `check`, and `request`.
+
+## {{< var planned >}} `seedcase-propagate build`
+
+The `build` command builds the HTML and WebAssembly (WASM) files for the
+client-side web application that can be inserted into static websites (described
+in [outputs](outputs.qmd)) from the metadata (source) in the `datapackage.json`
+file. It has the following signature, with the first argument being positional
+and the second argument being keyword-based:
+
+```bash {filename="Terminal"}
+seedcase-propagate build [SOURCE] --output-dir/-o [OUTPUT-DIR]
+```
+
+<!-- TODO: Do we include a config? And if so, what would it have? -->
+
+By default, `SOURCE` is set to find a metadata file (for now, only
+`datapackage.json`) in the working directory and `OUTPUT-DIR` is set to
+`docs/requests/`. The diagram below shows the flow of inputs and outputs for
+`build`:
+
+```{mermaid}
+%%| label: fig-cli-build-flow
+%%| fig-cap: "The flow of input and output through the CLI `build` command."
+%%| fig-alt: >-
+%%|   Diagram showing the flow of input and output through the CLI `build`
+%%|   command. The user provides the source of the metadata file and output
+%%|   directory for the files.
+
+flowchart LR
+    source[/"datapackage.json<br>[SOURCE: file, https,<br>gh/github]"/]
+    build["build"]
+    output_dir[/"docs/requests/<br>[OUTPUT-DIR: folder]"/]
+    output[/"Output<br>[HTML and<br>WASM files]"/]
+
+    source --> build
+    output_dir --> build
+    build --> output
+```
+
+The main argument to `build` is the location of the metadata file as a `SOURCE`
+(e.g. a filepath or a URL) to build the web application from. Propagate supports
+the following sources:
+
+- {{< var planned >}} `file://` or a path without `file://`
+- {{< var planned >}} `https://`
+- {{< var planned >}} `gh:` or `github:`
+
+`build`'s behaviour depends on the `SOURCE` format given:
+
+- If nothing is given, `build` by default assumes that `source` is a filepath to
+  a common metadata file such as `datapackage.json` in the current working
+  directory, e.g. it will look for `datapackage.json`.
+- If a relative path to a folder is given, `build` will parse it to the absolute
+  path and append the metadata file (for now, `datapackage.json`), so that the
+  path becomes `/ABSOLUTE_PATH/datapackage.json`.
+- `https://` sources must point to a raw file. We won't support using `http://`
+  for security reasons.
+- `gh:` or `github:` sources must be in the format `gh:OWNER/REPO` or
+  `github:OWNER/REPO`. It's possible to add `@REF` to specify a Git ref, like a
+  branch name, tag, or commit hash. `build` will parse this source to the raw
+  `https:` URL of supported common metadata file formats (e.g.
+  `datapackage.json`) by first checking which metadata format exists in the repo
+  (whichever returns a non-404 URL) and selecting that format. For example:
+  - `gh:seedcase-project/seedcase-flower` will parse to
+    `https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/main/datapackage.json`.
+  - `github:seedcase-project/example-seed-beetle@0.2.0` will parse to
+    `https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/0.2.0/datapackage.json`.
+  - `gh:seedcase-project/seedcase-flower@main` will parse to
+    `https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/main/datapackage.json`.
+
+## {{< var planned >}} `seedcase-propagate subset`
+
+The `subset` command takes four arguments: an instructions
+[`request.yaml`](inputs.qmd) file for what to subset, the data package's
+metadata file (for now, `datapackage.json`), the output directory, and a show
+plan flag. It outputs one or more Parquet files, embedding metadata from both
+the metadata file (for now, `datapackage.json`) and the request file into each
+output file. It has the following signature with the first argument being
+positional and the remaining arguments being keyword-based:
+
+```bash {filename="Terminal"}
+seedcase-propagate subset [REQUEST] --source/-s [SOURCE] --output-dir/-o [OUTPUT-DIR] --show-plan/-p
+```
+
+The only argument without a default is `REQUEST`, which is the path to the
+`request.yaml` file that contains the instructions for what to subset. `SOURCE`
+has a default value of a metadata file (`datapackage.json`) in the working
+directory, since `subset` is meant to be run by the Owner or data manager while
+in the data package folder.
+
+The `SOURCE` argument is the same as the `SOURCE` argument used above for
+`build`. The default for `OUTPUT-DIR` is `subsets/`. The final output path is
+created from the Requester's project `name` field in the request file and the
+resource `name` field(s) of the source file. For example, if the Requester's
+project is `diet-diabetes` and the request file asks for two resources,
+`resource1` and `resource2`, the output will be:
+
+```text
+subsets/diet-diabetes/resource1.parquet
+subsets/diet-diabetes/resource2.parquet
+```
+
+The `--show-plan` flag is a boolean that defaults to `false`. If `true`, the CLI
+outputs a plan of what the `subset` command will do to create the subset. The
+output is a SQL query, because SQL is the language of data and will be likely
+understood by most users. This is meant for users to check what set of commands
+Propagate will run when creating the subset.
+
+The diagram below shows the flow of inputs and outputs for `subset`:
+
+```{mermaid}
+%%| label: fig-cli-subset-flow
+%%| fig-cap: "The flow of input and output through the CLI `subset` command."
+%%| fig-alt: >-
+%%|   Diagram showing the flow of input and output through the CLI `subset`
+%%|   command. The user provides the source of the metadata file, the request
+%%|   file, and output directory for the files.
+
+flowchart LR
+    source[/"datapackage.json<br>[SOURCE: file, https,<br>gh/github]"/]
+    subset["subset"]
+    request[/"request.yaml<br>[REQUEST: request.yaml<br>instructions for subsetting]"/]
+    show_plan[/"--show-plan<br>[--show-plan: flag to output SQL plan]"/]
+    output_dir[/"subsets/<br>[OUTPUT-DIR: folder]"/]
+    output[/"subsets/<project-name>/<resource-name>.parquet<br>[Parquet file(s)]"/]
+
+    request --> subset
+    source --> subset
+    output_dir --> subset
+    show_plan --> subset
+    subset --> output
+```
+
+## {{< var planned >}} `seedcase-propagate check`
+
+The `check` command confirms that the `request.yaml` file is correctly
+structured and that it matches the content of the source metadata file. While
+internally `build`, `subset`, and `create-request` run this check when
+processing or creating the `request.yaml` file, we also expose it so the user
+can manually check the request file (e.g. if included within an automated
+pipeline). It has the following signature with two positional arguments:
+
+```bash {filename="Terminal"}
+seedcase-propagate check [REQUEST] [SOURCE]
+```
+
+The `SOURCE` argument is the same as the `SOURCE` argument used above for
+`build` and `subset`.
+
+```{mermaid}
+%%| label: fig-cli-check-flow
+%%| fig-cap: "The flow of input and output through the CLI `check` command."
+%%| fig-alt: >-
+%%|   Diagram showing the flow of input and output through the CLI `check`
+%%|   command. The user provides the request file and the source of the metadata
+%%|   file.
+
+flowchart LR
+    source[/"datapackage.json<br>[SOURCE: file, https,<br>gh/github]"/]
+    check["check"]
+    request[/"request.yaml<br>[REQUEST: request.yaml<br>instructions for subsetting]"/]
+    output[/"Result<br>[Success or<br>error message(s)]"/]
+
+    request --> check
+    source --> check
+    check --> output
+```
+
+## {{< var planned >}} `seedcase-propagate create-request`
+
+The `create-request` command takes a source metadata file and opens up a
+terminal user interface to interactively create a `request.yaml` file from the
+metadata. It is a terminal-based version of the web application that is built by
+the `build` command. It is designed for the more technically experienced user as
+a way of quickly creating a request file without having to use the web
+application. This is also an alternative to creating a request file if the Owner
+decided to not set up the web application for the data package or hasn't yet set
+it up. It has the following signature:
+
+```bash {filename="Terminal"}
+seedcase-propagate create-request [SOURCE]
+```
+
+Because of the nature of using an interactive terminal user interface, the
+default file created from the `create-request` command is `request.yaml` in the
+current working directory. The user is then responsible for sending the request
+file to the Owner to create the subset, just like when creating the request via
+the web application.
+
+The diagram below shows the flow of inputs and outputs of the `create-request`
+command:
+
+```{mermaid}
+%%| label: fig-cli-create-request-flow
+%%| fig-cap: "The flow of input and output through the CLI `create-request` command."
+%%| fig-alt: >-
+%%|   Diagram showing the flow of input and output through the CLI
+%%|   `create-request` command. The user only needs to provide the source of the
+%%|   metadata file.
+
+flowchart LR
+    source[/"datapackage.json<br>[SOURCE: file, https,<br>gh/github]"/]
+    request["request"]
+    tui["Terminal user interface<br>[Interactive]"]
+    output[/"request.yaml<br>[Instructions file]"/]
+
+    source --> request
+    request --> tui
+    tui --> output
+```

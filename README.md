@@ -4,16 +4,18 @@
 
 <!-- TODO: Include DOI after uploading -->
 
+<!-- [![Crates.io Version](https://img.shields.io/crates/v/seedcase-propagate.svg)](https://crates.io/crates/seedcase-propagate) -->
+
 [![Copier](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-grayscale-inverted-border-teal.json?raw=true.svg)](https://github.com/copier-org/copier)
 [![GitHub
 License](https://img.shields.io/github/license/seedcase-project/seedcase-propagate.svg)](https://github.com/seedcase-project/seedcase-propagate/blob/main/LICENSE.md)
 [![GitHub
 Release](https://img.shields.io/github/v/release/seedcase-project/seedcase-propagate.svg)](https://github.com/seedcase-project/seedcase-propagate/releases/latest)
-<!-- [![Crates.io Version](https://img.shields.io/crates/v/seedcase-propagate.svg)](https://crates.io/crates/seedcase-propagate) -->
 [![Build
 documentation](https://github.com/seedcase-project/seedcase-propagate/actions/workflows/build-website.yml/badge.svg)](https://github.com/seedcase-project/seedcase-propagate/actions/workflows/build-website.yml)
 [![Checks](https://github.com/seedcase-project/seedcase-propagate/actions/workflows/checks.yml/badge.svg)](https://github.com/seedcase-project/seedcase-propagate/actions/workflows/checks.yml)
-<!-- [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/seedcase-project/seedcase-propagate/badge?raw=true.svg)](https://scorecard.dev/viewer/?uri=github.com/seedcase-project/seedcase-propagate) -->
+[![OpenSSF
+Scorecard](https://api.scorecard.dev/projects/github.com/seedcase-project/seedcase-propagate/badge?raw=true.svg)](https://scorecard.dev/viewer/?uri=github.com/seedcase-project/seedcase-propagate)
 [![CodeQL](https://github.com/seedcase-project/seedcase-propagate/actions/workflows/github-code-scanning/codeql/badge.svg?branch=main)](https://github.com/seedcase-project/seedcase-propagate/actions/workflows/github-code-scanning/codeql)
 [![pre-commit.ci
 status](https://results.pre-commit.ci/badge/github/seedcase-project/seedcase-propagate/main.svg)](https://results.pre-commit.ci/latest/github/seedcase-project/seedcase-propagate/main)
