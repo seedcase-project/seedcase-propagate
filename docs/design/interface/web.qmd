@@ -14,7 +14,7 @@ With Propagate, the Owner can build a web application enabling Requesters to:
 5. Review the request.
 6. Select the email address of (one of the) Owners to send the request to.
 
-At each step, except Step 1, it is possible to download the in-progress request
+At each step, except step 1, it is possible to download the in-progress request
 by clicking a "Save" button. The application also saves in-progress requests to
 the browser's local storage so that work is not lost if the page is closed or
 refreshed.
@@ -29,17 +29,17 @@ next step. Clicking "Load existing request" will open a file picker for the
 Requester to locate the request they want to load.
 
 When the `request.yaml` has been selected and loaded, Propagate pre-populates
-the forms in Steps 2-4. The Requester can then continue throughout the steps and
+the forms in steps 2-4. The Requester can then continue throughout the steps and
 edit as needed.
 
-## Step 2: Project overview
+## 2. Project overview
 
 In this step, the Requester fills in the name of their project, the rationale or
 motivation for the project as well as their own name and email address.
 
 All fields are free-text with some basic checks (e.g., email format).
 
-## Step 3: Column selection
+## 3. Column selection
 
 Here, the Requester gets an overview of the available resources and the columns
 in each resource. To select columns, the Requester clicks checkboxes. The
@@ -60,7 +60,7 @@ This step also includes the ability to:
 <!-- TODO: click (or potentially hover) on columns to get more information about them? -->
 <!-- TODO: if we want this to work nicely with Flower, we could keep this table relatively simple and include links to data package documentation made with Flower? -->
 
-## Step 4: Filter conditions
+## 4. Filter conditions
 
 Now that the relevant columns have been selected, the Requester can apply
 filters to them. If this step is empty, it means the request includes all rows
@@ -110,14 +110,14 @@ down symbol, `⏷` denotes a dropdown menu, and the waste bin symbol, `[ 🗑️
 denotes the potential to delete the condition. The x, `✗`, and checkmark, `✓`
 after `NOT` conditions denote whether the toggle is active.
 
-## Step 5: Review request
+## 5. Review request
 
-In this step, the entirety of the request is shown, from Steps 2 to 4. It's not
+In this step, the entirety of the request is shown, from steps 2-4. It's not
 possible for the Requester to edit the request on this page (to edit they need
 to go back to the previous step(s)), but this is a chance to review the entire
 request and confirm that it is ready to be sent to an Owner.
 
-## Step 6: Save `request.yaml` and/or send it to Owner
+## 6. Save `request.yaml` and/or send it to Owner
 
 After the request has been reviewed, the Requester can save it locally and/or
 send it to the Owner. At this step, the Requester is shown the contact
