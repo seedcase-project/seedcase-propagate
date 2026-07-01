@@ -1,3 +1,177 @@
 ---
-title: "Web frontend"
+title: "Web application"
 ---
+
+With Propagate, the Owner can build a web application enabling Requesters to:
+
+1. Start a new request or continue an existing one.
+2. Fill out basic information about the project that the requested data subset
+   will be used in.
+3. See all the columns available and select the columns needed for their
+   project.
+4. Specify which rows to include in the request, e.g., only keeping rows with
+   particular values.
+5. Review the request.
+6. Select the email address of (one of the) Owners to send the request to.
+
+At each step, except step 1, it is possible to download the in-progress request
+by clicking a "Save" button. The application also saves in-progress requests to
+the browser's local storage so that work is not lost if the page is closed or
+refreshed.
+
+Each step is described in detail below.
+
+## 1. New or existing request?
+
+In this first step, the Requester is presented with two options: "New request"
+or "Load existing request". Clicking "New request" takes the Requester to the
+next step. Clicking "Load existing request" will open a file picker for the
+Requester to locate the request they want to load.
+
+When the `request.yaml` has been selected and loaded, Propagate pre-populates
+the forms in steps 2-4. The Requester can then continue throughout the steps and
+edit as needed.
+
+## 2. Project overview
+
+In this step, the Requester fills in the name of their project, a description of
+the project as well as their own name and email address.
+
+All fields are free-text with some basic checks (e.g., email format).
+
+## 3. Column selection
+
+Here, the Requester gets an overview of the available resources and the columns
+in each resource. To select columns, the Requester clicks checkboxes. The
+columns are shown in a table with the following columns:
+
+- Selection check box
+- Resource name
+- Column name
+- Column title
+
+This step also includes the ability to:
+
+- Search and filter columns (shown as a search bar at the top of the table)
+- Show all columns or only selected columns (check box at the top of the table)
+- Select multiple columns (`Shift+click` to select a range of columns,
+  `Ctrl+click`/`Cmd+click` to select non-adjacent columns)
+
+<!-- TODO: click (or potentially hover) on columns to get more information about them? -->
+<!-- TODO: if we want this to work nicely with Flower, we could keep this table relatively simple and include links to data package documentation made with Flower? -->
+
+## 4. Filter conditions
+
+Now that the relevant columns have been selected, the Requester can apply
+filters to them. If this step is empty, it means the request includes all rows
+for the selected columns.
+
+The filter user interface is a visual query builder, where the Requester first
+chooses the resource to filter rows in, and then builds the conditions for that
+resource. Each filter condition is one row. Each row consists of:
+
+- A column dropdown, only including the columns selected in step 3.
+- An operator dropdown, adapted to the column's data type:
+  - Boolean columns: `=` and `is null`.
+  - String columns: `=`, `in` (specific values), `contains`, `starts with`,
+    `ends with`, and `is null`.
+  - Integer, number, date, datetime, time, and duration columns: `=`, `<`, `>`,
+    `<=`, `>=`, `in` (specific values), `between` (range), and `is null`.
+- A value input adapted to the column's data type.
+- A `NOT` toggle to negate the condition.
+
+::: callout-note
+The listed operators do not include `!=` (not equal). This can instead be
+achieved by enabling the `NOT` toggle and using `=`.
+:::
+
+::: callout-note
+The `is null` operator catches a common SQL pitfall: `NULL` isn't a normal
+value---it's a marker for "unknown" or "missing" data, so it can't be compared
+using `=` and `!=`. That means that `column = NULL` never evaluates to `TRUE`,
+even for rows where the column actually is `NULL`. You have to check for it
+explicitly with `is null` or `is not null`.
+:::
+
+<!-- TODO: How do we want to handle other column types? E.g., nested types like arrays or objects? -->
+
+Conditions are combined using `AND` or `OR` operators. They can also be grouped
+using parentheses to control the order of evaluation.
+
+Below is a text-based mock-up of the user interface based on the
+[Flora](https://github.com/seedcase-project/seedcase-soil/blob/main/src/seedcase_soil/example-datapackages/flora.json)
+example data package:
+
+```text
+[+ Add filter for resource ]
+
+Resource: [ species_catalog ]  [ 🗑️ ] -------------------------------------
+
+[ NOT ✗ ] [ common_name ⏷ ] [ in ⏷ ] [ "rose", "tulip" ]       [ 🗑️ ]
+
+[ + Add condition ] [ + Add group ]
+
+---------------------------------------------------------------------------
+
+Resource: [ growth_records ] [ 🗑️ ] ---------------------------------------
+
+[ NOT ✓ ] [ location_country ⏷ ] [ is null ⏷ ]                 [ 🗑️ ]
+
+[ AND ⏷ ]
+
+Group: ----------------------------------------------------------
+
+[ NOT ✗ ] [ growth_stage ⏷ ] [ = ⏷ ] [ "flowering" ]      [ 🗑️ ]
+
+[ OR ⏷ ]
+
+[ NOT ✗ ] [ observation_date ⏷ ] [ > ⏷ ] [ "2020-01-01" ] [ 🗑️ ]
+
+[ + Add condition to group ]
+
+-----------------------------------------------------------------
+
+[ + Add condition ] [ + Add group ]
+
+---------------------------------------------------------------------------
+
+```
+
+<!-- TODO: Add a button to delete everything within a group? -->
+
+The plus, `+`, denotes the possibility to add a condition or group, the arrow
+down symbol, `⏷` denotes a dropdown menu, and the waste bin symbol, `[ 🗑️ ]`,
+denotes the potential to delete the condition. The x, `✗`, and checkmark, `✓`
+after `NOT` conditions denote whether the toggle is active.
+
+## 5. Review request
+
+In this step, the entirety of the request is shown, from steps 2-4. It's not
+possible for the Requester to edit the request on this page (to edit they need
+to go back to the previous step(s)), but this is a chance to review the entire
+request and confirm that it is ready to be sent to an Owner.
+
+## 6. Save `request.yaml` and/or send it to Owner
+
+After the request has been reviewed, the Requester can save it locally and/or
+send it to the Owner. At this step, the Requester is shown the contact
+information of the Owner (potentially Owners) and they can select which Owner to
+send the request to. When Requesters click the "Send" button at the Owner's
+email address, Propagate opens the Requester's email app with the "To" field
+populated with the Owner's address and the `request.yaml` attached.
+
+Below is a text-based mock-up of how the Owner(s) are shown:
+
+```text
+| Name          | Email                       |          |
+|---------------|-----------------------------|----------|
+| Jamie Johnson | <jamie.johnson@example.org> | [ Send ] |
+| Joey Jensen   | <joey.jensen@example.org>   | [ Send ] |
+
+[ ⬇ Download request.yaml ] 
+```
+
+After the request has been sent to the Owner by email, the remaining steps
+(e.g., whether or not the Owner approves the request) are outside of the web
+application's scope. If or when the request is approved, the Owner uses the
+[CLI](/docs/design/interface/cli.qmd) to subset the data.
