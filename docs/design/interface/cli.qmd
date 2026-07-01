@@ -131,7 +131,7 @@ resource `name` field(s) of the source file. For example, if the Requester's
 project is `diet-diabetes` and the request file asks for two resources,
 `resource1` and `resource2`, the output will be:
 
-```
+```text
 subsets/diet-diabetes/resource1.parquet
 subsets/diet-diabetes/resource2.parquet
 ```

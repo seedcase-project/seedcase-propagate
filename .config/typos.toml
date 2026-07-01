@@ -1,8 +1,5 @@
 [files]
-extend-exclude = [
-  "*.html",
-  "*.css",
-  ".quarto/*",
-  "_site/*",
-  "*.svg"
-]
+extend-exclude = ["*.html", "*.css", ".quarto/*", "_site/*", "*.svg"]
+
+[default.extend-words]
+ratatui = "ratatui"
