@@ -115,21 +115,21 @@ Resource: [ species_catalog ]  [ 🗑️ ] -------------------------------------
 
 Resource: [ growth_records ] [ 🗑️ ] ---------------------------------------
 
-[ NOT ✓ ] [ location_country ⏷ ] [ == ⏷ ] [ "Denmark" ]        [ 🗑️ ]
+[ NOT ✓ ] [ location_country ⏷ ] [ is null ⏷ ]                 [ 🗑️ ]
 
 [ AND ⏷ ]
 
-Group: ---------------------------------------------------------------
+Group: ----------------------------------------------------------
 
-[ NOT ✗ ] [ growth_stage ⏷ ] [ == ⏷ ] [ "flowering" ]          [ 🗑️ ]
+[ NOT ✗ ] [ growth_stage ⏷ ] [ = ⏷ ] [ "flowering" ]      [ 🗑️ ]
 
 [ OR ⏷ ]
 
-[ NOT ✗ ] [ observation_date ⏷ ] [ after ⏷ ] [ "2020-01-01" ]  [ 🗑️ ]
+[ NOT ✗ ] [ observation_date ⏷ ] [ > ⏷ ] [ "2020-01-01" ] [ 🗑️ ]
 
 [ + Add condition to group ]
 
-----------------------------------------------------------------------
+-----------------------------------------------------------------
 
 [ + Add condition ] [ + Add group ]
 
