@@ -86,21 +86,38 @@ Below is a text-based mock-up of the user interface based on the
 example data package:
 
 ```text
+[+ Add filter for resource ]
+
+Resource: [ species_catalog ]  [ 🗑️ ] -------------------------------------
+
+[ NOT ✗ ] [ common_name ⏷ ] [ in ⏷ ] [ "rose", "tulip" ]       [ 🗑️ ]
+
 [ + Add condition ] [ + Add group ]
 
-Group: OR --------------------------------------------------------------
-[ NOT ✗ ] [common_name ⏷ ] [ in ⏷ ] [ "rose", "tulip" ]       [ 🗑️ ]
+---------------------------------------------------------------------------
+
+Resource: [ growth_records ] [ 🗑️ ] ---------------------------------------
+
+[ NOT ✓ ] [ location_country ⏷ ] [ == ⏷ ] [ "Denmark" ]        [ 🗑️ ]
+
+[ AND ⏷ ]
+
+Group: ---------------------------------------------------------------
+
+[ NOT ✗ ] [ growth_stage ⏷ ] [ == ⏷ ] [ "flowering" ]          [ 🗑️ ]
+
+[ OR ⏷ ]
+
+[ NOT ✗ ] [ observation_date ⏷ ] [ after ⏷ ] [ "2020-01-01" ]  [ 🗑️ ]
 
 [ + Add condition to group ]
-------------------------------------------------------------------------
 
-AND ⏷ 
+----------------------------------------------------------------------
 
-[ NOT ✗ ] [ country ⏷ ] [ == ⏷ ] [ "Denmark" ]                [ 🗑️ ]
+[ + Add condition ] [ + Add group ]
 
-AND ⏷
+---------------------------------------------------------------------------
 
-[ NOT ✓ ] [ observation_date ⏷ ] [ before ⏷ ] [ 2020-01-01 ]  [ 🗑️ ]
 ```
 
 <!-- TODO: Add a button to delete everything within a group? -->
@@ -125,7 +142,6 @@ information of the Owner (potentially Owners) and they can select which Owner to
 send the request to. When Requesters click the "Send" button at the Owner's
 email address, Propagate opens the Requester's email app with the "To" field
 populated with the Owner's address and the `request.yaml` attached.
-
 
 Below is a text-based mock-up of how the Owner(s) are shown:
 
