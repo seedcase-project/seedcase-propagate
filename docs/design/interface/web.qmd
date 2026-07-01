@@ -73,10 +73,10 @@ resource. Each filter condition is one row. Each row consists of:
 - A column dropdown, only including the columns selected in step 3.
 - An operator dropdown, adapted to the column's data type:
   - Boolean columns: `=` and `is null`.
-  - String columns: `=`, `in`, `contains`, `starts with`, `ends with`, and
-    `is null`.
+  - String columns: `=`, `in` (specific values), `contains`, `starts with`,
+    `ends with`, and `is null`.
   - Integer, number, date, datetime, time, and duration columns: `=`, `<`, `>`,
-    `<=`, `>=`, `in`, `between`, and `is null`.
+    `<=`, `>=`, `in` (specific values), `between` (range), and `is null`.
 - A value input adapted to the column's data type.
 - A `NOT` toggle to negate the condition.
 
