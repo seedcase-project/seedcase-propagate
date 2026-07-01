@@ -1,31 +1,31 @@
 ---
-title: "Web application front end"
+title: "Web application"
 ---
 
 With Propagate, the Owner can build a web application enabling Requesters to:
 
 1. Start a new request or continue an existing one.
-2. Fill out the basic information about the project.
+2. Fill out basic information about the project that the requested data subset will be used in.
 3. See all the fields available and select the fields needed for their project.
-4. Select filters for e.g., keeping rows with particular values.
+4. Specify which rows to include in the request, e.g., only keeping rows with particular values.
 5. Review the request.
 6. Select the email address of (one of the) Owners to send the request to.
 
-The web application's front end consists of these six "steps" that are described
+The web application consists of these six "steps" that are described
 in detail below.
 
 At each step, except Step 1, it is possible to download the in-progress request
 by clicking a "Save" button. The application also saves in-progress requests to
-the browser cache so that work is not lost if the page is closed or refreshed.
+the browser's local storage so that work is not lost if the page is closed or refreshed.
 
-## Step 1: New or existing request?
+## 1. New or existing request?
 
 In this first step, the Requester is presented with two options: "New request"
-or "Load existing request".
-
-Clicking "New request" takes the Requester to the next step. Clicking "Load
+or "Load existing request". Clicking "New request" takes the Requester to the next step. Clicking "Load
 existing request" will open a file picker for the Requester to locate the
-request they want to load. When the `request.yaml` has been selected and loaded,
+request they want to load. 
+
+When the `request.yaml` has been selected and loaded,
 Propagate pre-populates the forms in Steps 2-4. The Requester can then continue
 throughout the steps and edit as needed.
 
