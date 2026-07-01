@@ -126,7 +126,6 @@ send the request to. When Requesters click the "Send" button at the Owner's
 email address, Propagate opens the Requester's email app with the "To" field
 populated with the Owner's address and the `request.yaml` attached.
 
-<!-- TODO: Do we want to add some information in the request yaml file name? E.g., datetime or project name? -->
 
 Below is a text-based mock-up of how the Owner(s) are shown:
 
