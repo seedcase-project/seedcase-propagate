@@ -71,10 +71,10 @@ is one row. Each row consists of:
 
 - A column dropdown, only including the columns selected in step 3.
 - An operator dropdown, adapted to the column's data type:
-  - String columns: `==`, `!=`, `in` (multiple values), `contains`,
+  - String columns: `=`, `!=`, `in` (multiple values), `contains`,
     `starts with`, and `ends with`
   - Integer and number columns: `==`, `!=`, `<`, `>`, `<=`, and `>=`
-  - Date columns: `==`, `!=`, `before`, `after`, and `between`
+  - Date columns: `=`, `!=`, `before`, `after`, and `between`
 - A value input adapted to the column's data type
 - A `NOT` toggle to negate the condition.
 
