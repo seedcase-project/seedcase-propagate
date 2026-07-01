@@ -14,13 +14,12 @@ With Propagate, the Owner can build a web application enabling Requesters to:
 5. Review the request.
 6. Select the email address of (one of the) Owners to send the request to.
 
-The web application consists of these six "steps" that are described in detail
-below.
-
 At each step, except Step 1, it is possible to download the in-progress request
 by clicking a "Save" button. The application also saves in-progress requests to
 the browser's local storage so that work is not lost if the page is closed or
 refreshed.
+
+Each step is described in detail below.
 
 ## 1. New or existing request?
 
