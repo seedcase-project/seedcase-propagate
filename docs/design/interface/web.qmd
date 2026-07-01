@@ -5,74 +5,77 @@ title: "Web application"
 With Propagate, the Owner can build a web application enabling Requesters to:
 
 1. Start a new request or continue an existing one.
-2. Fill out basic information about the project that the requested data subset will be used in.
-3. See all the fields available and select the fields needed for their project.
-4. Specify which rows to include in the request, e.g., only keeping rows with particular values.
+2. Fill out basic information about the project that the requested data subset
+   will be used in.
+3. See all the columns available and select the columns needed for their
+   project.
+4. Specify which rows to include in the request, e.g., only keeping rows with
+   particular values.
 5. Review the request.
 6. Select the email address of (one of the) Owners to send the request to.
 
-The web application consists of these six "steps" that are described
-in detail below.
+The web application consists of these six "steps" that are described in detail
+below.
 
 At each step, except Step 1, it is possible to download the in-progress request
 by clicking a "Save" button. The application also saves in-progress requests to
-the browser's local storage so that work is not lost if the page is closed or refreshed.
+the browser's local storage so that work is not lost if the page is closed or
+refreshed.
 
 ## 1. New or existing request?
 
 In this first step, the Requester is presented with two options: "New request"
-or "Load existing request". Clicking "New request" takes the Requester to the next step. Clicking "Load
-existing request" will open a file picker for the Requester to locate the
-request they want to load. 
+or "Load existing request". Clicking "New request" takes the Requester to the
+next step. Clicking "Load existing request" will open a file picker for the
+Requester to locate the request they want to load.
 
-When the `request.yaml` has been selected and loaded,
-Propagate pre-populates the forms in Steps 2-4. The Requester can then continue
-throughout the steps and edit as needed.
+When the `request.yaml` has been selected and loaded, Propagate pre-populates
+the forms in Steps 2-4. The Requester can then continue throughout the steps and
+edit as needed.
 
 ## Step 2: Project overview
 
 In this step, the Requester fills in the name of their project, the rationale or
 motivation for the project as well as their own name and email address.
 
-All these fields are free-text fields, with some basic checks (e.g., email
-format).
+All fields are free-text with some basic checks (e.g., email format).
 
-## Step 3: Field selection
+## Step 3: Column selection
 
-Here, the Requester gets an overview of the available resources and the fields
-in each resource. To select fields, the Requester clicks checkboxes. The fields
-are shown in a table with the following columns:
+Here, the Requester gets an overview of the available resources and the columns
+in each resource. To select columns, the Requester clicks checkboxes. The
+columns are shown in a table with the following columns:
 
 - Selection check box
 - Resource name
-- Field name
-- Field title
+- Column name
+- Column title
 
 This step also includes the ability to:
 
-- Search and filter fields (shown as a search bar at the top of the table)
-- Show all fields or only selected fields (check box at the top of the table)
-- Select multiple fields (`Shift+click` to select a range of fields,
-  `Ctrl+click`/`Cmd+click` to select non-adjacent fields)
+- Search and filter columns (shown as a search bar at the top of the table)
+- Show all columns or only selected columns (check box at the top of the table)
+- Select multiple columns (`Shift+click` to select a range of columns,
+  `Ctrl+click`/`Cmd+click` to select non-adjacent columns)
 
-<!-- TODO: click (or potentially hover) on fields to get more information about them? -->
+<!-- TODO: click (or potentially hover) on columns to get more information about them? -->
 <!-- TODO: if we want this to work nicely with Flower, we could keep this table relatively simple and include links to data package documentation made with Flower? -->
 
 ## Step 4: Filter conditions
 
-Now that the relevant fields have been selected, the Requester can apply filters
-to them. If this step is empty, it means the request includes all rows for the
-selected fields.
+Now that the relevant columns have been selected, the Requester can apply
+filters to them. If this step is empty, it means the request includes all rows
+for the selected columns.
 
 The filter user interface is a visual query builder, where each filter condition
 is one row. Each row consists of:
 
-- A field dropdown, only including the fields selected in Step 3.
+- A column dropdown, only including the columns selected in Step 3.
 - An operator dropdown, adapted to the field's data type:
-  - String fields: `==`, `!=`, `in` (multiple values), `contains`,
+  - String columns: `==`, `!=`, `in` (multiple values), `contains`,
     `starts with`, and `ends with`
-  - Integer and number fields: `==`, `!=`, `<`, `>`, `<=`, and `>=`
-  - Date fields: `==`, `!=`, `before`, `after`, and `between`
+  - Integer and number columns: `==`, `!=`, `<`, `>`, `<=`, and `>=`
+  - Date columns: `==`, `!=`, `before`, `after`, and `between`
 - A value input adapted to the field's data type
 - A `NOT` toggle to negate the condition.
 
