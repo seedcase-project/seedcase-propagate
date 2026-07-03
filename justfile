@@ -72,8 +72,6 @@ format-rust:
 format-md:
   # Use both rumdl and panache, for different purposes
   uvx rumdl fmt --silent
-  # `includes` option doesn't work with Jinja files, so do manually
-  uvx rumdl fmt --silent **/*.qmd.jinja **/*.md.jinja
   uvx --from panache-cli panache format . --quiet
 
 # Run the tests in the `src/` or `tests/` directories
