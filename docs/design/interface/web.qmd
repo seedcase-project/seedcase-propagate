@@ -54,6 +54,7 @@ This step also includes the ability to:
 
 - Search and filter columns (shown as a search bar at the top of the table)
 - Show all columns or only selected columns (check box at the top of the table)
+- Select and deselect all columns in a resource.
 - Select multiple columns (`Shift+click` to select a range of columns,
   `Ctrl+click`/`Cmd+click` to select non-adjacent columns)
 
