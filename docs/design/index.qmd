@@ -42,6 +42,7 @@ Specifically, Propagate must:
 - Store enough information in the instructions to reproduce the subset in the
   future.
 - Support checking instructions against the metadata before generating a subset.
+- Assume one request per research project per data package.
 
 ### Data request functionality
 

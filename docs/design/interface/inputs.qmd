@@ -20,7 +20,18 @@ The inputs include:
   terminal interface by a Requester. The request file includes a SQL-like query
   of selected resources, fields, and filters, as well as any additional metadata
   about the request (e.g., requester name, email, project name, and rationale).
-  The Owner uses this file to create the subset of data from the data package.
+  The Requester creates this file for a specific research project that needs the
+  data. The Owner uses this file to create the subset of data from the data
+  package.
 
 <!-- TODO: Agree on what word(s) to use about the data request/subset/instructions form and align across design docs -->
 <!-- TODO: Do we want to add a config so users can customise the content of the web application, as we in Flower? -->
+
+We design for there being only one `request.yaml` file per research project per
+data package. The research project would be something the Requester is working
+on that needs a subset from the data package. If a Requester forgets certain
+columns or rows from the subset or needs different data, they would update their
+existing `request.yaml` file and resubmit it to the Owner. There should only
+ever be *one* `request.yaml` file related to a given research project. We design
+it this way to avoid confusion about different versions of the request or
+needing to remember which request files to run for a research project.
