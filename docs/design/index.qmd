@@ -67,13 +67,16 @@ Specifically, Propagate must:
 - Generate data subsets in Parquet format for rectangular data from the
   instructions and the data from the data package.
 - Support previewing the planned subset operation before execution.
+- Checking that the request is correctly structured, that it can parse correctly
+  to SQL, and that it has instructions that can be applied to the data package.
 
 ### Out of scope
 
 Propagate does not:
 
 - Manage data access approvals.
-- Transfer instructions or data subsets between parties.
+- Transfer data subsets to the requester or to different servers.
 - Host web or server services.
 - Modify source data or metadata.
 - Act as a general-purpose query engine.
+- Store or organize the requests, the data, or the metadata.
