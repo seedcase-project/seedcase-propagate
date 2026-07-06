@@ -42,9 +42,7 @@ request to the data owner for accessing data resources from the data package.
 
 Propagate's command-line interface (CLI) can be used by the data owner to
 inspect and execute the request. The requested query is checked against the
-metadata, which guarantees reproducible execution and verification against
-metadata to generate the new data subset from the data package (usually as
-Parquet files).
+metadata, which guarantees reproducible execution.
 
 ### Solving the issue of "reasonable request"
 
