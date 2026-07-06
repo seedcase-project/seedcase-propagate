@@ -39,10 +39,11 @@ Propagate supports two primary user types: a **requester** and an **owner**.
   process every time.
 
 - **Analysts or data processors**: This person will likely be the most
-  technically experienced user. They will likely be working on multiple, very
-  narrow projects at the same time. Because of this, they will value any way of
-  requesting data quickly and efficiently, so are likely to use the terminal
-  interface. They will probably not communicate too often with the Owner, as
+  technically experienced Requester. They will likely be working on multiple, very
+  narrow projects at the same time and value efficiency highly. For
+  example, they would likely opt to use a terminal-based workflow
+  if it allowed them to request data more efficiently.
+  They will probably not communicate too often with the Owner, as
   they likely will be familiar with the data and the request process. They value
   efficiency and speed over a more guided process.
 
@@ -56,18 +57,18 @@ types of users within this "Owner" category (including an actual data owner).
 - **Data owner**: This person (or people) is the one with the legal rights to
   the data, who is accountable for its use and (potential) misuse. This person
   is the one with the final say on which requests are approved and which are
-  not. They are the ones who control where the web application is hosted, where
+  not. They control where the web application is hosted, where
   requests are stored, and who has access to the original data and to the
   hosting service for the web application. For any given data package, there is
   always at least one data owner. Depending on who is involved in managing the
   data package, there may only be one person, the data owner, so they will be
   the one using all the functionality from Propagate. If there are others
   involved, e.g. a data manager, then the data owner may, at a minimum, be
-  reviewing and approving any requests received. They are the ones responsible
-  in ensuring the Requester's needs for their research project match the actual
-  request received.
+  reviewing and approving any requests received. It is their responsibility
+  to ensure that the needs of the research project (as specified in the received `request.yaml`)
+  match the requested data subset.
 
-- **Data manager**: This person (or people) is the one given permission to
+- **Data manager**: This person (or persons) is the one given permission to
   manage the data package, including handling requests and generating subsets.
   They may or may not be given permission to approve requests (usually not).
   They also may or may not actually review the requests themselves for
