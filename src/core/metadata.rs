@@ -53,9 +53,9 @@ pub struct Column {
     pub name: String,
     /// The column title (human formatted) used for display purposes.
     pub title: String,
-    /// The column's data type.
+    /// The column data type.
     pub column_type: String,
-    /// The column's constraints, e.g. minimum, maximum, or allowed values.
+    /// The column value constraints, e.g. minimum, maximum, or allowed values.
     pub constraints: Option<Constraints>,
     // TODO: Data Package has two fields for categories: `categories` and `constraints.enum`. Do we
     // need/want both?
