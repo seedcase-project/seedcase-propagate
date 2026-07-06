@@ -3,7 +3,7 @@
 /// Top-level representation of the metadata of a data package. Contains only
 /// the fields from the Data Package spec that are relevant to Propagate.
 pub struct Package {
-    /// The version of the data package, which can be used to determine which
+    /// The data package version used to determine which
     /// version of the data package is being displayed when creating the
     /// request.
     pub version: Option<String>,
