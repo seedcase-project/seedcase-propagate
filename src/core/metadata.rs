@@ -23,7 +23,7 @@ pub struct Resource {
     pub path: String,
     /// The schema for the contents of the resource containing the column
     /// information. Only relevant for tabular data.
-    pub schema: Option<Schema>,
+    pub schema: Schema,
 }
 
 /// Contributor or author information for the data package. This is used when
@@ -32,7 +32,7 @@ pub struct Contributor {
     /// The name of the contributor.
     pub name: String,
     /// The email address of the contributor.
-    pub email: Option<String>,
+    pub email: String,
     /// The role of the contributor in the data package. This is only used to
     /// display contributors who are contact persons (corresponding authors)
     /// like the owner or manager.
