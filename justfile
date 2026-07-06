@@ -80,7 +80,7 @@ test-rust:
 
 # Build the code documentation
 build-rust-docs:
-  cargo doc
+  cargo doc --no-deps
 
 # Re-build the README file from the Quarto version
 build-readme:
