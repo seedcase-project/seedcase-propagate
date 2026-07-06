@@ -1,4 +1,7 @@
-// main.rs is the binary entrypoint, e.g. for CLIs
+// `main.rs` is the binary entry-point, e.g. for CLIs
+
+mod cli;
+
 fn main() {
     println!("Hello, world!");
 }
