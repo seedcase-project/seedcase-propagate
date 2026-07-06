@@ -60,13 +60,13 @@ check-cargo:
 
 # Checks formatting with rustfmt
 check-fmt:
-  cargo fmt --check
+  cargo +nightly fmt --check -- --config-path .config/rustfmt.toml
 
 # Format the code and fix issues
 format-rust:
   cargo fix --allow-dirty
   cargo clippy --fix --allow-dirty -- -W clippy::pedantic
-  cargo fmt
+  cargo +nightly fmt
 
 # Format Markdown files
 format-md:
@@ -80,7 +80,7 @@ test-rust:
 
 # Build the code documentation
 build-rust-docs:
-  cargo doc
+  cargo doc --no-deps
 
 # Re-build the README file from the Quarto version
 build-readme:
