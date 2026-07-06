@@ -8,6 +8,7 @@ pub struct Package {
     /// request.
     pub version: Option<String>,
     pub contributors: Option<Vec<Contributor>>,
+    pub resources: Vec<Resource>,
 }
 
 /// Represents the resource(s) in the data package. A resource is a single data
@@ -39,12 +40,18 @@ pub struct Contributor {
     pub role: Option<String>,
 }
 
+/// The schema for the resource containing the column information. Only relevant
+/// for tabular data.
 pub struct Schema {
-    /// The resource columns. Only relevant for resources in tabular format. Called
-    /// `fields` in the Data Package spec.
+    /// The resource columns. Only relevant for resources in tabular format.
+    /// Called `fields` in the Data Package spec.
     pub columns: Vec<Column>,
+    /// The primary key(s) for the resource. Only relevant in relation to the
+    /// foreign key.
     pub primary_key: Option<Vec<String>>,
-    pub foreign_keys: Option<Vec<String>>,
+    /// The foreign key relationships between this resource and other resources
+    /// in the data package. See [`ForeignKey`] for more information.
+    pub foreign_keys: Option<Vec<ForeignKey>>,
 }
 
 /// A column within a resource. Called `field` in the Data Package spec.
@@ -54,57 +61,71 @@ pub struct Column {
     /// The column title (human formatted) used for display purposes.
     pub title: String,
     /// The column data type.
-    pub column_type: String,
+    pub column_type: ColumnType,
     /// The column value constraints, e.g. minimum, maximum, or allowed values.
     pub constraints: Option<Constraints>,
     // TODO: Data Package has two fields for categories: `categories` and `constraints.enum`. Do we
     // need/want both?
 }
 
-/// The column constraints, i.e. the minimum and maximum values,
-/// as well as allowed values.
+// TODO: I'm not sure if these need explicit Rust types... We can see in practice.
+/// The supported column data types from the metadata file. Also matches
+/// what's allowed in Parquet files (our default format).
+pub enum ColumnType {
+    String,
+    Integer,
+    Number,
+    Boolean,
+    Date,
+    Datetime,
+    Time,
+    Array,
+}
+
+/// Represents a foreign key relationship between two resources in the data
+/// package. This is used to determine how to effectively filter by rows. A
+/// subset of a data package should only contain rows in all resources of the
+/// relevant "observational units" (keys that show up in all resources). For
+/// example, if one resource keeps rows for only women and another resource
+/// keeps rows for only those with diabetes status, all requested resources
+/// should only contain rows with the intersection of these two conditions.
+pub struct ForeignKey {
+    /// The column(s) in the current resource that are foreign keys.
+    pub columns: Vec<String>,
+    /// The resource that the foreign key(s) reference.
+    pub reference_resource: String,
+    /// The column(s) in the referenced resource that the foreign key(s)
+    /// reference.
+    pub reference_columns: Vec<String>,
+}
+
+/// The column constraints, i.e. the minimum and maximum values, as well as
+/// allowed values.
 pub struct Constraints {
     /// The minimum allowed value for a column. The type of the minimum value
     /// depends on the type of the column.
-    pub minimum: Option<Minimum>,
+    pub minimum: Option<Range>,
     /// The maximum allowed value for a column. The type of the maximum value
     /// depends on the type of the column.
-    pub maximum: Option<Maximum>,
+    pub maximum: Option<Range>,
     // TODO: This has `any` type in the spec, but should we allow that here?
     /// The allowed values for a column (e.g. for categorical data). It's called
     /// `enum` in the Data Package spec.
     pub allowed_values: Option<Vec<String>>,
 }
 
-/// The allowed minimum value for a column.
-pub enum Minimum {
-    /// The allowed minimum value for a column with values as integers (numbers
-    /// without a decimal point).
-    Integer(i64),
-    /// The allowed minimum value for a column with values as numbers (numbers
-    /// with a decimal point).
-    Number(f64),
-    // TODO: Set as date type with chrono package?
-    /// The minimum value for a column of type `date`. The string should be in
-    /// the format `YYYY-MM-DD`.
-    Date(String),
-    /// The minimum value for a column of type `datetime`. The string should be
-    /// in the format `YYYY-MM-DDTHH:MM:SS`.
-    Datetime(String),
-}
-
 /// The allowed maximum value for a column.
-pub enum Maximum {
-    /// The allowed maximum value for a column with values as integers (numbers
+pub enum Range {
+    /// The allowed value for a column with values as integers (numbers
     /// without a decimal point).
     Integer(i64),
-    /// The allowed maximum value for a column with values as numbers (numbers
+    /// The allowed value for a column with values as numbers (numbers
     /// with a decimal point).
     Number(f64),
-    /// The maximum value for a column of type `date`. The string should be in
+    /// The value for a column of type `date`. The string should be in
     /// the format `YYYY-MM-DD`.
     Date(String),
-    /// The maximum value for a column of type `datetime`. The string should be
+    /// The value for a column of type `datetime`. The string should be
     /// in the format `YYYY-MM-DDTHH:MM:SS`.
     Datetime(String),
 }
