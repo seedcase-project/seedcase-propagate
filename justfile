@@ -60,20 +60,18 @@ check-cargo:
 
 # Checks formatting with rustfmt
 check-fmt:
-  cargo fmt --check
+  cargo +nightly fmt --check -- --config-path .config/rustfmt.toml
 
 # Format the code and fix issues
 format-rust:
   cargo fix --allow-dirty
   cargo clippy --fix --allow-dirty -- -W clippy::pedantic
-  cargo fmt
+  cargo +nightly fmt
 
 # Format Markdown files
 format-md:
   # Use both rumdl and panache, for different purposes
   uvx rumdl fmt --silent
-  # `includes` option doesn't work with Jinja files, so do manually
-  uvx rumdl fmt --silent **/*.qmd.jinja **/*.md.jinja
   uvx --from panache-cli panache format . --quiet
 
 # Run the tests in the `src/` or `tests/` directories
@@ -82,7 +80,7 @@ test-rust:
 
 # Build the code documentation
 build-rust-docs:
-  cargo doc
+  cargo doc --no-deps
 
 # Re-build the README file from the Quarto version
 build-readme:

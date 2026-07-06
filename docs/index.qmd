@@ -1,3 +1,93 @@
 ---
 title: "Overview"
 ---
+
+> *How can data analysts make reproducible, machine-readable requests without
+> burdening the data owner with manual query creation?*
+
+Meet Propagate, a tool that standardises how data requests are created, shared,
+and executed---bridging *requesters* (analysts who want data) and *owners* (data
+managers who control the data) through a standardised workflow built around data
+packages.
+
+Propagate facilitates and standardises the request flow:
+
+- Initially, an *owner* creates a website for a data package. This website
+  contains a web app with interactive forms for creating a request for a subset
+  of the data.
+- A *requester* accessing the web app can interact with the forms to specify
+  which columns and rows they want access to among any data resource within the
+  data package. The *requester* also provides *project metadata*, such as who
+  they are and why they need the access to the data subset.
+- The *owner* then reviews the request and uses it together with the data
+  package metadata to create a data subset that is sent to the requester.
+
+## Why use Propagate?
+
+The overall aim of the [Seedcase Project](https://seedcase-project.org) is to
+build tools that make data more [FAIR](https://www.go-fair.org/fair-principles/)
+and [tidy](https://vita.had.co.nz/papers/tidy-data.html), easier to access and
+share, and more likely to be (re)used. To support this goal, Propagate
+simplifies specific tasks.
+
+### Easy data requesting
+
+Propagate's web app supports data analysts in creating requests interactively
+through a website, which hosts the data package's metadata (see
+[Flower](https://flower.seedcase-project.org)). The requester is visually guided
+in selecting columns and filtering rows, which can be exported or submitted as a
+request to the data owner for accessing data resources from the data package.
+
+### Checking and querying requests
+
+Propagate's command-line interface (CLI) can be used by the data owner to
+inspect and execute the request. The requested query is checked against the
+metadata, which guarantees reproducible execution.
+
+### Solving the issue of "reasonable request"
+
+Propagate improves the accessibility of data, which makes data (re)use more
+appealing for requesters and less of a daunting task for owners. This is an
+important part in making data FAIR, as the notion of providing data upon
+"reasonable request" has, paradoxically, turned into an [inside
+joke](https://www.nature.com/articles/s41597-021-00981-0) in the scientific
+community. Propagate aims to lower the friction of sharing data.
+
+Propagate fills a special role within the scientific community, as few tools are
+available that mediate between data requesters and data owners.
+
+## Propagate as a multi-tool
+
+Propagate includes two components; a *web app* for the data requester (or a
+terminal interface for experienced users) and a *CLI* for the data owner.
+
+The web app reads metadata and displays available data resources and variables.
+From this, it allows column selection and row filtering. It also collects
+project information, and generates a request file that can be saved and sent to
+the data owner.
+
+The CLI is only used by the data owner and helps with reading the request file,
+checking it against metadata, and converting the request into an executable
+query that generates the new subset of the data package. Propagate supports
+websites made by [static site
+generators](https://en.wikipedia.org/wiki/Static_site_generator), such as those
+made by our other package, [Flower](https://flower.seedcase-project.org).
+
+## Learning more
+
+This website contains a guide on how to use Propagate, reference documentation,
+and details about the design:
+
+- [How-to guide](/docs/guide/index.qmd): The guide section provides a
+  step-by-step introduction to Propagate, including installing, setting up the
+  web app, using the terminal interface, using the CLI, and setting
+  configurations.
+- [Reference](/docs/reference/index.qmd): The reference section contains
+  detailed information about Propagate's CLI and setting up a Propagate web app.
+- [Design](/docs/design/index.qmd): The design section describes the
+  architecture and interface of Propagate, the requirements, use-cases, and [C4
+  model](https://c4model.com/) diagrams.
+
+## Contributors
+
+{{< include /docs/includes/_contributors.qmd >}}
