@@ -58,7 +58,7 @@ pub struct Column {
     /// allowed values.
     pub constraints: Option<Constraints>,
     // TODO: Data Package has two fields for categories: `categories` and `constraints.enum`. Do we
-    // need/want both? pub categories: Option<Vec<String>>,
+    // need/want both?
 }
 
 /// The constraints for a column, which can include minimum and maximum values,
