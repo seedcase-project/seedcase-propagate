@@ -2,7 +2,7 @@
 
 /// Top-level representation of the metadata of a data package. Contains only
 /// the fields from the Data Package spec that are relevant to Propagate.
-pub struct Metadata {
+pub struct Package {
     /// The version of the data package, which can be used to determine which
     /// version of the data package is being displayed when creating the
     /// request.
@@ -14,16 +14,15 @@ pub struct Metadata {
 /// file or collection of related data files within a data package. Resources
 /// can be different formats of data, such as Parquet, images, or audio files.
 pub struct Resource {
-    /// The name of the resource (no spaces), which is used as an identifier.
+    /// The resource name (no spaces) used as an identifier.
     pub name: String,
-    /// The title (human formatted) of the resource, which is used for display
-    /// purposes.
+    /// The resource title (human formatted) used for display purposes.
     pub title: Option<String>,
-    /// The path to the resource file(s), which is used when running the
+    /// The path to the resource file(s) used when running the
     /// `subset` command.
     pub path: String,
-    /// The schema for the contents of the resource, which contains the column
-    /// information.
+    /// The schema for the contents of the resource containing the column
+    /// information. Only relevant for tabular data.
     pub schema: Option<Schema>,
 }
 
@@ -41,7 +40,7 @@ pub struct Contributor {
 }
 
 pub struct Schema {
-    /// The list of columns in the resource, when in tabular format. Called
+    /// The resource columns. Only relevant for resources in tabular format. Called
     /// `fields` in the Data Package spec.
     pub columns: Vec<Column>,
     pub primary_key: Option<Vec<String>>,
@@ -50,18 +49,19 @@ pub struct Schema {
 
 /// A column within a resource. Called `field` in the Data Package spec.
 pub struct Column {
+    /// The column name (no spaces) used as an identifier.
     pub name: String,
+    /// The column title (human formatted) used for display purposes.
     pub title: String,
-    /// The type of data for the column.
+    /// The column's data type.
     pub column_type: String,
-    /// The specific constraints the column has, e.g. minimum, maximum, or
-    /// allowed values.
+    /// The column's constraints, e.g. minimum, maximum, or allowed values.
     pub constraints: Option<Constraints>,
     // TODO: Data Package has two fields for categories: `categories` and `constraints.enum`. Do we
     // need/want both?
 }
 
-/// The constraints for a column, which can include minimum and maximum values,
+/// The column constraints, i.e. the minimum and maximum values,
 /// as well as allowed values.
 pub struct Constraints {
     /// The minimum allowed value for a column. The type of the minimum value
@@ -78,10 +78,10 @@ pub struct Constraints {
 
 /// The allowed minimum value for a column.
 pub enum Minimum {
-    /// The allowed minimum value for a column with values as integers (those
+    /// The allowed minimum value for a column with values as integers (numbers
     /// without a decimal point).
     Integer(i64),
-    /// The allowed minimum value for a column with values as numbers (those
+    /// The allowed minimum value for a column with values as numbers (numbers
     /// with a decimal point).
     Number(f64),
     // TODO: Set as date type with chrono package?
@@ -95,10 +95,10 @@ pub enum Minimum {
 
 /// The allowed maximum value for a column.
 pub enum Maximum {
-    /// The allowed maximum value for a column with values as integers (those
+    /// The allowed maximum value for a column with values as integers (numbers
     /// without a decimal point).
     Integer(i64),
-    /// The allowed maximum value for a column with values as numbers (those
+    /// The allowed maximum value for a column with values as numbers (numbers
     /// with a decimal point).
     Number(f64),
     /// The maximum value for a column of type `date`. The string should be in
