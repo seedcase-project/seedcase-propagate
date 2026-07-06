@@ -32,8 +32,8 @@ Propagate supports two primary user types:
   | resource           | One or more data files that are part of a data package.                                                                                                                      |
   | metadata           | Information about the data, such as its description, structure, and origin.                                                                                                  |
   | data               | The actual data within a data package given in Parquet format.                                                                                                               |
-  | (research) project | This is the research project associated with a specific request for a subset of the data package. A project would be something that creates an academic output (e.g. paper). |
-  | request            | The contents of the `request.yaml` file specifying the subset of data requested by the requester, together with metadata about the request itself.                           |
+  | (research) project | This is the research project associated with a specific request for the whole or a subset of the data package. A project would be something that creates an academic output (e.g. paper). |
+  | request            | The contents of the `request.yaml` file specifying the data requested together with metadata about the request itself.                           |
 
   : Concepts and entities in Propagate.
 
