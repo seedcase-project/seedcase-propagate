@@ -228,21 +228,6 @@ rows:
   could be harder with this more strict spec, but it doesn't sound like that is
   our intended use case currently.
 
-## Checking
-
-Propagate should check the request file before generating a data subset. The
-checks should include that:
-
-- Required sections and keys are present.
-- The referenced data package and resources exist.
-- The requested columns exist in the selected resources.
-- Row filters reference existing columns.
-- Row filters use supported SQL-like syntax.
-
-The row filters can be converted to SQL and checked with existing SQL parsing or
-validation tools where possible. This avoids implementing a custom expression
-parser for the request format.
-
 ### A complete example
 
 A complete request file might look like this.
