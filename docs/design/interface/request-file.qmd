@@ -1,0 +1,256 @@
+---
+title: "Request File"
+---
+
+The request file, `request.yaml`, contains the instructions for requesting a
+subset of data from a data package. The file is created by a Requester through
+the web application and is used by an Owner to check and generate the requested
+data subset.
+
+The request file is intended to be both human-readable and machine-readable. It
+should be simple enough for a Requester to understand and, when needed, edit
+manually. At the same time, it should be structured enough that Propagate can
+check it against the data package metadata and convert it into an SQL query for
+generating the requested data subset.
+
+## Format
+
+The request file uses YAML. YAML was chosen because it is more readable for
+manual editing than JSON and less verbose than TOML for lists of columns and row
+filters.
+
+::: callout-note
+Since YAML has special syntax for some characters, SQL-like row filters should
+be quoted when written manually. This avoids ambiguity around characters such as
+`>`, `:`, `#`, `*`, `&`, and `!`.
+
+```{.yaml}
+rows:
+  - "col1 > 50"
+```
+
+Instead of:
+
+```{.yaml}
+rows:
+  - col1 > 50
+```
+
+The unquoted form will often parse correctly, but the quoted form is safer and
+should be used in documentation and generated files.
+:::
+
+## Structure
+
+The request file contains four top-level sections:
+
+- `request`: Information about this specific request.
+- `requester`: Information about the person and project requesting the data.
+- `data-package`: Information about the data package the request applies to.
+- `subsets`: The requested subsets, with one item per resource.
+
+Each of these is elaborated on below:
+
+### A complete example
+
+A complete request file might look like this.
+
+```{.yaml}
+request:
+  date-modified: # When the request was last modified, this can act as an ID which facilitates referring to a specific iteration of the request, e.g. in dialog between the owner and requester. Precision to the minute or second should be sufficient
+  motivation: # Why does your project need access to this data subset
+  # The following two fields are "maybes" since the would have to be updated manually which might make it hard to guarantee that they are filled in (the forms pages could of course require them, but there is no guarantee that they are correctly filled in).
+  date-created: # When the project first requested data from this data package
+  iteration: 1 # This iteration of requests from this project
+
+project:
+  name: NAME # The name is a sort of project ID, e.g. my-project-name
+  title: TITLE # More readable than the name
+  description: # General brief project description with a connection to the `motivation` above.
+
+data-package:
+  id: ID
+  name: NAME
+  version: X.Y.Z
+
+subsets:
+  - resource: resource1
+    columns:
+      - col1
+    rows:
+      - "col1 > 50"
+  - resource: resource2
+    columns:
+      - col1
+      - col2
+    rows:
+      - "col2 = 'luke'"
+      - "col1 BETWEEN 10 AND 20"
+```
+
+More information about each of these sections can be found under the respective
+heading below.
+
+### Request
+
+The `request` section describes this specific request.
+
+```yaml
+request:
+  date-modified: DATE
+  date-created: DATE
+  motivation: TEXT
+  iteration: NUMBER
+```
+
+- `date-modified`: When the request was last modified. This can act as an ID
+  which facilitates referring to a specific iteration of a request, e.g. in
+  dialog between the owner and requester. Precision to the second should be
+  sufficient.
+  - Note that this field should not be updated via the user interface, it should
+    be automatically populated when the request is saved.
+  - The format should be ISO 8601, e.g. `2026-07-06T01:45:34-12:00`
+<!-- TODO this is this the most suitable date format? It seems like it makes sense to include timezone info so it can be easily interpreted by both sides if they are in different timezones -->
+- `date-created`: When the first iteration of the request was created.
+<!-- TODO The creation date would only be correctly populated if the requester uploads their old request in the interface when they need to make a modification. If they rewrite the request from scratch, they could (mistakingly) put an incorrect date here, but that's fine I think. -->
+- `motivation`: Text explaining why the requester's project needs access to this data subset.
+- `iteration`: The iteration of requests from this project for this data package.
+<!-- TODO This is a "maybe" since it seems a bit less reliable. It could be automatically incremented if a file is loaded into the web-interface, but there is not way to know if that file was a saved version that was never sent (ie the iteration should not be updated) or if it was sent and is now being modified for sending again (ie the iteration should be updated). It could be manually filled in of course, but we should think about who this is mainly useful for; if it is the owner then they could run something on their end to find out how many requests they have; if it is someone viewing the data package then it's more useful to try to have it in the file itself. -->
+
+### Requester
+
+The `requester` section describes who is requesting the data and the project the
+data will be used for.
+
+```yaml
+requester:
+  name: TEXT
+  email: TEXT
+  project:
+    name: TEXT
+    title: TEXT
+```
+
+- `name`: The name of the requester.
+- `email`: The email of the requester.
+- `project.name`: A short machine-readable project name, using lowercase letters
+  and hyphens where possible, e.g. `my-research-project`.
+- `project.title`: A longer human-readable project title, e.g.
+  `My research project`.
+
+### Data Package
+
+The `data-package` section identifies the data package the request applies to.
+
+```yaml
+data-package:
+  id: TEXT
+  name: TEXT
+  version: X.Y.Z
+```
+
+This information will be automatically populated from the data package metadata
+when creating a request via the web application. Including this information
+helps Owners check that the request was created for the intended data package
+and version.
+
+### Subsets
+
+The `subsets` section describes which data subsets the requester would like to create.
+
+```{.yaml}
+subsets:
+  - resource: RESOURCE-NAME
+    columns:
+      - COLUMN-NAME
+      - COLUMN-NAME
+      - COLUMN-NAME
+    rows:
+      - "ROW-CONDITION" # As valid SQL
+      # Alternatively, this more structured format, see comparison below
+      - column: COLUMN-NAME
+        operator: "OPERATOR" # E.g. ">"
+        value: VALUE-TO-COMPARE-AGAINST
+  - resource: RESOURCE-NAME
+    columns:
+      - COLUMN-NAME
+```
+
+<!-- TODO When editing the file directly, do we requre the user to enter row conditions (and maybe all other values too) as strings? It seems like we have to in order not to have yaml parsing potentially break if they do something illegal. -->
+
+- `resource`: Specifies the data resource to create the subset from. Multiple
+  subsets can be specified in the same request by repeating the `resource` key,
+  either with the same resource multiple times or different ones.
+- `columns`: A list of columns to include. Features such as selecting a range of
+  columns are handled via the interface and expanded to explicit column lists in
+  the request file.
+- `rows`: Describes which rows to include in the subset.
+  - There are currently two candidates for what this might look like, see below.
+
+#### Row condition alternatives
+
+Propagate is not intended to be a general-purpose query engine. The initial
+request format should not support joins, grouping, arbitrary functions, random
+sampling, or row selection by position.
+
+##### Alternative 1
+
+- A list of SQL filter conditions that describe which rows to include in the
+  subset.
+- Multiple row filters for the same resource are combined with `AND` logic. For
+  example, writing
+
+  ```{.yaml}
+  rows:
+    - "age > 50"
+    - "sex = 'Man'"
+  ```
+
+  is equivalent to writing
+
+  ```{.yaml}
+  rows:
+    - "age > 50 AND sex = 'Man'"
+  ```
+
+- The initial supported row filter syntax includes the following operators:
+  - Equality and inequality: `=`, `!=`  <!-- TODO Do we support `!=` or just `NOT`? -->
+  - Comparisons: `>`, `>=`, `<`, `<=`
+    - E.g. `"age >= 18"`
+  - Membership: `IN`
+    - E.g. `"country IN ('Denmark', 'Sweden')"`
+  - Ranges: `BETWEEN`
+    - E.g. `"visit_date BETWEEN '2020-01-01' AND '2020-12-31'"`
+  - Missing values: `IS NULL`, `IS NOT NULL`
+    - E.g. `"end_date IS NULL"`
+
+- An advantage of this syntax is that it is more flexible. This might mainly
+  matter when editing manually and we allow more expressiveness here than, which
+  doesn't seem to be a common use case based on
+- A drawback could be that requesters write things we don't want to allow and
+  that we would need to filter out at the SQL level or by parsing the string
+  which is likely more error prone than a more structured format.
+
+#### Alternative 2
+
+
+
+
+<!-- TODO What does an empty list of columns and rows mean? -->
+<!-- We discussed elsewhere that one purpose of this file is for someone to get an overview of which data is used in a specific study. On the one side, that could benefit from having to specify all the columns if the study used all of them and that an empty list means nothing rather than everything. However, having an empty list mean "everything" would make cases were less than all columns were selected since this would change from empty to a list. -->
+<!-- For rows, it seems like the natural is that empty = all rows. So we can also consider if we want "empty" to mean the same thing (ie "all") both for columns and rows. -->
+
+## Checking
+
+Propagate should check the request file before generating a data subset. The
+checks should include that:
+
+- Required sections and keys are present.
+- The referenced data package and resources exist.
+- The requested columns exist in the selected resources.
+- Row filters reference existing columns.
+- Row filters use supported SQL-like syntax.
+
+The row filters can be converted to SQL and checked with existing SQL parsing or
+validation tools where possible. This avoids implementing a custom expression
+parser for the request format.

@@ -47,6 +47,7 @@ website:
           contents:
             - docs/design/interface/inputs.qmd
             - docs/design/interface/outputs.qmd
+            - docs/design/interface/request-file.qmd
             - docs/design/interface/cli.qmd
             - docs/design/interface/web.qmd
             - docs/design/interface/rust.qmd
