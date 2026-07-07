@@ -34,7 +34,7 @@ Each of these is elaborated on below:
 
 The `request` section describes this specific request.
 
-```yaml
+```{.yaml}
 request:
   date-modified: DATE
   date-created: DATE
@@ -61,7 +61,7 @@ request:
 The `requester` section describes who is requesting the data and the project the
 data will be used for.
 
-```yaml
+```{.yaml}
 requester:
   name: TEXT
   email: TEXT
@@ -81,7 +81,7 @@ requester:
 
 The `data-package` section identifies the data package the request applies to.
 
-```yaml
+```{.yaml}
 data-package:
   id: TEXT
   name: TEXT
