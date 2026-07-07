@@ -51,46 +51,6 @@ The request file contains four top-level sections:
 
 Each of these is elaborated on below:
 
-### A complete example
-
-A complete request file might look like this.
-
-```{.yaml}
-request:
-  date-modified: # When the request was last modified, this can act as an ID which facilitates referring to a specific iteration of the request, e.g. in dialog between the owner and requester. Precision to the minute or second should be sufficient
-  motivation: # Why does your project need access to this data subset
-  # The following two fields are "maybes" since the would have to be updated manually which might make it hard to guarantee that they are filled in (the forms pages could of course require them, but there is no guarantee that they are correctly filled in).
-  date-created: # When the project first requested data from this data package
-  iteration: 1 # This iteration of requests from this project
-
-project:
-  name: NAME # The name is a sort of project ID, e.g. my-project-name
-  title: TITLE # More readable than the name
-  description: # General brief project description with a connection to the `motivation` above.
-
-data-package:
-  id: ID
-  name: NAME
-  version: X.Y.Z
-
-subsets:
-  - resource: resource1
-    columns:
-      - col1
-    rows:
-      - "col1 > 50"
-  - resource: resource2
-    columns:
-      - col1
-      - col2
-    rows:
-      - "col2 = 'luke'"
-      - "col1 BETWEEN 10 AND 20"
-```
-
-More information about each of these sections can be found under the respective
-heading below.
-
 ### Request
 
 The `request` section describes this specific request.
@@ -184,7 +144,8 @@ subsets:
 - `columns`: A list of columns to include. Features such as selecting a range of
   columns are handled via the interface and expanded to explicit column lists in
   the request file.
-- `rows`: Describes which rows to include in the subset.
+- `rows`: Describes which rows to include in the subset. Can reference columns
+  that are not part of the subset.
   - There are currently two candidates for what this might look like, see below.
 
 #### Row condition alternatives
@@ -214,7 +175,8 @@ sampling, or row selection by position.
   ```
 
 - The initial supported row filter syntax includes the following operators:
-  - Equality and inequality: `=`, `!=`  <!-- TODO Do we support `!=` or just `NOT`? -->
+  - Equality and inequality: `=`, `!=` <!-- TODO Do we support `!=` or just
+    `NOT`? -->
   - Comparisons: `>`, `>=`, `<`, `<=`
     - E.g. `"age >= 18"`
   - Membership: `IN`
@@ -254,3 +216,46 @@ checks should include that:
 The row filters can be converted to SQL and checked with existing SQL parsing or
 validation tools where possible. This avoids implementing a custom expression
 parser for the request format.
+
+### A complete example
+
+A complete request file might look like this.
+
+```{.yaml}
+request:
+  date-modified: 2026-07-06T01:45:34-12:00
+  motivation: |
+    We would like access to metabolic and block variables to evaluate
+    our hypothesis regarding ...
+  date-created: 2026-07-04T01:44:34-12:00
+  iteration: 2
+
+project:
+  name:
+  title: Metabolic costs
+  description: |
+    Our project investigates the gas exchange during metabolism
+    with the aim to determine ...
+
+data-package:
+  id: 8dbef2a2-0354-4996-bc9e-71a6c79aec7d
+  name: example-seed-beetle
+  version: 0.5.1
+
+subsets:
+  # Showing both row syntaxes for now
+  - resource: metabolic-rate
+    columns:
+      - o2_consumed
+      - co2_produced
+    rows:
+      - "o2_consumed > 50"
+  - resource: metabolic-rate
+    columns:
+      - strain
+      - activity
+    rows:
+      - column: block
+        operator: "="
+        value: block1
+```
