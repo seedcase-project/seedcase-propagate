@@ -148,6 +148,10 @@ subsets:
   that are not part of the subset.
   - There are currently two candidates for what this might look like, see below.
 
+<!-- TODO What does an empty list of columns and rows mean? -->
+<!-- We discussed elsewhere that one purpose of this file is for someone to get an overview of which data is used in a specific study. On the one side, that could benefit from having to specify all the columns if the study used all of them and that an empty list means nothing rather than everything. However, having an empty list mean "everything" would make cases were less than all columns were selected since this would change from empty to a list. -->
+<!-- For rows, it seems like the natural is that empty = all rows. So we can also consider if we want "empty" to mean the same thing (ie "all") both for columns and rows. -->
+
 #### Row condition alternatives
 
 Propagate is not intended to be a general-purpose query engine. The initial
@@ -186,6 +190,9 @@ sampling, or row selection by position.
   - Missing values: `IS NULL`, `IS NOT NULL`
     - E.g. `"end_date IS NULL"`
 
+- This alternative is more closely mapped to how the SQL syntax will look, and
+  the options from the interface would need to be combined into the sql row
+  filter syntax.
 - An advantage of this syntax is that it is more flexible. This might mainly
   matter when editing manually and we allow more expressiveness here than, which
   doesn't seem to be a common use case based on
@@ -195,12 +202,38 @@ sampling, or row selection by position.
 
 #### Alternative 2
 
+- A more structure key value mapping for the different components of the filter
+  condition.
+
+```{.yaml}
+rows:
+  - column: col1
+    operator: ">"
+    value: 50
+  - column: col2
+    operator: "in"
+    value:
+      - dog
+      - cat
+  - column: col3
+    operator: between
+    value:
+      - 2012-01-01
+      - 2012-12-31
+```
+
+- This alternative is more closely mapped to the interface, e.g. the dropdown
+  for the operator coresponds to the "operator" key here and the condition
+  groups in the interface are also more simlar to how they are grouped here with
+  "any".
+- An advantage of this syntax is that it is more structured, so it would be
+  easier to check that e.g. only allowed operators are used if someone manually
+  edits the file.
+- If we want to allow more flexibility when the file is edited manually, it
+  could be harder with this more strict spec, but it doesn't sound like that is
+  our intended use case currently.
 
 
-
-<!-- TODO What does an empty list of columns and rows mean? -->
-<!-- We discussed elsewhere that one purpose of this file is for someone to get an overview of which data is used in a specific study. On the one side, that could benefit from having to specify all the columns if the study used all of them and that an empty list means nothing rather than everything. However, having an empty list mean "everything" would make cases were less than all columns were selected since this would change from empty to a list. -->
-<!-- For rows, it seems like the natural is that empty = all rows. So we can also consider if we want "empty" to mean the same thing (ie "all") both for columns and rows. -->
 
 ## Checking
 
