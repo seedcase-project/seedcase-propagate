@@ -19,27 +19,6 @@ The request file uses YAML. YAML was chosen because it is more readable for
 manual editing than JSON and less verbose than TOML for lists of columns and row
 filters.
 
-::: callout-note
-Since YAML has special syntax for some characters, SQL-like row filters should
-be quoted when written manually. This avoids ambiguity around characters such as
-`>`, `:`, `#`, `*`, `&`, and `!`.
-
-```{.yaml}
-rows:
-  - "col1 > 50"
-```
-
-Instead of:
-
-```{.yaml}
-rows:
-  - col1 > 50
-```
-
-The unquoted form will often parse correctly, but the quoted form is safer and
-should be used in documentation and generated files.
-:::
-
 ## Structure
 
 The request file contains four top-level sections:
@@ -154,10 +133,6 @@ subsets:
 
 #### Row condition alternatives
 
-Propagate is not intended to be a general-purpose query engine. The initial
-request format should not support joins, grouping, arbitrary functions, random
-sampling, or row selection by position.
-
 ##### Alternative 1
 
 - A list of SQL filter conditions that describe which rows to include in the
@@ -178,6 +153,27 @@ sampling, or row selection by position.
     - "age > 50 AND sex = 'Man'"
   ```
 
+  ::: callout-note
+  Since YAML has special syntax for some characters, SQL-like row filters should
+  be quoted when written manually. This avoids ambiguity around characters such as
+  `>`, `:`, `#`, `*`, `&`, and `!`.
+
+  ```{.yaml}
+  rows:
+    - "col1 > 50"
+  ```
+
+  Instead of:
+
+  ```{.yaml}
+  rows:
+    - col1 > 50
+  ```
+
+  The unquoted form will often parse correctly, but the quoted form is safer and
+  should be used in documentation and generated files.
+  :::
+
 - The initial supported row filter syntax includes the following operators:
   - Equality and inequality: `=`, `!=` <!-- TODO Do we support `!=` or just
     `NOT`? -->
@@ -189,7 +185,6 @@ sampling, or row selection by position.
     - E.g. `"visit_date BETWEEN '2020-01-01' AND '2020-12-31'"`
   - Missing values: `IS NULL`, `IS NOT NULL`
     - E.g. `"end_date IS NULL"`
-
 - This alternative is more closely mapped to how the SQL syntax will look, and
   the options from the interface would need to be combined into the sql row
   filter syntax.
@@ -233,8 +228,6 @@ rows:
   could be harder with this more strict spec, but it doesn't sound like that is
   our intended use case currently.
 
-
-
 ## Checking
 
 Propagate should check the request file before generating a data subset. The
@@ -276,7 +269,7 @@ data-package:
   version: 0.5.1
 
 subsets:
-  # Showing both row syntaxes for now
+  # TODO Showing both row syntaxes for now
   - resource: metabolic-rate
     columns:
       - o2_consumed
@@ -292,3 +285,13 @@ subsets:
         operator: "="
         value: block1
 ```
+
+### Non-goals
+
+- Propagate is not intended to be a general-purpose query engine. The initial
+  request format should not support joins, grouping, arbitrary functions, random
+  sampling, or row selection by position.
+- We also don't support shorthands such as `*` since that would make it less
+  explicit which columns are used from just looking at the request file without
+  also seeing the data package metadata.
+
