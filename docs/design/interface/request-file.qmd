@@ -51,7 +51,7 @@ request:
   - The format should be ISO 8601, e.g. `2026-07-06T01:45:34-12:00`
 <!-- TODO this is this the most suitable date format? It seems like it makes sense to include timezone info so it can be easily interpreted by both sides if they are in different timezones -->
 - `date-created`: When the first iteration of the request was created.
-<!-- TODO The creation date would only be correctly populated if the requester uploads their old request in the interface when they need to make a modification. If they rewrite the request from scratch, they could (mistakingly) put an incorrect date here, but that's fine I think. -->
+<!-- TODO The creation date would only be correctly populated if the requester uploads their old request in the interface when they need to make a modification. If they rewrite the request from scratch, they could (mistakenly) put an incorrect date here, but that's fine I think. -->
 - `motivation`: Text explaining why the requester's project needs access to this data subset.
 - `iteration`: The iteration of requests from this project for this data package.
 <!-- TODO This is a "maybe" since it seems a bit less reliable. It could be automatically incremented if a file is loaded into the web-interface, but there is not way to know if that file was a saved version that was never sent (ie the iteration should not be updated) or if it was sent and is now being modified for sending again (ie the iteration should be updated). It could be manually filled in of course, but we should think about who this is mainly useful for; if it is the owner then they could run something on their end to find out how many requests they have; if it is someone viewing the data package then it's more useful to try to have it in the file itself. -->
@@ -115,7 +115,7 @@ subsets:
       - COLUMN-NAME
 ```
 
-<!-- TODO When editing the file directly, do we requre the user to enter row conditions (and maybe all other values too) as strings? It seems like we have to in order not to have yaml parsing potentially break if they do something illegal. -->
+<!-- TODO When editing the file directly, do we require the user to enter row conditions (and maybe all other values too) as strings? It seems like we have to in order not to have yaml parsing potentially break if they do something illegal. -->
 
 - `resource`: Specifies the data resource to create the subset from. Multiple
   subsets can be specified in the same request by repeating the `resource` key,
@@ -218,9 +218,9 @@ rows:
 ```
 
 - This alternative is more closely mapped to the interface, e.g. the dropdown
-  for the operator coresponds to the "operator" key here and the condition
-  groups in the interface are also more simlar to how they are grouped here with
-  "any".
+  for the operator corresponds to the "operator" key here and the condition
+  groups in the interface are also more similar to how they are grouped here
+  with "any".
 - An advantage of this syntax is that it is more structured, so it would be
   easier to check that e.g. only allowed operators are used if someone manually
   edits the file.
@@ -279,4 +279,3 @@ subsets:
 - We also don't support shorthands such as `*` since that would make it less
   explicit which columns are used from just looking at the request file without
   also seeing the data package metadata.
-

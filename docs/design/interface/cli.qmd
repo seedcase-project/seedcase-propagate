@@ -175,7 +175,7 @@ precisely, the following checks are made:
 
 - Required sections and keys are present.
 - The referenced data package contains the correct id and name.
-- The referencd resources exist in the data package.
+- The referenced resources exist in the data package.
 - The requested columns exist in the selected resources.
 - Row filters reference existing columns.
 - Row filters use supported SQL-like syntax.
