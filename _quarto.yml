@@ -1,6 +1,7 @@
 project:
   type: seedcase-theme
   render:
+    - "*"
     # Ignore this folder, it is the Rust build folder.
     - "!target/"
 
