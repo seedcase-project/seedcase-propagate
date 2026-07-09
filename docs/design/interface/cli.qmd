@@ -208,7 +208,7 @@ The `create-request` command takes a source metadata file and opens up a
 terminal user interface to interactively create a `request.yaml` file from the
 metadata. In many ways, it is like a terminal-based version of the web
 application that is built by the `build` command. The terminal interface will
-have much more keyboard shortcuts and navigation, will be simpler in both
+have many more keyboard shortcuts and navigation options and will be simpler in both
 structure and in style compared to the web application.
 
 We designed Propagate to include both the `build` web application and the
@@ -232,7 +232,7 @@ We designed Propagate to include both the `build` web application and the
   extra steps and required knowledge.
 
 - While we could develop an in-editor tool to make it easier to manually edit a
-  request file, it isn't that easy to implement. That's because, to make the
+  request file, it isn't that easy to implement. This is because, to make the
   most of the manual editing experience, e.g. with checks against the metadata,
   the editor needs to be aware of the metadata file. This means that there must
   be a config option that the user would need to change *every single time* when
@@ -240,14 +240,14 @@ We designed Propagate to include both the `build` web application and the
   develop a terminal interface that takes a source metadata file as input and
   generates a request file as an output.
 
-- Creating a template `request.yaml` file that has all the information filled in
+- Creating a template `request.yaml` file manually that has all the information filled in
   from the metadata file, while possible, would not be a pleasant experience for
   the Requester. This might be fine for small datasets, but for data packages
   with several resources and hundreds of columns (which is fairly common in
   research datasets), manually editing an extremely long request file would be
   very tedious and error-prone.
 
-The `create-request` command is then a way to handle these issues and reasons
+The `create-request` command is then a way to handle the issues
 listed above.
 
 It has the following signature:
