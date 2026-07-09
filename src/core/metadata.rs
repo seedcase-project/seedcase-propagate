@@ -46,8 +46,7 @@ pub struct Schema {
     /// The resource columns. Only relevant for resources in tabular format.
     /// Called `fields` in the Data Package spec.
     pub columns: Vec<Column>,
-    /// The primary key(s) for the resource. Only relevant in relation to the
-    /// foreign key.
+    /// The primary key for the resource.
     pub primary_key: Option<Vec<String>>,
     /// The foreign key relationships between this resource and other resources
     /// in the data package. See [`ForeignKey`] for more information.
@@ -90,12 +89,12 @@ pub enum ColumnType {
 /// keeps rows for only those with diabetes status, all requested resources
 /// should only contain rows with the intersection of these two conditions.
 pub struct ForeignKey {
-    /// The column(s) in the current resource that are foreign keys.
+    /// The column(s) in the current resource that form the foreign key.
     pub columns: Vec<String>,
-    /// The resource that the foreign key(s) reference.
+    /// The resource that the foreign key references.
     pub reference_resource: String,
-    /// The column(s) in the referenced resource that the foreign key(s)
-    /// reference.
+    /// The column(s) in the referenced resource that the foreign key
+    /// references.
     pub reference_columns: Vec<String>,
 }
 
