@@ -49,7 +49,13 @@ pub struct Schema {
     /// The primary key for the resource.
     pub primary_key: Option<Vec<String>>,
     /// The foreign key relationships between this resource and other resources
-    /// in the data package. See [`ForeignKey`] for more information.
+    /// in the data package. This is used to determine how to effectively filter
+    /// by rows. A subset of a data package should only contain rows in all
+    /// resources of the relevant "observational units" (keys that show up
+    /// in all resources). For example, if one resource keeps rows for only
+    /// women and another resource keeps rows for only those with diabetes
+    /// status, all requested resources should only contain rows with the
+    /// intersection of these two conditions.
     pub foreign_keys: Option<Vec<ForeignKey>>,
 }
 
@@ -67,7 +73,8 @@ pub struct Column {
     // need/want both?
 }
 
-// TODO: I'm not sure if these need explicit Rust types... We can see in practice.
+// TODO: I'm not sure if these need explicit Rust types... We can see in
+// practice.
 /// The supported column data types from the metadata file. Also matches
 /// what's allowed in Parquet files (our default format).
 pub enum ColumnType {
@@ -82,12 +89,7 @@ pub enum ColumnType {
 }
 
 /// Represents a foreign key relationship between two resources in the data
-/// package. This is used to determine how to effectively filter by rows. A
-/// subset of a data package should only contain rows in all resources of the
-/// relevant "observational units" (keys that show up in all resources). For
-/// example, if one resource keeps rows for only women and another resource
-/// keeps rows for only those with diabetes status, all requested resources
-/// should only contain rows with the intersection of these two conditions.
+/// package.
 pub struct ForeignKey {
     /// The column(s) in the current resource that form the foreign key.
     pub columns: Vec<String>,
@@ -103,18 +105,18 @@ pub struct ForeignKey {
 pub struct Constraints {
     /// The minimum allowed value for a column. The type of the minimum value
     /// depends on the type of the column.
-    pub minimum: Option<Range>,
+    pub minimum: Option<Extreme>,
     /// The maximum allowed value for a column. The type of the maximum value
     /// depends on the type of the column.
-    pub maximum: Option<Range>,
+    pub maximum: Option<Extreme>,
     // TODO: This has `any` type in the spec, but should we allow that here?
     /// The allowed values for a column (e.g. for categorical data). It's called
     /// `enum` in the Data Package spec.
     pub allowed_values: Option<Vec<String>>,
 }
 
-/// The allowed maximum value for a column.
-pub enum Range {
+/// The allowed extreme value for a column (e.g. max or min).
+pub enum Extreme {
     /// The allowed value for a column with values as integers (numbers
     /// without a decimal point).
     Integer(i64),
