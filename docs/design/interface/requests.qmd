@@ -1,5 +1,5 @@
 ---
-title: "Request File"
+title: "Request file"
 ---
 
 The request file, `request.yaml`, contains the instructions for requesting a
@@ -21,7 +21,7 @@ filters.
 
 ## Structure
 
-The request file contains four top-level sections:
+The request file contains the following top-level sections:
 
 - `request`: Information about this specific request.
 - `requester`: Information about the person and project requesting the data.
@@ -95,7 +95,7 @@ and version.
 
 ### Subsets
 
-The `subsets` section describes which data subsets the requester would like to create.
+The `subsets` section describes which data subsets the Requester would like to create.
 
 ```{.yaml}
 subsets:
@@ -177,6 +177,7 @@ subsets:
 - The initial supported row filter syntax includes the following operators:
   - Equality and inequality: `=`, `!=` <!-- TODO Do we support `!=` or just
     `NOT`? -->
+    - E.g. "age = 18" or "NOT age > 18"
   - Comparisons: `>`, `>=`, `<`, `<=`
     - E.g. `"age >= 18"`
   - Membership: `IN`
@@ -186,10 +187,10 @@ subsets:
   - Missing values: `IS NULL`, `IS NOT NULL`
     - E.g. `"end_date IS NULL"`
 - This alternative is more closely mapped to how the SQL syntax will look, and
-  the options from the interface would need to be combined into the sql row
+  the options from the interface would need to be combined into the SQL row
   filter syntax.
 - An advantage of this syntax is that it is more flexible. This might mainly
-  matter when editing manually and we allow more expressiveness here than, which
+  matter when editing manually and we allow more expressiveness here, which
   doesn't seem to be a common use case based on
 - A drawback could be that requesters write things we don't want to allow and
   that we would need to filter out at the SQL level or by parsing the string
@@ -197,7 +198,7 @@ subsets:
 
 #### Alternative 2
 
-- A more structure key value mapping for the different components of the filter
+- A more structured key-value mapping for the different components of the filter
   condition.
 
 ```{.yaml}
@@ -273,9 +274,8 @@ subsets:
 
 ### Non-goals
 
-- Propagate is not intended to be a general-purpose query engine. The initial
-  request format should not support joins, grouping, arbitrary functions, random
-  sampling, or row selection by position.
-- We also don't support shorthands such as `*` since that would make it less
-  explicit which columns are used from just looking at the request file without
-  also seeing the data package metadata.
+Propagate is not intended to be a general-purpose query engine. The initial
+request format should not support joins, grouping, arbitrary functions, random
+sampling, or row selection by position. We also don't support shorthands such as `*` since that would make it less
+explicit which columns are used from just looking at the request file without
+also seeing the data package metadata.

@@ -170,7 +170,7 @@ flowchart LR
 ## {{< var planned >}} `seedcase-propagate check`
 
 The `check` command confirms that the `request.yaml` file is correctly
-structured and that the matches the content of the source metadata file. More
+structured and that it matches the content of the source metadata file. More
 precisely, the following checks are made:
 
 - Required sections and keys are present.
@@ -186,9 +186,9 @@ the subset queries filters can also be converted to SQL and checked with
 existing SQL parsers or checkers where possible. This avoids
 implementing a custom expression parser for the request format.
 
-Internally `build`, `subset`, and `create-request` run this check when
+Internally `build`, `subset`, and `create-request` run these checks when
 processing or creating the `request.yaml` file. We also expose it as a command
-so the user can manually check the request file (e.g. if included within an
+so the user can check the request file independently (e.g. if included within an
 automated pipeline).
 
 `check` has the following signature with two positional arguments:
