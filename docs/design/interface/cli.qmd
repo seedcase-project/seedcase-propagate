@@ -181,9 +181,9 @@ precisely, the following checks are made:
 - Row filters use supported SQL-like syntax.
 - Only allowed SQL operations and shorthands are used.
 
-While most of these check are likely easier to test directly in the yaml file,
+While most of these check are likely easier to test directly in the YAML file,
 the subset queries filters can also be converted to SQL and checked with
-existing SQL parsing or validation tools where possible. This avoids
+existing SQL parsers or checkers where possible. This avoids
 implementing a custom expression parser for the request format.
 
 Internally `build`, `subset`, and `create-request` run this check when

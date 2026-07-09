@@ -44,7 +44,7 @@ request:
 
 - `date-modified`: When the request was last modified. This can act as an ID
   which facilitates referring to a specific iteration of a request, e.g. in
-  dialog between the owner and requester. Precision to the second should be
+  dialog between the Owner and Requester. Precision to the second should be
   sufficient.
   - Note that this field should not be updated via the user interface, it should
     be automatically populated when the request is saved.
@@ -105,7 +105,7 @@ subsets:
       - COLUMN-NAME
       - COLUMN-NAME
     rows:
-      - "ROW-CONDITION" # As valid SQL
+      - "ROW-CONDITION" # As SQL
       # Alternatively, this more structured format, see comparison below
       - column: COLUMN-NAME
         operator: "OPERATOR" # E.g. ">"
