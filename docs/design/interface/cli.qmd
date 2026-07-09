@@ -207,9 +207,11 @@ flowchart LR
 The `create-request` command takes a source metadata file and opens up a
 terminal user interface to interactively create a `request.yaml` file from the
 metadata. In many ways, it is like a terminal-based version of the web
-application that is built by the `build` command. The terminal interface will
-have much more keyboard shortcuts and navigation, will be simpler in both
-structure and in style compared to the web application.
+application that is built by the `build` command. Unlike web applications,
+terminal interfaces tend to make heavy use of or require using only the
+keyboard. So the `create-request` terminal interface will have keyboard
+shortcuts for creating the request. Like the web application, the terminal
+interface will also be fairly simple.
 
 We designed Propagate to include both the `build` web application and the
 `create-request` terminal user interface for these reasons:
@@ -225,11 +227,15 @@ We designed Propagate to include both the `build` web application and the
 
 - While it is possible that the Requester could build a local version of the web
   application using `build`, it isn't as straightforward to do and to use.
-  That's because of the way local servers and WASM works, which means that the
-  Requester would require a bit more knowledge about these topics. They would
-  also need to do some extra setup work to use the web application locally to
-  generate the request. So this `create-request` command is a way to avoid those
-  extra steps and required knowledge.
+  Because of the way local servers and WASM work, it means that the Requester
+  would require a bit more knowledge about these topics. For example, they would
+  need to know to "serve" the web application to
+  [localhost](https://en.wikipedia.org/wiki/Localhost) via tools like
+  [miniserve](https://github.com/svenstaro/miniserve). It would require creating
+  the files on their computer, knowing about those files, and remembering to
+  delete them later (or less ideally, Propagate creating these files, requiring
+  Propagate to be designed to manage them). So this `create-request` command is
+  a way to avoid those extra steps and required knowledge.
 
 - While we could develop an in-editor tool to make it easier to manually edit a
   request file, it isn't that easy to implement. That's because, to make the
