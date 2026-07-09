@@ -67,7 +67,7 @@ Specifically, Propagate must:
 - Generate data subsets in Parquet format for rectangular data from the
   instructions and the data from the data package.
 - Support previewing the planned subset operation before execution.
-- Checking that the request is correctly structured, that it can be parsed
+- Check that the request is correctly structured, that it can be parsed
   to SQL, and that it has instructions that can be applied to the data package.
 
 ### Out of scope
