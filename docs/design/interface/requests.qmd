@@ -24,15 +24,19 @@ filters.
 The request file contains the following top-level sections:
 
 - `request`: Information about this specific request.
-- `requester`: Information about the person and project requesting the data.
+- `requester`: Information about the person requesting the data.
+- `project`: Information about the research project that requires the data.
 - `data-package`: Information about the data package the request applies to.
-- `subsets`: The requested subsets, with one item per resource.
+- `subsets`: The requested data subsets, with one item per resource.
 
 Each of these is elaborated on below:
 
 ### Request
 
-The `request` section describes this specific request.
+The `request` includes information about the request itself, such as when and
+why it was created. This can help an owner organize and track requests, which
+would primarily be beneficial for data packages that receive large volumes of
+requests.
 
 ```{.yaml}
 request:
