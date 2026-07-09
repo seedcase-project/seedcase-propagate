@@ -206,56 +206,7 @@ flowchart LR
 
 The `create-request` command takes a source metadata file and opens up a
 terminal user interface to interactively create a `request.yaml` file from the
-metadata. In many ways, it is like a terminal-based version of the web
-application that is built by the `build` command. Unlike web applications,
-terminal interfaces tend to make heavy use of or require using only the
-keyboard. So the `create-request` terminal interface will have keyboard
-shortcuts for creating the request. Like the web application, the terminal
-interface will also be fairly simple.
-
-We designed Propagate to include both the `build` web application and the
-`create-request` terminal user interface for these reasons:
-
-- More technically experienced users may prefer a faster, more efficient way of
-  creating a request file without having to interact with a GUI web application,
-  especially if they are already familiar with working in a terminal
-  environment.
-
-- If the Owner has not (yet) set up the web application for the data package,
-  the Requester can still create a request file based on the data package's
-  metadata.
-
-- While it is possible that the Requester could build a local version of the web
-  application using `build`, it isn't as straightforward to do and to use.
-  Because of the way local servers and WASM work, it means that the Requester
-  would require a bit more knowledge about these topics. For example, they would
-  need to know to "serve" the web application to
-  [localhost](https://en.wikipedia.org/wiki/Localhost) via tools like
-  [miniserve](https://github.com/svenstaro/miniserve). It would require creating
-  the files on their computer, knowing about those files, and remembering to
-  delete them later (or less ideally, Propagate creating these files, requiring
-  Propagate to be designed to manage them). So this `create-request` command is
-  a way to avoid those extra steps and required knowledge.
-
-- While we could develop an in-editor tool to make it easier to manually edit a
-  request file, it isn't that easy to implement. This is because, to make the
-  most of the manual editing experience, e.g. with checks against the metadata,
-  the editor needs to be aware of the metadata file. This means that there must
-  be a config option that the user would need to change *every single time* when
-  making requests from different data packages. It's easier to design and
-  develop a terminal interface that takes a source metadata file as input and
-  generates a request file as an output.
-
-- Creating a template `request.yaml` file manually that has all the information
-  filled in from the metadata file, while possible, would not be a pleasant
-  experience for the Requester. This might be fine for small datasets, but for
-  data packages with several resources and hundreds of columns (which is fairly
-  common in research datasets), manually editing an extremely long request file
-  would be very tedious and error-prone.
-
-The `create-request` command is then a way to handle the issues listed above.
-
-It has the following signature:
+metadata. It has the following signature:
 
 ```bash {filename="Terminal"}
 seedcase-propagate create-request [SOURCE]
