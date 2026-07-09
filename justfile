@@ -66,7 +66,7 @@ check-fmt:
 format-rust:
   cargo fix --allow-dirty
   cargo clippy --fix --allow-dirty -- -W clippy::pedantic
-  cargo +nightly fmt
+  cargo +nightly fmt -- --config-path .config/rustfmt.toml
 
 # Format Markdown files
 format-md:

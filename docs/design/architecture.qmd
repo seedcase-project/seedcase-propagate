@@ -13,26 +13,92 @@ interested in the internal workings of the package.
 
 ## User types {#user-types}
 
-Propagate supports two primary user types:
+Propagate supports two primary user types: a **Requester** and an **Owner**.
 
-1. **Requester**: A researcher or analyst who wants to request a subset of data,
-   such as specific resource variables/columns or records/rows. Requesters can
-   generate subset instructions using a web interface or directly via Propagate
-   in the terminal.
+### Requester
 
-2. **Owner**: A data owner or data manager who receives and approves requests.
-   They use Propagate to build the web application where requests can be
-   submitted and to generate subsets from the source data based on the requests.
+The term "Requester" is used throughout the documentation to refer to any user
+who wants to request a subset of data from a data package. We use "Requester" as
+a generic user type, however, there are different types of users within this
+"Requester" category, varying in technical experience and how they work with
+data.
+
+- **PhD/Master's students**: This person (likely) has limited technical
+  experience and needs some more structured, graphical guidance on requesting
+  data. Because their studies are time-limited, they need some way of quickly
+  requesting data and receiving it so they can continue their research and
+  finish on time. They are also likely to not know exactly what data they might
+  need, so they will (likely) need more guidance from the Owner on this. As they
+  do their research, they likely will make several updates to their request over
+  time.
+
+- **Researchers**: This person (likely) has more technical experience and is
+  likely more familiar with what data they need for their research. They will
+  likely make fewer updates to their request for a given project, request data
+  with a narrower scope, and create requests for multiple projects over time or
+  even at the same time. They will likely have bigger, more complex projects
+  that may require more involvement from the Owner on reviewing and approving
+  the request (so there may be more communication between the two). They may
+  copy and slightly modify the request for a new project, so they will need some
+  way of confirming that the new request is still correct. While they will
+  appreciate efficient ways of requesting data, they will also value a
+  structured, guided process as they may not be requesting data often enough to
+  remember the process every time.
+
+- **Analysts or data processors**: This person will likely be the most
+  technically experienced Requester. They will likely be working on multiple,
+  very narrow projects at the same time and value efficiency highly. For
+  example, they would likely be opt to use a terminal-based workflow if it
+  allowed them to request data more efficiently. They will probably not
+  communicate too often with the Owner, mostly just about the final confirmation
+  of the request and getting access to the data subset, as they likely will be
+  familiar with the data and the request process. They value efficiency and
+  speed over a more guided process.
+
+### Owner
+
+The term "Owner" is used throughout the documentation to refer to any user who
+is responsible for setting up the request web application, receiving requests
+and creating subsets of data from those requests. We use "Owner" as a generic
+user type, however, there are different types of users within this "Owner"
+category (including an actual data owner).
+
+- **Data owner**: This person (or people) is the one with the legal rights to
+  the data, who is accountable for its use and (potential) misuse. This person
+  is the one with the final say on which requests are approved and which are
+  not. They control where the web application is hosted, where requests are
+  stored, and who has access to the original data and to the hosting service for
+  the web application. For any given data package, there is always at least one
+  data owner. Depending on who is involved in managing the data package, there
+  may only be one person, the data owner, so they will be the one using all the
+  functionality from Propagate. If there are others involved, e.g. a data
+  manager, then the data owner may, at a minimum, be reviewing and approving any
+  requests received. It is their responsibility to ensure that the needs of the
+  research project (as specified in the received `request.yaml`) match the
+  requested data subset.
+
+- **Data manager**: This person (or people) is the one given permission to
+  manage the data package, including setting up the request web application,
+  handling requests and generating subsets. They may or may not be given
+  permission to approve requests (usually not). They also may or may not
+  actually review the requests themselves for legitimate use of the data for the
+  given project, though they will want to check that the request is correct and
+  can correctly create a subset.
+
+Both data owner and data manager are likely very busy, so they need a way to
+consistently and predictably receive and review requests, and to generate
+subsets of data from the data package efficiently.
 
 ## Naming
 
-  | Object   | Description                                                                                                                                        |
-  | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-  | package  | A data package that contains a collection of related data resources and metadata.                                                                  |
-  | resource | One or more data files that are part of a data package.                                                                                            |
-  | metadata | Information about the data, such as its description, structure, and origin.                                                                        |
-  | data     | The actual data within a data package given in Parquet format.                                                                                     |
-  | request  | The contents of the `request.yaml` file specifying the subset of data requested by the requester, together with metadata about the request itself. |
+  | Object             | Description                                                                                                                                                                               |
+  | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | package            | A data package that contains a collection of related data resources and metadata.                                                                                                         |
+  | resource           | One or more data files that are part of a data package.                                                                                                                                   |
+  | metadata           | Information about the data, such as its description, structure, and origin.                                                                                                               |
+  | data               | The actual data within a data package given in Parquet format.                                                                                                                            |
+  | (research) project | This is the research project associated with a specific request for the whole or a subset of the data package. A project would be something that creates an academic output (e.g. paper). |
+  | request            | The contents of the `request.yaml` file specifying the data requested together with metadata about the request itself.                                                                    |
 
   : Concepts and entities in Propagate.
 
@@ -145,8 +211,8 @@ flowchart TD
     common("Common<br>[Rust]<br>Shared domain<br>models and logic")
     request_builder("Request builder<br>[Rust]<br>Shared logic")
     subset_builder("Subset builder<br>[Rust]")
-    web("Web<br>[Rust, Leptos?]<br>UI components")
-    tui("TUI<br>[Rust, ratatui?]<br>UI components")
+    web("Web<br>[Rust, Dioxus]<br>UI components")
+    tui("TUI<br>[Rust, ratatui]<br>UI components")
     cli("CLI<br>[Rust]<br>Build, check, subset<br>and request commands")
 
     subset_builder -- "Uses" --> common
