@@ -83,22 +83,25 @@ requester:
 
 ### Project
 
-The `project` section contains information about the project that requires
-the data. A project is any set of tasks and work that result in a research 
-output, e.g. a paper, report, website, dashboard, or analysis.
-This would be, e.g. a part of a PhD student's thesis or a research
-project for a group a researchers.
+The `project` section contains information about the research project that
+requires the data. A project is defined as a body of work that result in a
+research output, e.g. a paper, report, website, dashboard, or analysis. This
+could be a part of a PhD student's thesis or a collaboration research project
+for a group a researchers. This field is necessary to ensure that the data
+requested is aligned with what it is intended to be used for, which is a legal
+requirement (e.g. in GDPR).
 
-- `name`: A short machine-readable project name, using lowercase letters
-  and hyphens where possible, e.g. `my-research-project`. This is mainly used
-  for identification purposes when managing several requests.
-- `title`: A longer human-readable project title, e.g.
-  `My research project`. This could be used by the Owner to publicly display all 
-  the requests that people are making to the data package.
+- `name`: A short machine-readable project name, using lowercase letters and
+  hyphens where possible, e.g. `my-research-project`. This is mainly used for
+  identification purposes when managing several requests.
+- `title`: A longer human-readable project title, e.g. `My research project`.
+  This could be used by the Owner to publicly display all the requests that
+  people are making to the data package.
 - `description`: This is a summary of the project, including details like
-  background, rationale, basic methods, and potential research questions.
-  This information, combined with the `motivation`, is mainly to help the 
-  Owner ensure that the data requested matches what it will be used for.
+  background, rationale, basic methods, and potential research questions. This
+  information, combined with the `motivation`, is mainly to help the Owner
+  ensure that the data requested matches what it will be used for.
+
 ### Data Package
 
 The `data-package` section identifies the data package the request applies to.
