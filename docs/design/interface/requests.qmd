@@ -102,9 +102,13 @@ requirement (e.g. in GDPR).
   information, combined with the `motivation`, is mainly to help the Owner
   ensure that the data requested matches what it will be used for.
 
-### Data Package
+### Data package
 
 The `data-package` section identifies the data package the request applies to.
+The main purpose of this section is to keep track of the version of the data
+package the request was made for. That way, the Owner can determine if a 
+given request needs an update to the data depending on which version of the
+data it uses.
 
 ```{.yaml}
 data-package:
