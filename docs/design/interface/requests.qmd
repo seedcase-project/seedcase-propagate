@@ -56,19 +56,21 @@ request:
 <!-- TODO this is this the most suitable date format? It seems like it makes sense to include timezone info so it can be easily interpreted by both sides if they are in different timezones -->
 - `date-created`: When the first iteration of the request was created.
 <!-- TODO The creation date would only be correctly populated if the requester uploads their old request in the interface when they need to make a modification. If they rewrite the request from scratch, they could (mistakenly) put an incorrect date here, but that's fine I think. -->
-- `motivation`: Text explaining why the requester's project needs access to this data subset.
-  This is particularly needed for human health data, as how or why data is used
-  and for what purposes is a legal requirement (e.g. GDPR). This, combined with 
-  the `project` details, is used by the Owner to check whether the requested 
-  data matches whether it is actually relevant to the project's and Requester's 
-  needs.
-- `iteration`: The iteration of requests from this project for this data package.
+- `motivation`: Explanation for why requester's project needs access to this
+  data subset. This is used by the Owner to check whether the requested data is
+  relevant to the project. The motivation is particularly needed for human
+  health data since there are legal requirements (e.g. GDPR) to declare for what
+  purposes such data is used.
+- `iteration`: The iteration of requests from this project for this data
+  package.
 <!-- TODO This is a "maybe" since it seems a bit less reliable. It could be automatically incremented if a file is loaded into the web-interface, but there is not way to know if that file was a saved version that was never sent (ie the iteration should not be updated) or if it was sent and is now being modified for sending again (ie the iteration should be updated). It could be manually filled in of course, but we should think about who this is mainly useful for; if it is the owner then they could run something on their end to find out how many requests they have; if it is someone viewing the data package then it's more useful to try to have it in the file itself. -->
 
 ### Requester
 
-The `requester` section describes who is requesting the data and the project the
-data will be used for.
+The `requester` section describes who is requesting the data. This person
+doesn't strictly have to be the one working with the data, but they should serve
+as the main point of contact for the Owner.
+
 
 ```{.yaml}
 requester:
