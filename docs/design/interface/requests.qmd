@@ -70,13 +70,19 @@ data will be used for.
 requester:
   name: TEXT
   email: TEXT
-  project:
-    name: TEXT
-    title: TEXT
 ```
 
 - `name`: The name of the requester.
 - `email`: The email of the requester.
+
+### Project
+
+The `project` section contains information about the project that requires
+the data. A project is any set of tasks and work that result in a research 
+output, e.g. a paper, report, website, dashboard, or analysis.
+This would be, e.g. a part of a PhD student's thesis or a research
+project for a group a researchers.
+
 - `project.name`: A short machine-readable project name, using lowercase letters
   and hyphens where possible, e.g. `my-research-project`.
 - `project.title`: A longer human-readable project title, e.g.
