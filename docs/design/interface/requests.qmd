@@ -105,10 +105,8 @@ requirement (e.g. in GDPR).
 ### Data package
 
 The `data-package` section identifies the data package the request applies to.
-The main purpose of this section is to keep track of the version of the data
-package the request was made for. That way, the Owner can determine if a 
-given request needs an update to the data depending on which version of the
-data it uses.
+This information will be automatically populated from the data package metadata
+when creating a request via the web application.
 
 ```{.yaml}
 data-package:
@@ -117,10 +115,12 @@ data-package:
   version: X.Y.Z
 ```
 
-This information will be automatically populated from the data package metadata
-when creating a request via the web application. Including this information
-helps Owners check that the request was created for the intended data package
-and version.
+- `id`: The unique identifier of the data package helps identify where data is
+  requested from.
+- `name`: The name of the data package gives a human readable name to refer to.
+- `version`: The version of the data package helps the owner the Owner detect if
+  a request was made towards an outdated version of the data package and
+  therefore needs to be updated.
 
 ### Subsets
 
@@ -147,13 +147,17 @@ subsets:
 <!-- TODO When editing the file directly, do we require the user to enter row conditions (and maybe all other values too) as strings? It seems like we have to in order not to have yaml parsing potentially break if they do something illegal. -->
 
 - `resource`: Specifies the data resource to create the subset from. Multiple
-  subsets can be specified in the same request by repeating the `resource` key,
-  either with the same resource multiple times or different ones.
-- `columns`: A list of columns to include. Features such as selecting a range of
-  columns are handled via the interface and expanded to explicit column lists in
-  the request file.
+  subsets can be specified in the same request by repeating the `resource` key.
+  This can be done either with the same resource multiple times or with
+  different resources for each.
+- `columns`: The columns to include. Each list item must correspond to an exact
+  column name and SQL-like shorthands are not supported in order to keep the
+  request file simple and to avoid parsing unsafe queries of the data (e.g. via
+  SQL injection). This can not be left empty / unspecified; at least one column
+  must be included in the `columns` field.
 - `rows`: Describes which rows to include in the subset. Can reference columns
-  that are not part of the subset.
+  that are not part of the subset. If the rows key is empty or not included, all
+  rows will be selected.
   - There are currently two candidates for what this might look like, see below.
 
 <!-- TODO What does an empty list of columns and rows mean? -->
