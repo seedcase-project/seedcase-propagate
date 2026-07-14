@@ -87,11 +87,11 @@ post for the rationale.
 In many ways, the terminal user interface is similar to the web application.
 Generally, web applications don't usually include custom keyboard shortcuts and
 other programmatic interactions. Graphical user interfaces in general aren't
-well-designed for or well-suited to a user who values speed and
-efficiency. This means it can be difficult to build an interface that is
-suitable for the needs or wants of more technically experienced Requesters. See
-the [user types](/docs/design/architecture.qmd#user-types) for more detail about
-this type of Requester and their needs.
+well-designed for or well-suited to a user who values speed and efficiency. This
+means it can be difficult to build an interface that is suitable for the needs
+or wants of more technically experienced Requesters. See the [user
+types](/docs/design/architecture.qmd#user-types) for more detail about this type
+of Requester and their needs.
 
 Terminal user interfaces, however, tend to make heavy use of or even require
 using only the keyboard. So Propagate's terminal user interface will be designed
@@ -105,14 +105,15 @@ the following reasons:
   application, especially if they are already familiar with working in a
   terminal environment.
 
-- An in-editor tool to make it easier to manually edit a
-  request file would allow the most flexibility but also be the most error-prone since it involves manually editing the file. It is also challenging to implement since
-  most of the manual editing experience, e.g. with checks against the metadata,
-  the editor needs to be made aware of a different metadata file for each data package. This means that there must
-  be a config option that the user would need to change *every single time* when
-  making requests from different data packages. It's easier to design and
-  develop a terminal interface that takes a source metadata file as input and
-  generates a request file as an output.
+- An in-editor tool to make it easier to manually edit a request file would
+  allow the most flexibility but also be the most error-prone since it involves
+  manually editing the file. It is also challenging to implement since most of
+  the manual editing experience, e.g. with checks against the metadata, the
+  editor needs to be made aware of a different metadata file for each data
+  package. This means that there must be a config option that the user would
+  need to change *every single time* when making requests from different data
+  packages. It's easier to design and develop a terminal interface that takes a
+  source metadata file as input and generates a request file as an output.
 
 - Creating a template `request.yaml` file manually that has all the information
   filled in from the metadata file, while possible, would not be a pleasant
