@@ -174,7 +174,7 @@ structured and that it matches the content of the source metadata file. More
 precisely, the following checks are made:
 
 - Required sections and keys are present.
-- The referenced data package has the same id and name of the source metadata
+- The referenced data package has the same id and name as the source metadata
   file.
 - The referenced resources exist in the data package.
 - The requested columns exist in the selected resources.
