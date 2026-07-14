@@ -10,7 +10,7 @@ Owner, referred to below.
 The outputs are:
 
 - HTML and WebAssembly (WASM) files for a web application either hosted by the
-  Owner or previewed locally through the [CLI](/docs/design/interface/cli.qmd)
+  Owner or run locally through the [CLI](/docs/design/interface/cli.qmd)
   where Requesters can fill in a data request.
 
 - A `request.yaml` file created by the Requester based on their selections in
@@ -59,7 +59,7 @@ The web application includes:
 The web application does not send the request or determine its outcome; the
 Requester sends the email manually, and the Owner decides whether to fulfil the
 request outside of Propagate. The web application also doesn't contain any
-custom keybindings. That's because:
+custom keybindings. This is because:
 
 - Most browser users don't use keybindings when navigating web pages, or only
   use a few basic ones.
@@ -70,14 +70,13 @@ custom keybindings. That's because:
   especially when considering the best practices for creating an
   [accessible](https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/)
   interface. Custom keybindings are largely something more technical users would
-  use, and we don't anticipate nor design the web application for these types of
+  use, and we don't design the web application for these types of
   technical Requesters. For them we include a terminal interface, which is
   described more below.
 
-For those Requesters who are comfortable enough with running commands through
-the terminal, this web application can also be previewed locally. The benefit of
-this is that the Requester doesn't need to depend on or wait for the Owner to
-set up and host the web application for the data package.
+For Requesters comfortable with running commands in
+the terminal, the web application can also be run locally. The benefit of
+this is that the Requester can create a request even when the Owner has not set up a web application for the data package.
 
 ## Data request
 
