@@ -36,8 +36,8 @@ Each of these is elaborated on below:
 ### Request
 
 The `request` includes information about the request itself, such as when and
-why it was created. This can help an owner organize and track requests, which
-would primarily be beneficial for data packages that receive large volumes of
+why it was created. This helps an Owner organize and track requests, which
+is especially beneficial for data packages that receive large volumes of
 requests.
 
 ```{.yaml}
@@ -52,8 +52,8 @@ request:
   which facilitates referring to a specific iteration of a request, e.g. in
   dialog between the Owner and Requester. Precision to the second should be
   sufficient.
-  - Note that this field should not be updated via the user interface, it should
-    be automatically populated when the request is saved.
+  - Note that this field is
+    automatically populated when the request is saved via a user interface (be it the web app or the TUI). If the request is edited manually, it must be updated manually.
   - The format should be ISO 8601, e.g. `2026-07-06T01:45:34-12:00`
 <!-- TODO this is this the most suitable date format? It seems like it makes sense to include timezone info so it can be easily interpreted by both sides if they are in different timezones -->
 - `date-created`: When the first iteration of the request was created.
@@ -62,7 +62,7 @@ request:
   data subset. This is used by the Owner to check whether the requested data is
   relevant to the project. The motivation is particularly needed for human
   health data since there are legal requirements (e.g. GDPR) to declare for what
-  purposes such data is used.
+  purposes the data is used.
 - `iteration`: The iteration of requests from this project for this data
   package.
 <!-- TODO This is a "maybe" since it seems a bit less reliable. It could be automatically incremented if a file is loaded into the web-interface, but there is not way to know if that file was a saved version that was never sent (ie the iteration should not be updated) or if it was sent and is now being modified for sending again (ie the iteration should be updated). It could be manually filled in of course, but we should think about who this is mainly useful for; if it is the owner then they could run something on their end to find out how many requests they have; if it is someone viewing the data package then it's more useful to try to have it in the file itself. -->
@@ -90,16 +90,16 @@ requires the data. A project is defined as a body of work that result in a
 research output, e.g. a paper, report, website, dashboard, or analysis. This
 could be a part of a PhD student's thesis or a collaboration research project
 for a group of researchers. This field is necessary to ensure that the data
-requested is aligned with what it is intended to be used for, which is a legal
+requested is aligned with what it is intended to be used for, which can a legal
+
 requirement (e.g. in GDPR).
 
 - `name`: A short machine-readable project name, using lowercase letters and
   hyphens where possible, e.g. `my-research-project`. This is mainly used for
   identification purposes when managing several requests.
 - `title`: A longer human-readable project title, e.g. `My research project`.
-  This could be used by the Owner to publicly display all the requests that
-  people are making to the data package.
-- `description`: This is a summary of the project, including details like
+  This could be used by the Owner to publicly display the data package requests.
+- `description`: A summary of the project, including details like
   background, rationale, basic methods, and potential research questions. This
   information, combined with the `motivation`, is mainly to help the Owner
   ensure that the data requested matches what it will be used for.
@@ -108,7 +108,8 @@ requirement (e.g. in GDPR).
 
 The `data-package` section identifies the data package the request applies to.
 This information will be automatically populated from the data package metadata
-when creating a request via the web application.
+This information will be automatically populated from the data package metadata
+when creating a request via the web application or the TUI.
 
 ```{.yaml}
 data-package:
@@ -118,11 +119,12 @@ data-package:
 ```
 
 - `id`: The unique identifier of the data package helps identify where data is
-  requested from.
-- `name`: The name of the data package gives a human readable name to refer to.
+- `id`: The unique identifier of the data package.
+- `name`: The name of the data package gives a human readable name to refer to. It is lowercased and doesn't include any spaces. E.g., `my-data-package`. 
 - `version`: The version of the data package helps the Owner detect if
   a request was made towards an outdated version of the data package and
-  therefore needs to be updated.
+- `version`: The version of the data package helps the Owner detect which
+  version of the data package the request is for.
 
 ### Subsets
 
@@ -153,14 +155,15 @@ subsets:
   This can be done either with the same resource multiple times or with
   different resources for each.
 - `columns`: The columns to include. Each list item must correspond to an exact
-  column name and SQL-like shorthands are not supported in order to keep the
+  column name. SQL-like shorthands are not supported in order to keep the
   request file simple and to avoid parsing unsafe queries of the data (e.g. via
   SQL injection). This can not be left empty / unspecified; at least one column
   must be included in the `columns` field.
 - `rows`: Describes which rows to include in the subset. Can reference columns
-  that are not part of the subset. If the rows key is empty or not included, all
+  that are not a part of the subset. If the `rows` key is empty or not included, all
   rows will be selected.
-  - There are currently two candidates for what this might look like, see below.
+
+There are currently two candidates for what this might look like, see below.
 
 <!-- TODO What does an empty list of columns and rows mean? -->
 <!-- We discussed elsewhere that one purpose of this file is for someone to get an overview of which data is used in a specific study. On the one side, that could benefit from having to specify all the columns if the study used all of them and that an empty list means nothing rather than everything. However, having an empty list mean "everything" would make cases were less than all columns were selected since this would change from empty to a list. -->
