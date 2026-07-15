@@ -59,7 +59,7 @@ request with a project name of `diet-diabetes` requesting data from two
 resources, `resource1` and `resource2`, the created folder structure of the data
 subset will be:
 
-```
+```text
 subsets/
 └── diet-diabetes/
     ├── resource1.parquet
@@ -67,9 +67,9 @@ subsets/
 ```
 
 ::: content-hidden
-Above dir tree built from https://tree.nathanfriend.com/.
+Above dir tree built from <https://tree.nathanfriend.com/>.
 
-```
+```text
 subsets/
   diet-diabetes/
     resource1.parquet
@@ -127,7 +127,7 @@ This will take the local request file, check it against a remote
 and includes two resources, `resource1` and `resource2`, as in the example
 above, the subset directory structure will be:
 
-```
+```text
 diabetes-subsets/
 └── diet-diabetes/
     ├── resource1.parquet
@@ -135,9 +135,9 @@ diabetes-subsets/
 ```
 
 ::: content-hidden
-Above dir tree built from https://tree.nathanfriend.com/.
+Above dir tree built from <https://tree.nathanfriend.com/>.
 
-```
+```text
 diabetes-subsets/
   diet-diabetes/
     resource1.parquet
