@@ -162,10 +162,6 @@ subsets:
 
 There are currently two candidates for what this might look like, see below.
 
-<!-- TODO What does an empty list of columns and rows mean? -->
-<!-- We discussed elsewhere that one purpose of this file is for someone to get an overview of which data is used in a specific study. On the one side, that could benefit from having to specify all the columns if the study used all of them and that an empty list means nothing rather than everything. However, having an empty list mean "everything" would make cases were less than all columns were selected since this would change from empty to a list. -->
-<!-- For rows, it seems like the natural is that empty = all rows. So we can also consider if we want "empty" to mean the same thing (ie "all") both for columns and rows. -->
-
 #### Row condition alternatives
 
 ##### Alternative 1
