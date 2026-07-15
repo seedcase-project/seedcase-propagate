@@ -36,9 +36,8 @@ Each of these is elaborated on below:
 ### Request
 
 The `request` includes information about the request itself, such as when and
-why it was created. This helps an Owner organize and track requests, which
-is especially beneficial for data packages that receive large volumes of
-requests.
+why it was created. This helps an Owner organize and track requests, which is
+especially beneficial for data packages that receive large volumes of requests.
 
 ```{.yaml}
 request:
@@ -52,8 +51,9 @@ request:
   which facilitates referring to a specific iteration of a request, e.g. in
   dialog between the Owner and Requester. Precision to the second should be
   sufficient.
-  - Note that this field is
-    automatically populated when the request is saved via a user interface (be it the web app or the TUI). If the request is edited manually, it must be updated manually.
+  - Note that this field is automatically populated when the request is saved
+    via a user interface (be it the web app or the TUI). If the request is
+    edited manually, it must be updated manually.
   - The format should be ISO 8601, e.g. `2026-07-06T01:45:34-12:00`
 <!-- TODO this is this the most suitable date format? It seems like it makes sense to include timezone info so it can be easily interpreted by both sides if they are in different timezones -->
 - `date-created`: When the first iteration of the request was created.
@@ -108,7 +108,6 @@ requirement (e.g. in GDPR).
 
 The `data-package` section identifies the data package the request applies to.
 This information will be automatically populated from the data package metadata
-This information will be automatically populated from the data package metadata
 when creating a request via the web application or the TUI.
 
 ```{.yaml}
@@ -118,13 +117,11 @@ data-package:
   version: X.Y.Z
 ```
 
-- `id`: The unique identifier of the data package helps identify where data is
-- `id`: The unique identifier of the data package.
-- `name`: The name of the data package gives a human readable name to refer to. It is lowercased and doesn't include any spaces. E.g., `my-data-package`. 
-- `version`: The version of the data package helps the Owner detect if
-  a request was made towards an outdated version of the data package and
-- `version`: The version of the data package helps the Owner detect which
-  version of the data package the request is for.
+- `id`: A unique identifier of the data package.
+- `name`: A human readable name to refer to. It is lowercased and doesn't
+  include any spaces. E.g., `my-data-package`.
+- `version`: Helps the Owner detect which version of the data package the
+  request is for.
 
 ### Subsets
 
@@ -160,8 +157,8 @@ subsets:
   SQL injection). This can not be left empty / unspecified; at least one column
   must be included in the `columns` field.
 - `rows`: Describes which rows to include in the subset. Can reference columns
-  that are not a part of the subset. If the `rows` key is empty or not included, all
-  rows will be selected.
+  that are not a part of the subset. If the `rows` key is empty or not included,
+  all rows will be selected.
 
 There are currently two candidates for what this might look like, see below.
 
