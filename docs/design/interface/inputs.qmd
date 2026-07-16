@@ -18,7 +18,7 @@ The inputs include:
 
 - A data request, in a `request.yaml` file, made through the web application or
   terminal interface by a Requester. The request file includes a SQL-like query
-  of selected resources, fields, and filters, as well as any additional metadata
+  of selected resources, columns, and rows, as well as any additional metadata
   about the request (e.g., requester name, email, project name, and rationale).
   The Requester creates this file for a specific research project that needs the
   data. The Owner uses this file to create the subset of data from the data
