@@ -13,8 +13,8 @@ data package.
 
 <!-- TODO: The following should follow nicely from the guides for making the web app and the request. -->
 
-To make a data subset, filtering the data package to only the resources, fields,
-and rows specified in the request, use Propagate's [`subset`]() command. This
+To make a data subset from the data package that contains only the resources, columns,
+and rows included in the request, use Propagate's [`subset`]() command. This
 command needs the following input:
 
 <!-- TODO: Add link to subset's ref doc above when made -->
@@ -22,7 +22,7 @@ command needs the following input:
 1. The path to the request, a `request.yaml` file. This argument doesn't have a
    default value.
 2. The metadata source file (which includes paths to the data). Defaults to
-   `datapackage.json`. Like for the [build]() command, the source file can be
+   `datapackage.json`. Like for the [`build`]() command, the source file can be
    either a relative path (if given a directory path, it looks for a
    `datapackage.json` in the directory), a `https://` URL to a raw file, or a
    `gh:` or `github:` source in the format `gh:OWNER/REPO` or
@@ -54,16 +54,14 @@ subset.
 <!-- TODO: Add a guide for the `check` command and link to it above. -->
 
 Propagate takes the request's project `name` and the resource `name`(s) (found
-in `request.yaml`) to create the folder structure within `subsets/`. E.g., for a
-request with a project name of `diet-diabetes` requesting data from two
-resources, `resource1` and `resource2`, the created folder structure of the data
-subset will be:
+in `request.yaml`) to create a `<project-name>_<timestamp>.tar` file of the subset.
+Within the `.tar` file is the resource Parquet files. For example, for a request with a project name of `diet-diabetes` requesting data from two
+resources, `resource1` and `resource2`, the created `.tar` file with the subset
+will be:
 
 ```text
 subsets/
-└── diet-diabetes/
-    ├── resource1.parquet
-    └── resource2.parquet
+└── diet-diabetes_2025-01-01T121000.tar
 ```
 
 ::: content-hidden
@@ -71,24 +69,34 @@ Above dir tree built from <https://tree.nathanfriend.com/>.
 
 ```text
 subsets/
-  diet-diabetes/
-    resource1.parquet
-    resource2.parquet
+  diet-diabetes_2025-01-01T121000.tar
 ```
 :::
 
-::: callout-warning
-If a folder with the request's project `name` already exists in the output
-directory, `subset` will error instead of overwriting it. To make a new subset
-for the same project, you must either delete the old subset or provide another
-output path before running `subset` again.
+The `.tar` file will contain the following files:
+
+```text
+.tar
+├── resource1.parquet
+└── resource2.parquet
+```
+
+::: content-hidden
+Above dir tree built from <https://tree.nathanfriend.com/>.
+
+```text
+.tar
+  resource1.parquet
+  resource2.parquet
+```
 :::
 
-::: callout-note
-Each subset output file created by Propagate only contains the fields (columns)
-and rows requested. For example, if the request selects:
 
-- The `age` and `sex` fields from `resource1` and only rows where `sex` is
+::: callout-note
+Each subset output file created by Propagate only contains the columns
+and rows requested. For example, if the request contains:
+
+- The `age` and `sex` columns from `resource1` and only rows where `sex` is
   `women`, and
 - The `hba1c` field from `resource2` and only rows with a value above 48.
 
@@ -117,7 +125,7 @@ within the repository `diabetes-datapackage`, and we want to place it in the
 directory `diabetes-subsets/`. The command for that would be:
 
 ```bash
-propagate subset requests/diet-diabetes/request.yaml gh:example-org/diabetes-datapackage diabetes-subsets/
+propagate subset requests/diet-diabetes/request.yaml -s gh:example-org/diabetes-datapackage -o diabetes-subsets/
 ```
 
 This will take the local request file, check it against a remote
@@ -129,9 +137,7 @@ above, the subset directory structure will be:
 
 ```text
 diabetes-subsets/
-└── diet-diabetes/
-    ├── resource1.parquet
-    └── resource2.parquet
+└── diet-diabetes_2025-01-01T121000.tar
 ```
 
 ::: content-hidden
@@ -139,9 +145,7 @@ Above dir tree built from <https://tree.nathanfriend.com/>.
 
 ```text
 diabetes-subsets/
-  diet-diabetes/
-    resource1.parquet
-    resource2.parquet
+  diet-diabetes_2025-01-01T121000.tar
 ```
 :::
 
