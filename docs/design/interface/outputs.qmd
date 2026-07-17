@@ -87,20 +87,20 @@ post for the rationale.
 
 In many ways, the terminal user interface is similar to the web application in
 functionality but has some fundamental differences. Graphical user interfaces
-like web applications in general aren't well-designed for nor well-suited to
-building efficient or portable interfaces (needs a browser to work). For
-example, browser-based web applications don't usually include custom keyboard
-shortcuts. This means it can be difficult to build an interface that fits the
+like web applications in general aren't well-designed for nor well-suited for
+building efficient or portable interfaces (e.g., they need a browser to work).
+Browser-based web applications also don't usually include custom keyboard
+shortcuts, which can make it difficult to build one that fits the
 needs or wants of more technically experienced Requesters. See the [user
 types](/docs/design/architecture.qmd#user-types) for more detail about this type
 of Requester and their needs.
 
-Terminal user interfaces, however, are by their nature fit better towards the
+Terminal user interfaces, however, are by their nature better fit for the
 needs of technically experienced users. For example, they tend to make heavy use
 of or even require using only the keyboard. They are also more lightweight and
-portable (only need a terminal). So Propagate's terminal user interface will be
-designed with these technical users (e.g. extensive keyboard navigation and
-interactions). The focus for the terminal user interface will be on simplicity,
+portable, since they only need a terminal. So, Propagate's terminal user interface are
+designed with these technical users.
+The focus for the terminal user interface will be on simplicity,
 minimalism, efficiency, and portability.
 
 We include a terminal user interface as an alternative to the web application
@@ -116,7 +116,7 @@ for the following reasons:
   manually editing the file. It is also challenging to implement since most of
   the manual editing experience, e.g. with checks against the metadata, the
   editor needs to be made aware of a different metadata file for each data
-  package. This means that there must be a config option that the user would
+  package. This means that there must be a configuration option that the user would
   need to change *every single time* when making requests from different data
   packages. It's easier to design and develop a terminal interface that takes a
   source metadata file as input and generates a request file as an output.
@@ -127,7 +127,7 @@ for the following reasons:
   data packages with several resources and hundreds of columns (which is fairly
   common in research datasets), manually editing an extremely long request file
   would be very tedious and error-prone. Especially when it comes to correctly
-  writing row conditions, as those fields can't be pre-filled in as easily.
+  writing row conditions, as those fields can't be pre-filled as easily.
 
 - For requesters on systems with limitations (e.g., IT restrictions and other
   institutional policies), building and viewing a web application locally may
