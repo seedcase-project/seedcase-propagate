@@ -65,10 +65,10 @@ The web application includes:
 
 <!-- TODO: How do we handle theming? Inherit from the website theme somehow? -->
 
-The web application does not send the request nor determine its approval; the
-Requester sends the email manually, and the Owner decides whether to fulfil the
-request outside of Propagate. The web application also doesn't contain any
-custom keybindings. This is because:
+The web application does not send the request nor be involved in its approval;
+the Requester sends the email manually, and the Owner decides whether to fulfil
+the request outside of Propagate. The web application also doesn't contain any
+extensive custom keybindings. This is because:
 
 - Most browser users don't use keybindings when navigating web pages, or only
   use a few basic ones.
