@@ -26,7 +26,7 @@ The outputs are:
 The Owner uses Propagate to create HTML and [WASM](https://webassembly.org)
 files that form a web application from the data package metadata file (for
 example, but not exclusively, a `datapackage.json` file). This application
-allows Requesters to browse and select the fields they want to include in their
+allows Requesters to browse and select the columns and rows they want to include in their
 request. The application can be added to a static website.
 
 We decided on HTML and WASM for the web application for a few reasons. We need
@@ -80,7 +80,7 @@ custom keybindings. This is because:
   [accessible](https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/)
   interface. Custom keybindings are largely something more technical users would
   use, and we don't design the web application for these types of technical
-  Requesters. For them we include a terminal interface, which is described more
+  Requesters. For them we include a terminal user interface, which is described more
   below.
 
 For Requesters comfortable with running commands in the terminal, the web
