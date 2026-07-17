@@ -35,7 +35,7 @@ instances.
 output as `seedcase-propagate --help`) as well as these Propagate commands:
 `build`, `subset`, `check`, and `request`.
 
-## {{< var planned >}} `seedcase-propagate build`
+## {{< var planned >}} `build`
 
 The `build` command builds the HTML and WebAssembly (WASM) files for the
 client-side web application that can be inserted into static websites (described
@@ -104,7 +104,7 @@ the following sources:
   - `gh:seedcase-project/seedcase-flower@main` will parse to
     `https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/main/datapackage.json`.
 
-## {{< var planned >}} `seedcase-propagate subset`
+## {{< var planned >}} `subset`
 
 The `subset` command takes four arguments: an instructions
 [`request.yaml`](inputs.qmd) file for what to subset, the data package's
@@ -167,7 +167,7 @@ flowchart LR
     subset --> output
 ```
 
-## {{< var planned >}} `seedcase-propagate check`
+## {{< var planned >}} `check`
 
 The `check` command confirms that the `request.yaml` file is correctly
 structured and that it matches the content of the source metadata file. While
@@ -202,7 +202,7 @@ flowchart LR
     check --> output
 ```
 
-## {{< var planned >}} `seedcase-propagate create-request`
+## {{< var planned >}} `create-request`
 
 The `create-request` command takes a source metadata file and opens up a
 terminal user interface to interactively create a `request.yaml` file from the
