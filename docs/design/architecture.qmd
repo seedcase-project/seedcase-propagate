@@ -114,8 +114,8 @@ subsets of data from the data package efficiently.
   | Action          | Description                                                                                                     |
   | --------------- | --------------------------------------------------------------------------------------------------------------- |
   | select resource | Add instructions for selecting a specific resource from the data package.                                       |
-  | select field    | Add instructions for selecting a specific field from the resource.                                              |
-  | add filter      | Add instructions for filtering the data based on certain criteria.                                              |
+  | select column   | Add instructions for selecting a specific column from the resource.                                             |
+  | select rows     | Add instructions for selecting rows in a resource based on certain criteria.                                    |
   | save progress   | Save the current contents of the request form to local storage in the browser.                                  |
   | export          | Download the contents of the request form as a request file.                                                    |
   | send            | Open the user's email client with an email to the data owner pre-filled with the request file as an attachment. |
