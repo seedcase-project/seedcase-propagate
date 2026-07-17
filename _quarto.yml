@@ -53,6 +53,7 @@ website:
             - docs/design/interface/outputs.qmd
             - docs/design/interface/cli.qmd
             - docs/design/interface/web.qmd
+            - docs/design/interface/tui.qmd
             - docs/design/interface/rust.qmd
     - id: guide
       contents:
