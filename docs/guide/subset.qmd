@@ -21,18 +21,17 @@ command needs the following input:
 
 1. The path to the request, a `request.yaml` file. This argument doesn't have a
    default value.
-2. The metadata source file (which includes paths to the data). Defaults to
+2. The path or URL to the metadata source file (which includes paths to the data). Defaults to
    `datapackage.json`. Like for the [`build`]() command, the source file can be
-   either a relative path (if given a directory path, it looks for a
+   either a path (if given a directory path, it looks for a
    `datapackage.json` in the directory), a `https://` URL to a raw file, or a
    `gh:` or `github:` source in the format `gh:OWNER/REPO` or
    `github:OWNER/REPO`.
-3. The output directory. Defaults to `subsets/`.
+3. The output directory. Defaults to `subsets/` in the same directory as the `request.yaml` file.
 
 <!-- TODO: Add link to build's ref doc above when made -->
 
-All three arguments will be parsed to absolute paths internally, if relative
-paths are given.
+All three arguments take both relative and absolute paths. 
 
 ## Creating a subset with default arguments
 
@@ -45,8 +44,8 @@ propagate subset path/to/request.yaml
 ```
 
 With this command, Propagate looks for a `datapackage.json` file in the current
-directory and outputs the created subset in a `subsets/` folder in the current
-working directory. In this process, Propagate checks the request against the
+directory and outputs the created subset in a `subsets/` folder in the same folder as the `request.yaml` file, e.g. in the `path/to/` directory in the example above.
+In this process, Propagate checks the request against the
 data package metadata before attempting to create the subset. This check can
 also be run on its own with Propagate's [`check`]() command, without creating a
 subset.
