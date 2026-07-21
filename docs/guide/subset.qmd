@@ -13,25 +13,26 @@ data package.
 
 <!-- TODO: The following should follow nicely from the guides for making the web app and the request. -->
 
-To make a data subset from the data package that contains only the resources, columns,
-and rows included in the request, use Propagate's [`subset`]() command. This
-command needs the following input:
+To make a data subset from the data package that contains only the resources,
+columns, and rows included in the request, use Propagate's [`subset`]() command.
+This command needs the following input:
 
 <!-- TODO: Add link to subset's ref doc above when made -->
 
 1. The path to the request, a `request.yaml` file. This argument doesn't have a
    default value.
-2. The path or URL to the metadata source file (which includes paths to the data). Defaults to
-   `datapackage.json`. Like for the [`build`]() command, the source file can be
-   either a path (if given a directory path, it looks for a
+2. The path or URL to the metadata source file (which includes paths to the
+   data). Defaults to `datapackage.json`. Like for the [`build`]() command, the
+   source file can be either a path (if given a directory path, it looks for a
    `datapackage.json` in the directory), a `https://` URL to a raw file, or a
    `gh:` or `github:` source in the format `gh:OWNER/REPO` or
    `github:OWNER/REPO`.
-3. The output directory. Defaults to `subsets/` in the same directory as the `request.yaml` file.
+3. The output directory. Defaults to `subsets/` in the same directory as the
+   `request.yaml` file.
 
 <!-- TODO: Add link to build's ref doc above when made -->
 
-All three arguments take both relative and absolute paths. 
+All three arguments take both relative and absolute paths.
 
 ## Creating a subset with default arguments
 
@@ -44,17 +45,18 @@ propagate subset path/to/request.yaml
 ```
 
 With this command, Propagate looks for a `datapackage.json` file in the current
-directory and outputs the created subset in a `subsets/` folder in the same folder as the `request.yaml` file, e.g. in the `path/to/` directory in the example above.
-In this process, Propagate checks the request against the
-data package metadata before attempting to create the subset. This check can
-also be run on its own with Propagate's [`check`]() command, without creating a
-subset.
+directory and outputs the created subset in a `subsets/` folder in the same
+folder as the `request.yaml` file, e.g. in the `path/to/` directory in the
+example above. In this process, Propagate checks the request against the data
+package metadata before attempting to create the subset. This check can also be
+run on its own with Propagate's [`check`]() command, without creating a subset.
 
 <!-- TODO: Add a guide for the `check` command and link to it above. -->
 
 Propagate takes the request's project `name` and the resource `name`(s) (found
-in `request.yaml`) to create a `<project-name>_<timestamp>.tar` file of the subset.
-Within the `.tar` file is the resource Parquet files. For example, for a request with a project name of `diet-diabetes` requesting data from two
+in `request.yaml`) to create a `<project-name>_<timestamp>.tar` file of the
+subset. Within the `.tar` file is the resource Parquet files. For example, for a
+request with a project name of `diet-diabetes` requesting data from two
 resources, `resource1` and `resource2`, the created `.tar` file with the subset
 will be:
 
@@ -90,10 +92,9 @@ Above dir tree built from <https://tree.nathanfriend.com/>.
 ```
 :::
 
-
 ::: callout-note
-Each subset output file created by Propagate only contains the columns
-and rows requested. For example, if the request contains:
+Each subset output file created by Propagate only contains the columns and rows
+requested. For example, if the request contains:
 
 - The `age` and `sex` columns from `resource1` and only rows where `sex` is
   `women`, and
