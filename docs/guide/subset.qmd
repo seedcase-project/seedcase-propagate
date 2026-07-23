@@ -118,14 +118,13 @@ internally to create the subset without executing them.
 ## Creating a subset with custom arguments
 
 To create a subset with custom arguments, we need to provide all three
-arguments. Let's say we want to create a subset based on a request file we have
-locally at the relative path `requests/diet-diabetes/request.yaml`, from a
-remote metadata source file located on GitHub in the organisation `example-org`
-within the repository `diabetes-datapackage`, and we want to place it in the
+arguments. Let's say we want to create a subset based on a request file placed
+at the relative path `requests/diet-diabetes/request.yaml`, from a
+metadata source file located at `metadata/datapackage.json`, and we want to place it in the
 directory `diabetes-subsets/`. The command for that would be:
 
 ```bash
-propagate subset requests/diet-diabetes/request.yaml -s gh:example-org/diabetes-datapackage -o diabetes-subsets/
+propagate subset requests/diet-diabetes/request.yaml -s metadata/datapackage.json -o diabetes-subsets/
 ```
 
 This will take the local request file, check it against a remote
