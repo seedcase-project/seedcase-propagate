@@ -41,22 +41,21 @@ especially beneficial for data packages that receive large volumes of requests.
 
 ```{.yaml}
 request:
-  date-modified: DATE
-  date-created: DATE
+  datetime-modified: DATETIME
+  datetime-created: DATETIME
   motivation: TEXT
   iteration: NUMBER
 ```
 
-- `date-modified`: When the request was last modified. This can act as an ID
+- `datetime-modified`: When the request was last modified. This can act as an ID
   which facilitates referring to a specific iteration of a request, e.g. in
   dialog between the Owner and Requester. Precision to the second should be
   sufficient.
   - Note that this field is automatically populated when the request is saved
     via a user interface (be it the web app or the TUI). If the request is
     edited manually, it must be updated manually.
-  - The format should be ISO 8601, e.g. `2026-07-06T01:45:34-12:00`
-<!-- TODO this is this the most suitable date format? It seems like it makes sense to include timezone info so it can be easily interpreted by both sides if they are in different timezones -->
-- `date-created`: When the first iteration of the request was created.
+  - The format should be ISO 8601, e.g. `2026-07-06T01:45:34-12:00` of the current time (though internally it will be stored as UTC).
+- `datetime-created`: When the first iteration of the request was created. It is also set at UTC and in ISO 8601 format.
 <!-- TODO The creation date would only be correctly populated if the requester uploads their old request in the interface when they need to make a modification. If they rewrite the request from scratch, they could (mistakenly) put an incorrect date here, but that's fine I think. -->
 - `motivation`: Explanation for why the requester's project needs access to this
   data subset. This is used by the Owner to check whether the requested data is
@@ -86,12 +85,11 @@ requester:
 ### Project
 
 The `project` section contains information about the research project that
-requires the data. A project is defined as a body of work that result in a
+requires the data. A project is defined as a body of work that results in a
 research output, e.g. a paper, report, website, dashboard, or analysis. This
 could be a part of a PhD student's thesis or a collaboration research project
 for a group of researchers. This field is necessary to ensure that the data
 requested is aligned with what it is intended to be used for, which can a legal
-
 requirement (e.g. in GDPR).
 
 - `name`: A short machine-readable project name, using lowercase letters and
@@ -149,7 +147,7 @@ subsets:
 
 - `resource`: Specifies the data resource to create the subset from. Multiple
   subsets can be specified in the same request by repeating the `resource` key.
-  This can be done either with the same resource multiple times or with
+  This can be done with
   different resources for each.
 - `columns`: The columns to include. Each list item must correspond to an exact
   column name. SQL-like shorthands are not supported in order to keep the
