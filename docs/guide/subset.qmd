@@ -1,0 +1,158 @@
+---
+title: Making a data subset
+---
+
+Once the `request.yaml` has been created by a
+[Requester](/docs/design/architecture.qmd#requester)---via the [web
+application](/docs/guide/) or the [TUI]()---and accepted by an
+[Owner](/docs/design/architecture.qmd#owner), the Owner can use it to create the
+requested data package subset. This guide is written for you as the Owner of the
+data package.
+
+<!-- TODO: Add links above -->
+
+<!-- TODO: The following should follow nicely from the guides for making the web app and the request. -->
+
+To make a data subset from the data package that contains only the resources,
+columns, and rows included in the request, use Propagate's [`subset`]() command.
+This command needs the following input:
+
+<!-- TODO: Add link to subset's ref doc above when made -->
+
+1. The path to the request, a `request.yaml` file. This argument doesn't have a
+   default value.
+2. The path to the metadata source file (which includes paths to the data).
+   Defaults to `datapackage.json` in the current directory.
+3. The output directory. Defaults to `subsets/` in the same directory as the
+   `request.yaml` file.
+
+<!-- TODO: Add link to build's ref doc above when made -->
+
+All three arguments take both relative and absolute paths.
+
+## Creating a subset with default arguments
+
+Since the only argument without a default value is the path to the request, this
+is the only thing we need to provide. From the root of your data package, run
+the `subset` command like so:
+
+```bash
+propagate subset path/to/request.yaml
+```
+
+With this command, Propagate looks for a `datapackage.json` file in the current
+directory and outputs the created subset in a `subsets/` folder in the same
+folder as the `request.yaml` file, e.g. in the `path/to/` directory in the
+example above. In this process, Propagate checks the request against the data
+package metadata before attempting to create the subset. This check can also be
+run on its own with Propagate's [`check`]() command, without creating a subset.
+
+<!-- TODO: Add a guide for the `check` command and link to it above. -->
+
+Propagate takes the request's project `name` and the resource `name`(s) (found
+in `request.yaml`) to create a `<project-name>_<timestamp>.tar` file of the
+subset. Within the `.tar` file is the resource Parquet files. For example, for a
+request with a project name of `diet-diabetes` requesting data from two
+resources, `resource1` and `resource2`, the created `.tar` file with the subset
+will be:
+
+```text
+subsets/
+└── diet-diabetes_2025-01-01T121000.tar
+```
+
+::: content-hidden
+Above dir tree built from <https://tree.nathanfriend.com/>.
+
+```text
+subsets/
+  diet-diabetes_2025-01-01T121000.tar
+```
+:::
+
+The `.tar` file will contain the following files:
+
+```text
+.tar
+├── resource1.parquet
+└── resource2.parquet
+```
+
+::: content-hidden
+Above dir tree built from <https://tree.nathanfriend.com/>.
+
+```text
+.tar
+  resource1.parquet
+  resource2.parquet
+```
+:::
+
+::: callout-note
+Each subset output file created by Propagate only contains the columns and rows
+requested. For example, if the request contains:
+
+- The `age` and `sex` columns from `resource1` and only rows where `sex` is
+  `women`, and
+- The `hba1c` field from `resource2` and only rows with a value above 48.
+
+Then `resource1.parquet` will have just the `age` and `sex` columns for those
+rows, and `resource2.parquet` will have just the `hba1c` column for those rows.
+
+Importantly, if `resource1` has a primary key `id` that maps to a foreign key
+`participant_id` in `resource2`, only rows in `resource2` with `participant_id`
+values that are also in the filtered `resource1` are included.
+:::
+
+::: callout-tip
+If you want to see the plan of what the `subset` command will do to create the
+subset *before* actually creating the subset, you can run the command with the
+`--show-plan` flag set to `true`. This will show the steps Propagate runs
+internally to create the subset without executing them.
+:::
+
+## Creating a subset with custom arguments
+
+To create a subset with custom arguments, we need to provide all three
+arguments. Let's say we want to create a subset based on a request file placed
+at the relative path `requests/diet-diabetes/request.yaml`, from a metadata
+source file located at `metadata/datapackage.json`, and we want to place it in
+the directory `diabetes-subsets/`. The command for that would be:
+
+```bash
+propagate subset requests/diet-diabetes/request.yaml -s metadata/datapackage.json -o diabetes-subsets/
+```
+
+This will take the local request file, check it against a remote
+`datapackage.json` file located in the root of the `example-org`'s
+`diabetes-datapackage` repository, and create the subset locally in the
+`diabetes-subsets/` directory. If the request's project name is `diet-diabetes`
+and includes two resources, `resource1` and `resource2`, as in the example
+above, the subset directory structure will be:
+
+```text
+diabetes-subsets/
+└── diet-diabetes_2025-01-01T121000.tar
+```
+
+::: content-hidden
+Above dir tree built from <https://tree.nathanfriend.com/>.
+
+```text
+diabetes-subsets/
+  diet-diabetes_2025-01-01T121000.tar
+```
+:::
+
+::: callout-note
+Even though Propagate allows the metadata source file to be placed locally, you
+need to have access to the actual data to be able to create the subset.
+:::
+
+## Next steps
+
+After the subset has been created, it's up to you, the
+[Owner](/docs/design/architecture.qmd#owner), to decide how to share it with the
+[Requester](/docs/design/architecture.qmd#requester) and any other project
+members who need it, following your institution's practices for handling this
+kind of data.
