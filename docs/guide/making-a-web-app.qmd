@@ -1,6 +1,8 @@
 ---
-title: "Making a web app for a data package"
-description: "How to use Propagate to create a web app for a data package."
+title: "Add a request web app to a data package's website"
+description: >-
+  How to use Propagate to add a web app for requesting subsets of a data
+  package.
 order: 1
 ---
 
@@ -14,81 +16,40 @@ request web app, and inserting it into the data package website.
 
 ## Building the web app
 
-To create a web app for a data package, where Requesters can create requests for
-data subsets, use Propagate's `build` command.
+Use Propagate's `build` command to create a web app for a data package so that
+people can request subsets of the data.
 
 The `build` command takes two inputs:
 
 1. The metadata file describing the data package.
-2. The output folder where the web app will be created.
+2. The output folder where the files for the web app will be created.
 
 ### Building with default arguments
 
 By default, `build` looks for a `datapackage.json` file in the current working
 directory and creates the web app in `docs/requests/`.
 
-To use the default arguments, open a terminal in the data package folder and
-run:
+To use the default arguments, open a terminal in the root of your data package
+folder (i.e., the folder with your metadata file) and run:
 
 ```bash {filename="Terminal"}
 seedcase-propagate build
 ```
 
-This reads the `datapackage.json` file and creates the files required for the
-web app in the output directory.
+<!-- TODO: Add file tree of what the created files look like -->
 
 ### Building with custom arguments
 
-To specify a different metadata file or output directory, provide them as
-arguments:
+To use a different metadata file or output directory, provide them as arguments:
 
 ```bash {filename="Terminal"}
 seedcase-propagate build path/to/metadata/file --output-dir path/to/output/dir
 ```
 
-The first argument can be any supported metadata format. See the [build command
-design documentation](/docs/design/interface/cli.qmd#seedcase-propagate-build)
-for details about supported formats.
+The only metadata file currently supported by Propagate is the
+`datapackage.json` file described by the [Data Package](https://datapackage.org)
+specification.
 
-## Previewing the web app
+## Publishing the website
 
-Before publishing the web app, you can preview it locally using Propagate's
-`preview` command. This starts a local web server that serves the generated app
-so you can check that the request interface works as expected.
-
-To preview the web app, run:
-
-```bash {filename="Terminal"}
-seedcase-propagate preview
-```
-
-By default, preview loads the generated web app from the `docs/requests/`
-folder.
-
-You can also specify a different folder:
-
-```bash {filename="Terminal"}
-seedcase-propagate preview path/to/web/app
-```
-
-The web app will open automatically in your browser.
-
-## Publishing the web app
-
-Once you have verified that the web app works as expected, publish the generated
-files so that Requesters can access the request interface.
-
-The generated web app is a complete static web page that can be published using
-any service that hosts static files. For example, if the data package is hosted
-as a Quarto website, the generated files can be included in the website's source
-files and published together with the rest of the site.
-
-Copy the generated output folder into your website source while preserving its
-contents and directory structure. Then, add a link to the generated page from
-your website so that Requesters can access it. For example, if you place the
-generated folder at `requests/` in your website, the request page will typically
-be available at `https://your-website.org/requests/`. The exact URL depends on
-where you place the generated folder and how your website is configured.
-
-After publishing, Requesters can open the request page, select the data they
-need, and create a request for a data subset.
+<!-- TODO: Include section about running the Propagate command in GitHub workflow -->
