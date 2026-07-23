@@ -21,12 +21,8 @@ This command needs the following input:
 
 1. The path to the request, a `request.yaml` file. This argument doesn't have a
    default value.
-2. The path or URL to the metadata source file (which includes paths to the
-   data). Defaults to `datapackage.json`. Like for the [`build`]() command, the
-   source file can be either a path (if given a directory path, it looks for a
-   `datapackage.json` in the directory), a `https://` URL to a raw file, or a
-   `gh:` or `github:` source in the format `gh:OWNER/REPO` or
-   `github:OWNER/REPO`.
+2. The path to the metadata source file (which includes paths to the
+   data). Defaults to `datapackage.json` in the current directory.
 3. The output directory. Defaults to `subsets/` in the same directory as the
    `request.yaml` file.
 
