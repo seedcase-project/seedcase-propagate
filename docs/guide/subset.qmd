@@ -21,8 +21,8 @@ This command needs the following input:
 
 1. The path to the request, a `request.yaml` file. This argument doesn't have a
    default value.
-2. The path to the metadata source file (which includes paths to the
-   data). Defaults to `datapackage.json` in the current directory.
+2. The path to the metadata source file (which includes paths to the data).
+   Defaults to `datapackage.json` in the current directory.
 3. The output directory. Defaults to `subsets/` in the same directory as the
    `request.yaml` file.
 
@@ -115,9 +115,9 @@ internally to create the subset without executing them.
 
 To create a subset with custom arguments, we need to provide all three
 arguments. Let's say we want to create a subset based on a request file placed
-at the relative path `requests/diet-diabetes/request.yaml`, from a
-metadata source file located at `metadata/datapackage.json`, and we want to place it in the
-directory `diabetes-subsets/`. The command for that would be:
+at the relative path `requests/diet-diabetes/request.yaml`, from a metadata
+source file located at `metadata/datapackage.json`, and we want to place it in
+the directory `diabetes-subsets/`. The command for that would be:
 
 ```bash
 propagate subset requests/diet-diabetes/request.yaml -s metadata/datapackage.json -o diabetes-subsets/
