@@ -58,6 +58,8 @@ website:
       contents:
         - section: "Guide"
           href: docs/guide/index.qmd
+          contents:
+            - docs/guide/making-a-web-app.qmd
 
 format:
   seedcase-theme-html:

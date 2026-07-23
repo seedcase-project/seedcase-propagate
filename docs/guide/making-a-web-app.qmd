@@ -1,0 +1,91 @@
+---
+title: "Add a request web app to a data package's website"
+description: >-
+  How to use Propagate to add a web app for requesting subsets of a data
+  package.
+order: 1
+---
+
+::: callout-note
+If you are using [Template Data
+Package](https://template-data-package.seedcase-project.org/) as a template for
+your data package, follow the [guide](TODO:add/link) on enabling the request
+feature there instead. The template automates running Propagate, generating the
+request web app, and inserting it into the data package website.
+:::
+
+## Building the web app
+
+Use Propagate's `build` command to create a web app for a data package so that
+people can request subsets of the data.
+
+The `build` command takes two inputs:
+
+1. The metadata file describing the data package.
+2. The output folder where the files for the web app will be created.
+
+### Building with default arguments
+
+By default, `build` looks for a `datapackage.json` file in the current working
+directory and creates the web app in `docs/requests/`.
+
+To use the default arguments, open a terminal in the root of your data package
+folder (i.e., the folder with your metadata file) and run:
+
+```bash {filename="Terminal"}
+seedcase-propagate build
+```
+
+<!-- TODO: Add file tree of what the created files look like -->
+
+### Building with custom arguments
+
+To use a different metadata file or output directory, provide them as arguments:
+
+```bash {filename="Terminal"}
+seedcase-propagate build path/to/metadata/file --output-dir path/to/output/dir
+```
+
+The only metadata file currently supported by Propagate is the
+`datapackage.json` file described by the [Data Package](https://datapackage.org)
+specification.
+
+## Adding the web app to a Quarto website
+
+If your data package is set up as a [Quarto](https://quarto.org/) website, you
+can easily include the request web app by doing the following:
+
+1. List the folder containing the web app as a `resource` in your `_quarto.yml`.
+   This will make Quarto copy the folder into the final website assets. For
+   example:
+
+   ```yaml {filename="_quarto.yml"}
+    project:
+      resources:
+        - docs/requests/
+   ```
+
+2. Add a navigation entry pointing to the web app folder in your `_quarto.yml`
+   or link to it from another page on your website. For example:
+
+   ```yaml {filename="_quarto.yml"}
+    website:
+      navbar:
+        left:
+          - text: "Request a data subset"
+            href: docs/requests/
+   ```
+
+If you generated the web app in `docs/requests/` within your data package, it
+will be available at `https://your-website.org/docs/requests/`.
+
+::: callout-note
+While we recommend using Quarto, the generated output is a self-contained static
+web application that can be hosted on any service that can serve static files.
+Simply make the generated output folder available as part of your website and
+add a link to it so that Requesters can find it.
+:::
+
+## Publishing the website
+
+<!-- TODO: Include section about running the Propagate command in GitHub workflow -->
