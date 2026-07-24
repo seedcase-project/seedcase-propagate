@@ -127,7 +127,10 @@ data-package:
 
 ### Subsets
 
-The `subsets` section describes which data subsets the Requester would like to create.
+The `subsets` section describes which data subsets the Requester would like to
+create. Note that subset creation is not intended to allow for a general-purpose
+query syntax, e.g. the request format should not support joins, grouping,
+arbitrary functions, random sampling, or row selection by position.
 
 ```{.yaml}
 subsets:
@@ -156,85 +159,18 @@ subsets:
   request file simple and to avoid parsing unsafe queries of the data (e.g. via
   SQL injection). If the `columns` key is empty or not included, all rows will
   be selected.
-- `rows`: Describes which rows to include in the subset. Can reference columns
-  that are not a part of the subset. If the `rows` key is empty or not included,
-  all rows will be selected.
+- `rows`: Rows that match the specified filters/conditions will be included
+  included in the subset. Can reference columns that are not a part of the
+  subset. If the `rows` key is empty or not included, all rows will be selected.
   - Row filters will be applied to each data subset, not just the resource they
     are listed under in the request. In other words, it is the intersection of
     filters that will be used to select the same statistical units (e.g.
     individuals) to be included in all the created subsets.
 
-There are currently two candidates for what this might look like, see below.
+#### Row filter details
 
-#### Row condition alternatives
-
-##### Alternative 1
-
-- A list of SQL filter conditions that describe which rows to include in the
-  subset.
-- Multiple row filters for the same resource are combined with `AND` logic. For
-  example, writing
-
-  ```{.yaml}
-  rows:
-    - "age > 50"
-    - "sex = 'Man'"
-  ```
-
-  is equivalent to writing
-
-  ```{.yaml}
-  rows:
-    - "age > 50 AND sex = 'Man'"
-  ```
-
-  ::: callout-note
-  Since YAML has special syntax for some characters, SQL-like row filters should
-  be quoted when written manually. This avoids ambiguity around characters such as
-  `>`, `:`, `#`, `*`, `&`, and `!`.
-
-  ```{.yaml}
-  rows:
-    - "col1 > 50"
-  ```
-
-  Instead of:
-
-  ```{.yaml}
-  rows:
-    - col1 > 50
-  ```
-
-  The unquoted form will often parse correctly, but the quoted form is safer and
-  should be used in documentation and generated files.
-  :::
-
-- The initial supported row filter syntax includes the following operators:
-  - Equality: `=`
-    - E.g. "age = 18"
-  - Comparisons: `>`, `>=`, `<`, `<=`
-    - E.g. `"age >= 18"`
-  - Membership: `IN`
-    - E.g. `"country IN ('Denmark', 'Sweden')"`
-  - Ranges: `BETWEEN`
-    - E.g. `"visit_date BETWEEN '2020-01-01' AND '2020-12-31'"`
-  - Missing values: `IS NULL`, `IS NOT NULL`
-    - E.g. `"end_date IS NULL"`
-  - Negation: `NOT`
-    - E.g. `NOT =`, `NOT IN`, `NOT BETWEEN`
-- This alternative is more closely mapped to how the SQL syntax will look, and
-  the options from the interface would need to be combined into the SQL row
-  filter syntax.
-- An advantage of this syntax is that it is more flexible. This might mainly
-  matter when editing manually as we allow more expressiveness here.
-- A drawback could be that requesters write things we don't want to allow and
-  that we would need to filter out at the SQL level or by parsing the string
-  which is likely more error prone than a more structured format.
-
-#### Alternative 2
-
-- A more structured key-value mapping for the different components of the filter
-  condition.
+Row filters are specified via a structured key-value mapping for the different
+components of the filter condition:
 
 ```{.yaml}
 rows:
@@ -253,16 +189,26 @@ rows:
       - 2012-12-31
 ```
 
-- This alternative is more closely mapped to the interface, e.g. the dropdown
-  for the operator corresponds to the "operator" key here and the condition
-  groups in the interface are also more similar to how they are grouped here
-  with "any".
-- An advantage of this syntax is that it is more structured, so it would be
-  easier to check that e.g. only allowed operators are used if someone manually
-  edits the file.
-- If we want to allow more flexibility when the file is edited manually, it
-  could be harder with this more strict spec, but it doesn't sound like that is
-  our intended use case currently.
+- This structured format allows for close mapping to the user interfaces, e.g. a
+  graphical dropdown element for the operator would correspond to the "operator"
+  key here and the condition groups in the interface are also more similar to
+  how they are grouped here with "any".
+- An advantage of this syntax over a more flexible SQL-like form is that it is
+  more structured, so it would be easier to check that e.g. only allowed
+  operators are used if someone manually edits the file.
+- The initial supported row filter syntax includes the following operators:
+  - Equality: `=`
+    - E.g. "age = 18"
+  - Comparisons: `>`, `>=`, `<`, `<=`
+    - E.g. `"age >= 18"`
+  - Membership: `IN`
+    - E.g. `"country IN ('Denmark', 'Sweden')"`
+  - Ranges: `BETWEEN`
+    - E.g. `"visit_date BETWEEN '2020-01-01' AND '2020-12-31'"`
+  - Missing values: `IS NULL`, `IS NOT NULL`
+    - E.g. `"end_date IS NULL"`
+  - Negation: `NOT`
+    - E.g. `NOT =`, `NOT IN`, `NOT BETWEEN`
 
 ### A complete example
 
@@ -290,13 +236,6 @@ data-package:
   version: 0.5.1
 
 subsets:
-  # TODO Showing both row syntaxes for now
-  - resource: metabolic-rate
-    columns:
-      - o2_consumed
-      - co2_produced
-    rows:
-      - "o2_consumed > 50"
   - resource: metabolic-rate
     columns:
       - strain
@@ -306,11 +245,3 @@ subsets:
         operator: "="
         value: block1
 ```
-
-### Non-goals
-
-Propagate is not intended to be a general-purpose query engine. The initial
-request format should not support joins, grouping, arbitrary functions, random
-sampling, or row selection by position. We also don't support shorthands such as `*` since that would make it less
-explicit which columns are used from just looking at the request file without
-also seeing the data package metadata.
