@@ -206,12 +206,7 @@ flowchart LR
 
 The `create-request` command takes a source metadata file and opens up a
 terminal user interface to interactively create a `request.yaml` file from the
-metadata. It is a terminal-based version of the web application that is built by
-the `build` command. It is designed for the more technically experienced user as
-a way of quickly creating a request file without having to use the web
-application. This is also an alternative to creating a request file if the Owner
-decided to not set up the web application for the data package or hasn't yet set
-it up. It has the following signature:
+metadata. It has the following signature:
 
 ```bash {filename="Terminal"}
 seedcase-propagate create-request [SOURCE]

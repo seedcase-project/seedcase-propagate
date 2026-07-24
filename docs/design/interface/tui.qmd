@@ -1,0 +1,71 @@
+---
+title: "Terminal user interface"
+---
+
+This interface is designed for the more technically experienced Requester to
+create a `request.yaml` file efficiently and quickly without having to use or
+depend on the web application.
+
+In many ways, the terminal user interface is similar to the web application in
+functionality but has some fundamental differences. Graphical user interfaces
+like web applications in general aren't well-designed for nor well-suited for
+building efficient or portable interfaces (e.g., they need a browser to work).
+Browser-based web applications also don't usually include custom keyboard
+shortcuts, which can make it difficult to build one that fits the needs or wants
+of more technically experienced Requesters. See the [user
+types](/docs/design/architecture.qmd#user-types) for more detail about this type
+of Requester and their needs.
+
+Terminal user interfaces, however, are by their nature better fit for the needs
+of technically experienced users. For example, they tend to make heavy use of or
+even require using only the keyboard. They are also more lightweight and
+portable, since they only need a terminal. So, Propagate's terminal user
+interface are designed with these technical users. The focus for the terminal
+user interface will be on simplicity, minimalism, efficiency, and portability.
+
+We include a terminal user interface as an alternative to the web application
+for the following reasons:
+
+- More technically experienced users may prefer a faster, more efficient way of
+  creating a request file without having to interact with a graphical web
+  application, especially if they are already familiar with working in a
+  terminal environment.
+
+- An in-editor tool to make it easier to manually edit a request file would
+  allow the most flexibility but also be the most error-prone since it involves
+  manually editing the file. It is also challenging to implement since most of
+  the manual editing experience, e.g. with checks against the metadata, the
+  editor needs to be made aware of a different metadata file for each data
+  package. This means that there must be a configuration option that the user
+  would need to change *every single time* when making requests from different
+  data packages. It's easier to design and develop a terminal interface that
+  takes a source metadata file as input and generates a request file as an
+  output.
+
+- Creating a template `request.yaml` file manually that has all the information
+  filled in from the metadata file, while possible, would not be a pleasant
+  experience for the Requester. This might be fine for small datasets, but for
+  data packages with several resources and hundreds of columns (which is fairly
+  common in research datasets), manually editing an extremely long request file
+  would be very tedious and error-prone. Especially when it comes to correctly
+  writing row conditions, as those fields can't be pre-filled as easily.
+
+- For requesters on systems with limitations (e.g., IT restrictions and other
+  institutional policies), building and viewing a web application locally may
+  not be possible. A terminal user interface is simpler and has fewer steps
+  involved. For example, it only needs to read the metadata file, display the
+  content on the terminal, and generate a request file, which is much simpler
+  and less likely to be blocked by IT restrictions.
+
+- A web application may not be available on some systems, such as terminal-only
+  servers. A terminal user interface can be used in these types of environments,
+  especially if the only way to make a request is while logged into these
+  systems.
+
+- If the Owner is not allowed (e.g. institutional policy) to use GitHub or to
+  publicly share the metadata file (and consequently the web application). This
+  is quite a common experience for human health and/or sensitive data, which
+  makes up a substantial amount of research data. And usually, these sensitive
+  data are kept on more tightly-managed servers, so options for sharing the
+  metadata file and creating web applications are limited. A terminal user
+  interface is more portable in these cases.
