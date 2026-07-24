@@ -66,9 +66,6 @@ request:
   relevant to the project. The motivation is particularly needed for human
   health data since there are legal requirements (e.g. GDPR) to declare for what
   purposes the data is used.
-- `iteration`: The iteration of requests from this project for this data
-  package.
-<!-- TODO This is a "maybe" since it seems a bit less reliable. It could be automatically incremented if a file is loaded into the web-interface, but there is not way to know if that file was a saved version that was never sent (ie the iteration should not be updated) or if it was sent and is now being modified for sending again (ie the iteration should be updated). It could be manually filled in of course, but we should think about who this is mainly useful for; if it is the owner then they could run something on their end to find out how many requests they have; if it is someone viewing the data package then it's more useful to try to have it in the file itself. -->
 
 ### Requester
 
