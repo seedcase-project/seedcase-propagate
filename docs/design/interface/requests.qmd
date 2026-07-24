@@ -137,8 +137,6 @@ subsets:
       - COLUMN-NAME
       - COLUMN-NAME
     rows:
-      - "ROW-CONDITION" # As SQL
-      # Alternatively, this more structured format, see comparison below
       - column: COLUMN-NAME
         operator: "OPERATOR" # E.g. ">"
         value: VALUE-TO-COMPARE-AGAINST
@@ -149,15 +147,15 @@ subsets:
 
 <!-- TODO When editing the file directly, do we require the user to enter row conditions (and maybe all other values too) as strings? It seems like we have to in order not to have yaml parsing potentially break if they do something illegal. -->
 
-- `resource`: Specifies the data resource to create the subset from. Multiple
-  subsets can be specified in the same request by repeating the `resource` key.
-  This can be done with
-  different resources for each.
+- `resource`: Specifies the data resource to create the subset from. The same
+  resource can only be used once Multiple subsets can be specified in the same
+  request by repeating the `resource` key. This can be done with different
+  resources for each.
 - `columns`: The columns to include. Each list item must correspond to an exact
   column name. SQL-like shorthands are not supported in order to keep the
   request file simple and to avoid parsing unsafe queries of the data (e.g. via
-  SQL injection). This can not be left empty / unspecified; at least one column
-  must be included in the `columns` field.
+  SQL injection). If the `columns` key is empty or not included, all rows will
+  be selected.
 - `rows`: Describes which rows to include in the subset. Can reference columns
   that are not a part of the subset. If the `rows` key is empty or not included,
   all rows will be selected.
