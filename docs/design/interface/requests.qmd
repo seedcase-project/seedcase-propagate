@@ -185,10 +185,11 @@ rows:
       - dog
       - cat
   - column: col3
-    operator: between
-    value:
-      - 2012-01-01
-      - 2012-12-31
+    operator: "<="
+    value: 2012-01-01
+  - column: col3
+    operator: ">="
+    value: 2012-12-31
 ```
 
 - This structured format allows for close mapping to the user interfaces, e.g. a
@@ -205,12 +206,10 @@ rows:
     - E.g. `"age >= 18"`
   - Membership: `IN`
     - E.g. `"country IN ('Denmark', 'Sweden')"`
-  - Ranges: `BETWEEN`
-    - E.g. `"visit_date BETWEEN '2020-01-01' AND '2020-12-31'"`
   - Missing values: `IS NULL`, `IS NOT NULL`
     - E.g. `"end_date IS NULL"`
   - Negation: `NOT`
-    - E.g. `NOT =`, `NOT IN`, `NOT BETWEEN`
+    - E.g. `NOT =`, `NOT IN`
 
 ### A complete example
 
