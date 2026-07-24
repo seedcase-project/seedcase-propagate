@@ -1,0 +1,248 @@
+---
+title: "Request file"
+---
+
+The request file, `request.yaml`, contains the instructions for requesting a
+subset of data from a data package. The file is created by a Requester through
+the web application, terminal interface, or even manually (though not
+recommended). The file is used by an Owner to check and generate the requested
+data subset. You can
+[read more about the Requester and Owner user types in the Design overview page](/docs/design/interface/inputs.qmd)
+
+The request file is intended to be both human-readable and machine-readable. It
+should be simple enough for a Requester to understand and, when needed, edit
+manually. At the same time, it should be structured enough that Propagate can
+check it against the data package metadata and convert it into an SQL query for
+generating the requested data subset.
+
+## Format
+
+The request file uses YAML. YAML was chosen because it is more readable for
+manual editing than JSON and less verbose than TOML for lists of columns and row
+filters.
+
+## Structure
+
+The request file contains the following top-level sections:
+
+- `request`: Information about this specific request.
+- `requester`: Information about the person requesting the data.
+- `project`: Information about the research project that requires the data.
+- `data-package`: Information about the data package the request applies to.
+- `subsets`: The requested data subsets, with one item per resource.
+
+Each of these is elaborated on below:
+
+### Request
+
+The `request` includes information about the request itself, such as when and
+why it was created. This helps an Owner organize and track requests, which is
+especially beneficial for data packages that receive large volumes of requests.
+
+```{.yaml}
+request:
+  datetime-modified: DATETIME
+  datetime-created: DATETIME
+  motivation: TEXT
+  iteration: NUMBER
+```
+
+- `datetime-modified`: When the request was last modified. This can act as an ID
+  which facilitates referring to a specific iteration of a request, e.g. in
+  dialog between the Owner and Requester. Precision to the second should be
+  sufficient.
+  - Note that this field is automatically populated when the request is saved
+    via a user interface (be it the web app or the TUI). If the request is
+    edited manually, it must be updated manually.
+  - The format should be ISO 8601, e.g. `2026-07-06T01:45:34Z` of the current
+    time without time zone information.
+    - Propagate assumes that it is very rare that Requesters are outside of the
+      Owner's timezone and that it is mostly used by people within the same
+      group or institution that are assumed to be using Propagate together.
+- `datetime-created`: When the first iteration of the request was created. It is
+  also set at UTC and in ISO 8601 format.
+- `motivation`: Explanation for why the requester's project needs access to this
+  data subset. This is used by the Owner to check whether the requested data is
+  relevant to the project. The motivation is particularly needed for human
+  health data since there are legal requirements (e.g. GDPR) to declare for what
+  purposes the data is used.
+
+### Requester
+
+The `requester` section describes who is requesting the data. This person
+doesn't strictly have to be the one working with the data, but they should serve
+as the main point of contact for the Owner.
+
+
+```{.yaml}
+requester:
+  name: TEXT
+  email: TEXT
+```
+
+- `name`: The name of the requester.
+- `email`: The email of the requester.
+
+### Project
+
+The `project` section contains information about the research project that
+requires the data. A project is defined as a body of work that results in a
+research output, e.g. a paper, report, website, dashboard, or analysis. This
+could be a part of a PhD student's thesis or a collaboration research project
+for a group of researchers. This field is necessary to ensure that the data
+requested is aligned with what it is intended to be used for, which can be a
+legal requirement (e.g. in GDPR).
+
+- `name`: Think of name as a repo name, which is meant for consumption by both
+  humans and machines. Use lowercase letters and hyphens where possible, e.g.
+  `my-research-project`. `name` is meant to be an indirect identifier which
+  needs to be combined with other information such as data package, requester,
+  and project name to uniquely identify a request. It is also meant to be
+  legible enough to display in different areas/different ways.
+- `title`: A longer human-readable project title, e.g. `My research project`.
+  This could be used by the Owner to publicly display the data package requests.
+- `description`: A summary of the project, including details like background,
+  rationale, basic methods, and potential research questions. This information,
+  combined with the `motivation`, is mainly to help the Owner ensure that the
+  data requested matches what it will be used for.
+
+### Data package
+
+The `data-package` section identifies the data package the request applies to.
+This information will be automatically populated from the data package metadata
+when creating a request via the web application or the TUI.
+
+```{.yaml}
+data-package:
+  id: TEXT
+  name: TEXT
+  version: X.Y.Z
+```
+
+- `id`: A unique identifier of the data package.
+- `name`: A human readable name to refer to. It is lowercased and doesn't
+  include any spaces. E.g., `my-data-package`.
+- `version`: Helps the Owner detect which version of the data package the
+  request is for.
+
+### Subsets
+
+The `subsets` section describes which data subsets the Requester would like to
+create. Note that subset creation is not intended to allow for a general-purpose
+query syntax, e.g. the request format should not support joins, grouping,
+arbitrary functions, random sampling, or row selection by position.
+
+```{.yaml}
+subsets:
+  - resource: RESOURCE-NAME
+    columns:
+      - COLUMN-NAME
+      - COLUMN-NAME
+      - COLUMN-NAME
+    rows:
+      - column: COLUMN-NAME
+        operator: "OPERATOR" # E.g. ">"
+        value: VALUE-TO-COMPARE-AGAINST
+  - resource: RESOURCE-NAME
+    columns:
+      - COLUMN-NAME
+```
+
+<!-- TODO When editing the file directly, do we require the user to enter row conditions (and maybe all other values too) as strings? It seems like we have to in order not to have yaml parsing potentially break if they do something illegal. -->
+
+- `resource`: Specifies the data resource to create the subset from. The same
+  resource can only be specified once. Multiple subsets can be created in the
+  same request by repeating the `resource` key with a different resource name
+  for each subset.
+- `columns`: The columns to include. Each list item must correspond to an exact
+  column name. SQL-like shorthands are not supported in order to keep the
+  request file simple and to avoid parsing unsafe queries of the data (e.g. via
+  SQL injection). If the `columns` key is empty or not included, all rows will
+  be selected.
+- `rows`: Rows that match the specified filters/conditions will be included
+  included in the subset. Can reference columns that are not a part of the
+  subset. If the `rows` key is empty or not included, all rows will be selected.
+  - Row filters will be applied to each data subset, not just the resource they
+    are listed under in the request. In other words, it is the intersection of
+    filters that will be used to select the same statistical units (e.g.
+    individuals) to be included in all the created subsets.
+
+<!-- TODO could add more of this comment: For GDPR purposes (and other legal/privacy regulations), as well as for statisticaly reasons, any subsetting by rows in any resource will lead to the observational units (participants if human) being the same across all resources. For example, if in survey a condition is Gender == "Man", and in another resource biometrics that doesn't have a condition, the participant IDs from the subsetted survey will be applied to the biometrics. So that all resources contain the same set of participants. This is a legal thing, as much as a statistical thing. It's to ensure that only the necessary data is given to a researcher that needs it. The principle of "least permissions" but in data context -->
+
+#### Row filter details
+
+Row filters are specified via a structured key-value mapping for the different
+components of the filter condition:
+
+```{.yaml}
+rows:
+  - column: col1
+    operator: ">"
+    value: 50
+  - column: col2
+    operator: "in"
+    value:
+      - dog
+      - cat
+  - column: col3
+    operator: "<="
+    value: 2012-01-01
+  - column: col3
+    operator: ">="
+    value: 2012-12-31
+```
+
+- This structured format allows for close mapping to the user interfaces, e.g. a
+  graphical dropdown element for the operator would correspond to the "operator"
+  key here and the condition groups in the interface are also more similar to
+  how they are grouped here with "any".
+- An advantage of this syntax over a more flexible SQL-like form is that it is
+  more structured, so it would be easier to check that e.g. only allowed
+  operators are used if someone manually edits the file.
+- The initially supported row filter syntax includes the following operators:
+  - Equality: `=`
+    - E.g. "age = 18"
+  - Comparisons: `>`, `>=`, `<`, `<=`
+    - E.g. `"age >= 18"`
+  - Membership: `IN`
+    - E.g. `"country IN ('Denmark', 'Sweden')"`
+  - Missing values: `IS NULL`, `IS NOT NULL`
+    - E.g. `"end_date IS NULL"`
+  - Negation: `NOT`
+    - E.g. `NOT =`, `NOT IN`
+
+### A complete example
+
+A complete request file might look like this.
+
+```{.yaml}
+request:
+  date-modified: 2026-07-06T01:45:34-12:00
+  motivation: |
+    We would like access to metabolic and block variables to evaluate
+    our hypothesis regarding ...
+  date-created: 2026-07-04T01:44:34-12:00
+  iteration: 2
+
+project:
+  name:
+  title: Metabolic costs
+  description: |
+    Our project investigates the gas exchange during metabolism
+    with the aim to determine ...
+
+data-package:
+  id: 8dbef2a2-0354-4996-bc9e-71a6c79aec7d
+  name: example-seed-beetle
+  version: 0.5.1
+
+subsets:
+  - resource: metabolic-rate
+    columns:
+      - strain
+      - activity
+    rows:
+      - column: block
+        operator: "="
+        value: block1
+```
