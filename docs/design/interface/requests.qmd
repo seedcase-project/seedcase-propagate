@@ -148,9 +148,9 @@ subsets:
 <!-- TODO When editing the file directly, do we require the user to enter row conditions (and maybe all other values too) as strings? It seems like we have to in order not to have yaml parsing potentially break if they do something illegal. -->
 
 - `resource`: Specifies the data resource to create the subset from. The same
-  resource can only be used once Multiple subsets can be specified in the same
-  request by repeating the `resource` key. This can be done with different
-  resources for each.
+  resource can only be specified once. Multiple subsets can be created in the
+  same request by repeating the `resource` key with a difference resource name
+  for each subset.
 - `columns`: The columns to include. Each list item must correspond to an exact
   column name. SQL-like shorthands are not supported in order to keep the
   request file simple and to avoid parsing unsafe queries of the data (e.g. via
@@ -159,6 +159,10 @@ subsets:
 - `rows`: Describes which rows to include in the subset. Can reference columns
   that are not a part of the subset. If the `rows` key is empty or not included,
   all rows will be selected.
+  - Row filters will be applied to each data subset, not just the resource they
+    are listed under in the request. In other words, it is the intersection of
+    filters that will be used to select the same statistical units (e.g.
+    individuals) to be included in all the created subsets.
 
 There are currently two candidates for what this might look like, see below.
 
