@@ -58,7 +58,7 @@ request:
     time without time zone information.
     - Propagate assumes that it is very rare that Requesters are outside of the
       Owner's timezone and that it is mostly used by people within the same
-      group or institution that are assumed to be using propagate together.
+      group or institution that are assumed to be using Propagate together.
 - `datetime-created`: When the first iteration of the request was created. It is
   also set at UTC and in ISO 8601 format.
 - `motivation`: Explanation for why the requester's project needs access to this
@@ -96,7 +96,7 @@ legal requirement (e.g. in GDPR).
 - `name`: Think of name as a repo name, which is meant for consumption by both
   humans and machines. Use lowercase letters and hyphens where possible, e.g.
   `my-research-project`. `name` is meant to be an indirect identifier which
-  needs to be combined with other informations such as data package, requester,
+  needs to be combined with other information such as data package, requester,
   and project name to uniquely identify a request. It is also meant to be
   legible enough to display in different areas/different ways.
 - `title`: A longer human-readable project title, e.g. `My research project`.
@@ -152,7 +152,7 @@ subsets:
 
 - `resource`: Specifies the data resource to create the subset from. The same
   resource can only be specified once. Multiple subsets can be created in the
-  same request by repeating the `resource` key with a difference resource name
+  same request by repeating the `resource` key with a different resource name
   for each subset.
 - `columns`: The columns to include. Each list item must correspond to an exact
   column name. SQL-like shorthands are not supported in order to keep the
@@ -199,7 +199,7 @@ rows:
 - An advantage of this syntax over a more flexible SQL-like form is that it is
   more structured, so it would be easier to check that e.g. only allowed
   operators are used if someone manually edits the file.
-- The initial supported row filter syntax includes the following operators:
+- The initially supported row filter syntax includes the following operators:
   - Equality: `=`
     - E.g. "age = 18"
   - Comparisons: `>`, `>=`, `<`, `<=`
