@@ -56,8 +56,8 @@ request:
     edited manually, it must be updated manually.
   - The format should be ISO 8601, e.g. `2026-07-06T01:45:34Z` of the current
     time without time zone information.
-    - Propagate assumes that it is very rare that requesters are outside of the
-      owner's timezone and that it is mostly used by people within the same
+    - Propagate assumes that it is very rare that Requesters are outside of the
+      Owner's timezone and that it is mostly used by people within the same
       group or institution that are assumed to be using propagate together.
 - `datetime-created`: When the first iteration of the request was created. It is
   also set at UTC and in ISO 8601 format.
@@ -90,18 +90,21 @@ requires the data. A project is defined as a body of work that results in a
 research output, e.g. a paper, report, website, dashboard, or analysis. This
 could be a part of a PhD student's thesis or a collaboration research project
 for a group of researchers. This field is necessary to ensure that the data
-requested is aligned with what it is intended to be used for, which can a legal
-requirement (e.g. in GDPR).
+requested is aligned with what it is intended to be used for, which can be a
+legal requirement (e.g. in GDPR).
 
-- `name`: A short machine-readable project name, using lowercase letters and
-  hyphens where possible, e.g. `my-research-project`. This is mainly used for
-  identification purposes when managing several requests.
+- `name`: Think of name as a repo name, which is meant for consumption by both
+  humans and machines. Use lowercase letters and hyphens where possible, e.g.
+  `my-research-project`. `name` is meant to be an indirect identifier which
+  needs to be combined with other informations such as data package, requester,
+  and project name to uniquely identify a request. It is also meant to be
+  legible enough to display in different areas/different ways.
 - `title`: A longer human-readable project title, e.g. `My research project`.
   This could be used by the Owner to publicly display the data package requests.
-- `description`: A summary of the project, including details like
-  background, rationale, basic methods, and potential research questions. This
-  information, combined with the `motivation`, is mainly to help the Owner
-  ensure that the data requested matches what it will be used for.
+- `description`: A summary of the project, including details like background,
+  rationale, basic methods, and potential research questions. This information,
+  combined with the `motivation`, is mainly to help the Owner ensure that the
+  data requested matches what it will be used for.
 
 ### Data package
 
