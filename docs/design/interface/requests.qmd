@@ -54,9 +54,13 @@ request:
   - Note that this field is automatically populated when the request is saved
     via a user interface (be it the web app or the TUI). If the request is
     edited manually, it must be updated manually.
-  - The format should be ISO 8601, e.g. `2026-07-06T01:45:34-12:00` of the current time (though internally it will be stored as UTC).
-- `datetime-created`: When the first iteration of the request was created. It is also set at UTC and in ISO 8601 format.
-<!-- TODO The creation date would only be correctly populated if the requester uploads their old request in the interface when they need to make a modification. If they rewrite the request from scratch, they could (mistakenly) put an incorrect date here, but that's fine I think. -->
+  - The format should be ISO 8601, e.g. `2026-07-06T01:45:34Z` of the current
+    time without time zone information.
+    - Propagate assumes that it is very rare that requesters are outside of the
+      owner's timezone and that it is mostly used by people within the same
+      group or institution that are assumed to be using propagate together.
+- `datetime-created`: When the first iteration of the request was created. It is
+  also set at UTC and in ISO 8601 format.
 - `motivation`: Explanation for why the requester's project needs access to this
   data subset. This is used by the Owner to check whether the requested data is
   relevant to the project. The motivation is particularly needed for human
