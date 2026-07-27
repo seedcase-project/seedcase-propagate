@@ -143,6 +143,7 @@ subsets:
       - column: COLUMN-NAME
         operator: "OPERATOR" # E.g. ">"
         value: VALUE-TO-COMPARE-AGAINST
+        not: BOOLEAN
   - resource: RESOURCE-NAME
     columns:
       - COLUMN-NAME
@@ -167,49 +168,72 @@ subsets:
     filters that will be used to select the same statistical units (e.g.
     individuals) to be included in all the created subsets.
 
-<!-- TODO could add more of this comment: For GDPR purposes (and other legal/privacy regulations), as well as for statisticaly reasons, any subsetting by rows in any resource will lead to the observational units (participants if human) being the same across all resources. For example, if in survey a condition is Gender == "Man", and in another resource biometrics that doesn't have a condition, the participant IDs from the subsetted survey will be applied to the biometrics. So that all resources contain the same set of participants. This is a legal thing, as much as a statistical thing. It's to ensure that only the necessary data is given to a researcher that needs it. The principle of "least permissions" but in data context -->
+<!-- TODO could add more of this comment: "For GDPR purposes (and other legal/privacy regulations), as well as for statisticaly reasons, any subsetting by rows in any resource will lead to the observational units (participants if human) being the same across all resources. For example, if in survey a condition is Gender == "Man", and in another resource biometrics that doesn't have a condition, the participant IDs from the subsetted survey will be applied to the biometrics. So that all resources contain the same set of participants. This is a legal thing, as much as a statistical thing. It's to ensure that only the necessary data is given to a researcher that needs it. The principle of "least permissions" but in data context" -->
 
 #### Row filter details
 
 Row filters are specified via a structured key-value mapping for the different
-components of the filter condition:
+components of the filter condition. This structured format allows for close
+mapping to the user interfaces, e.g. a graphical dropdown element for the
+operator would correspond to the "operator" key here and the condition groups in
+the interface are also more similar to how they are grouped here with the "any"
+key (described below).
+
+An advantage of this more structured syntax over a more flexible SQL-like form
+is that it is, so it will be easier to check that e.g. only allowed operators
+are used if someone manually edits the file.
+
+Here is an example of what a more complex row filter might look like:
 
 ```{.yaml}
 rows:
   - column: col1
-    operator: ">"
-    value: 50
-  - column: col2
-    operator: "in"
+    operator: "IN"
+    not: true
     value:
       - dog
       - cat
-  - column: col3
-    operator: "<="
-    value: 2012-01-01
-  - column: col3
+  - column: col2
     operator: ">="
+    value: 2012-01-01
+  - column: col2
+    operator: "<="
     value: 2012-12-31
+  any:
+    - column: col3
+      operator: ">"
+      value: 404
+    - column: col4
+      operator: "<"
+      value: 101
 ```
 
-- This structured format allows for close mapping to the user interfaces, e.g. a
-  graphical dropdown element for the operator would correspond to the "operator"
-  key here and the condition groups in the interface are also more similar to
-  how they are grouped here with "any".
-- An advantage of this syntax over a more flexible SQL-like form is that it is
-  more structured, so it would be easier to check that e.g. only allowed
-  operators are used if someone manually edits the file.
-- The initially supported row filter syntax includes the following operators:
+- `column`: The name of the column to use for the comparison in the row filter.
+- `operator`: How to compare the column value against a reference value. The
+  initially supported row filter syntax includes the following operators (an
+  example of each can be found above):
   - Equality: `=`
-    - E.g. "age = 18"
+    - For inequality, use the `not` key described below.
   - Comparisons: `>`, `>=`, `<`, `<=`
-    - E.g. `"age >= 18"`
   - Membership: `IN`
-    - E.g. `"country IN ('Denmark', 'Sweden')"`
   - Missing values: `IS NULL`, `IS NOT NULL`
-    - E.g. `"end_date IS NULL"`
-  - Negation: `NOT`
-    - E.g. `NOT =`, `NOT IN`
+- `not`: Invert the comparison
+  - E.g. if using `=` and setting `not: true` then all rows NOT matching the
+    reference value will be returned.
+- `value`: The reference value to compare against.
+- `any`: By default, listed conditions will be combined so that a rows needs to
+  match all of them to be included. If the user want to specify that it's
+  sufficient to meet any of a set of conditions, the `any` key can be used to
+  create a group of conditions where it is enough if one evaluated to true for a
+  row to be included.
+- If we would write the expression in the example above more verbosely, it would
+  read:
+  - The value of col1 is not one of dog or cat
+  - AND col2 greater than or equal to 2012-01-01
+  - AND col is smaller than or equal to 2012-12-31
+  - AND any of the following comparisons are true:
+    - col3 is greater than 404
+    - col4 smaller than 101
 
 ### A complete example
 
