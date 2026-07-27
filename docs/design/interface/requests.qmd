@@ -73,7 +73,6 @@ The `requester` section describes who is requesting the data. This person
 doesn't strictly have to be the one working with the data, but they should serve
 as the main point of contact for the Owner.
 
-
 ```{.yaml}
 requester:
   name: TEXT
@@ -168,7 +167,7 @@ subsets:
     filters that will be used to select the same statistical units (e.g.
     individuals) to be included in all the created subsets.
 
-<!-- TODO could add more of this comment: "For GDPR purposes (and other legal/privacy regulations), as well as for statisticaly reasons, any subsetting by rows in any resource will lead to the observational units (participants if human) being the same across all resources. For example, if in survey a condition is Gender == "Man", and in another resource biometrics that doesn't have a condition, the participant IDs from the subsetted survey will be applied to the biometrics. So that all resources contain the same set of participants. This is a legal thing, as much as a statistical thing. It's to ensure that only the necessary data is given to a researcher that needs it. The principle of "least permissions" but in data context" -->
+<!-- TODO could add more of this comment: "For GDPR purposes (and other legal/privacy regulations), as well as for statistically reasons, any subsetting by rows in any resource will lead to the observational units (participants if human) being the same across all resources. For example, if in survey a condition is Gender == "Man", and in another resource biometrics that doesn't have a condition, the participant IDs from the subsetted survey will be applied to the biometrics. So that all resources contain the same set of participants. This is a legal thing, as much as a statistical thing. It's to ensure that only the necessary data is given to a researcher that needs it. The principle of "least permissions" but in data context" -->
 
 #### Row filter details
 
