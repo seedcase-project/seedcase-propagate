@@ -52,12 +52,12 @@ Propagate's [`check`]() command.
 
 From the request file, Propagate uses the project `name` to create a
 `<project-name>_<timestamp>.tar` file with the subset, saved in the `subsets/`
-directory. For example, a request with a project name `diet-diabetes` requesting
-data from two resources, `participants` and `biomarkers`, produces:
+directory. For example, a request with a project name `female-diabetes-study`
+requesting data from two resources, `participants` and `biomarkers`, produces:
 
 ```text
 subsets/
-└── diet-diabetes_2025-01-01T121000.tar
+└── female-diabetes-study_2025-01-01T121000.tar
 ```
 
 ::: content-hidden
@@ -65,7 +65,7 @@ Above dir tree built from <https://tree.nathanfriend.com/>.
 
 ```text
 subsets/
-  diet-diabetes_2025-01-01T121000.tar
+  female-diabetes-study_2025-01-01T121000.tar
 ```
 :::
 
@@ -104,22 +104,22 @@ steps without executing them.
 ## Creating a subset with custom arguments
 
 Let's say we want to create a subset using a request file located at
-`requests/diet-diabetes/request.yaml` and a metadata source file at
+`requests/female-diabetes-study/request.yaml` and a metadata source file at
 `metadata/datapackage.json`, and we want to place the created subset in a
 `diabetes-subsets/` directory. The command for that would be:
 
 ```bash
-propagate subset requests/diet-diabetes/request.yaml -s metadata/datapackage.json -o diabetes-subsets/
+propagate subset requests/female-diabetes-study/request.yaml -s metadata/datapackage.json -o diabetes-subsets/
 ```
 
-This will take the request file in the `requests/diet-diabetes/` directory,
-check it against the metadata file in the `metadata/` directory, and create the
-subset in the `diabetes-subsets/` directory. If the request's project name is
-`diet-diabetes`, the subset directory structure will be:
+This will take the request file in the `requests/female-diabetes-study/`
+directory, check it against the metadata file in the `metadata/` directory, and
+create the subset in the `diabetes-subsets/` directory. If the request's project
+name is `female-diabetes-study`, the subset directory structure will be:
 
 ```text
 diabetes-subsets/
-└── diet-diabetes_2025-01-01T121000.tar
+└── female-diabetes-study_2025-01-01T121000.tar
 ```
 
 ::: content-hidden
@@ -127,7 +127,7 @@ Above dir tree built from <https://tree.nathanfriend.com/>.
 
 ```text
 diabetes-subsets/
-  diet-diabetes_2025-01-01T121000.tar
+  female-diabetes-study_2025-01-01T121000.tar
 ```
 :::
 
@@ -141,5 +141,3 @@ After the subset has been created, it's up to you, the
 [Requester](/docs/design/architecture.qmd#requester) and any other project
 members who need it, following your institution's practices for handling this
 kind of data.
-
-<!-- TODO: Change project name to `female-diabetes-study` and `women` to `female` -->
