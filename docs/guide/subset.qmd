@@ -51,7 +51,7 @@ run on its own with Propagate's [`check`]() command, without creating a subset.
 
 Propagate takes the request's project `name` and the resource `name`(s) (found
 in `request.yaml`) to create a `<project-name>_<timestamp>.tar` file of the
-subset. Within the `.tar` file is the resource Parquet files. For example, for a
+subset.  The `.tar` file contains the resource Parquet files. For example, for a
 request with a project name of `diet-diabetes` requesting data from two
 resources, `resource1` and `resource2`, the created `.tar` file with the subset
 will be:
@@ -73,7 +73,7 @@ subsets/
 The `.tar` file will contain the following files:
 
 ```text
-.tar
+diet-diabetes_2025-01-01T121000.tar
 ├── resource1.parquet
 └── resource2.parquet
 ```
@@ -113,7 +113,7 @@ internally to create the subset without executing them.
 
 ## Creating a subset with custom arguments
 
-To create a subset with custom arguments, we need to provide all three
+To create a subset with custom arguments, we can provide all three
 arguments. Let's say we want to create a subset based on a request file placed
 at the relative path `requests/diet-diabetes/request.yaml`, from a metadata
 source file located at `metadata/datapackage.json`, and we want to place it in
@@ -123,9 +123,9 @@ the directory `diabetes-subsets/`. The command for that would be:
 propagate subset requests/diet-diabetes/request.yaml -s metadata/datapackage.json -o diabetes-subsets/
 ```
 
-This will take the local request file, check it against a remote
-`datapackage.json` file located in the root of the `example-org`'s
-`diabetes-datapackage` repository, and create the subset locally in the
+This will take the request file in the `requests/diet-diabetes/` directory, check it against the
+metadata file in the `metadata/` directory, 
+and create the subset in the
 `diabetes-subsets/` directory. If the request's project name is `diet-diabetes`
 and includes two resources, `resource1` and `resource2`, as in the example
 above, the subset directory structure will be:
@@ -144,10 +144,6 @@ diabetes-subsets/
 ```
 :::
 
-::: callout-note
-Even though Propagate allows the metadata source file to be placed locally, you
-need to have access to the actual data to be able to create the subset.
-:::
 
 ## Next steps
 
