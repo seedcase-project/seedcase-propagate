@@ -57,7 +57,7 @@ requesting data from two resources, `participants` and `biomarkers`, produces:
 
 ```text
 subsets/
-└── female-diabetes-study_2025-01-01T121000.tar
+└── female-diabetes-study-2025-01-01T121000.tar
 ```
 
 ::: content-hidden
@@ -65,7 +65,7 @@ Above dir tree built from <https://tree.nathanfriend.com/>.
 
 ```text
 subsets/
-  female-diabetes-study_2025-01-01T121000.tar
+  female-diabetes-study-2025-01-01T121000.tar
 ```
 :::
 
@@ -119,7 +119,7 @@ name is `female-diabetes-study`, the subset directory structure will be:
 
 ```text
 diabetes-subsets/
-└── female-diabetes-study_2025-01-01T121000.tar
+└── female-diabetes-study-2025-01-01T121000.tar
 ```
 
 ::: content-hidden
@@ -127,7 +127,7 @@ Above dir tree built from <https://tree.nathanfriend.com/>.
 
 ```text
 diabetes-subsets/
-  female-diabetes-study_2025-01-01T121000.tar
+  female-diabetes-study-2025-01-01T121000.tar
 ```
 :::
 
