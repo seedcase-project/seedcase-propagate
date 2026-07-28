@@ -53,8 +53,8 @@ Propagate takes the request's project `name` and the resource `name`(s) (found
 in `request.yaml`) to create a `<project-name>_<timestamp>.tar` file of the
 subset.  The `.tar` file contains the resource Parquet files. For example, for a
 request with a project name of `diet-diabetes` requesting data from two
-resources, `resource1` and `resource2`, the created `.tar` file with the subset
-will be:
+resources, `participants` and `biomarkers`, the created `.tar` file with the
+subset will be:
 
 ```text
 subsets/
@@ -74,8 +74,8 @@ The `.tar` file will contain the following files:
 
 ```text
 diet-diabetes_2025-01-01T121000.tar
-├── resource1.parquet
-└── resource2.parquet
+├── participants.parquet
+└── biomarkers.parquet
 ```
 
 ::: content-hidden
@@ -83,8 +83,8 @@ Above dir tree built from <https://tree.nathanfriend.com/>.
 
 ```text
 .tar
-  resource1.parquet
-  resource2.parquet
+  participants.parquet
+  biomarkers.parquet
 ```
 :::
 
@@ -92,16 +92,17 @@ Above dir tree built from <https://tree.nathanfriend.com/>.
 Each subset output file created by Propagate only contains the columns and rows
 requested. For example, if the request contains:
 
-- The `age` and `sex` columns from `resource1` and only rows where `sex` is
+- The `age` and `sex` columns from `participants` and only rows where `sex` is
   `women`, and
-- The `hba1c` field from `resource2` and only rows with a value above 48.
+- The `hba1c` field from `biomarkers` and only rows with a value above 48.
 
-Then `resource1.parquet` will have just the `age` and `sex` columns for those
-rows, and `resource2.parquet` will have just the `hba1c` column for those rows.
+Then `participants.parquet` will have just the `age` and `sex` columns for those
+rows, and `biomarkers.parquet` will have just the `hba1c` column for those rows.
 
-Importantly, if `resource1` has a primary key `id` that maps to a foreign key
-`participant_id` in `resource2`, only rows in `resource2` with `participant_id`
-values that are also in the filtered `resource1` are included.
+Importantly, if `participants` has a primary key `id` that maps to a foreign key
+`participant_id` in `biomarkers`, only rows in `biomarkers` with
+`participant_id` values that are also in the filtered `participants` are
+included.
 :::
 
 ::: callout-tip
@@ -123,12 +124,11 @@ the directory `diabetes-subsets/`. The command for that would be:
 propagate subset requests/diet-diabetes/request.yaml -s metadata/datapackage.json -o diabetes-subsets/
 ```
 
-This will take the request file in the `requests/diet-diabetes/` directory, check it against the
-metadata file in the `metadata/` directory, 
-and create the subset in the
-`diabetes-subsets/` directory. If the request's project name is `diet-diabetes`
-and includes two resources, `resource1` and `resource2`, as in the example
-above, the subset directory structure will be:
+This will take the request file in the `requests/diet-diabetes/` directory,
+check it against the metadata file in the `metadata/` directory, and create the
+subset in the `diabetes-subsets/` directory. If the request's project name is
+`diet-diabetes` and includes two resources, `participants` and `biomarkers`, as
+in the example above, the subset directory structure will be:
 
 ```text
 diabetes-subsets/
