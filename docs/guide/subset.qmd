@@ -80,7 +80,7 @@ Each subset output file only contains the requested columns and rows. For
 example, given a request for:
 
 - The `age` and `sex` columns from `participants`, keeping only rows where `sex`
-  is `women`, and
+  is `female`, and
 - All columns in `biomarkers`, keeping only rows with a `hba1c` value above 48,
 
 the resulting `participants.parquet` will only have the `age` and `sex` columns
