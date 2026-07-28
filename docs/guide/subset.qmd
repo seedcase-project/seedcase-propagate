@@ -76,20 +76,23 @@ example, that means:
 - `biomarkers.parquet`
 
 ::: callout-note
-Each subset output file created by Propagate only contains the columns and rows
-requested. For example, if the request contains:
+Each subset output file only contains the requested columns and rows. For
+example, given a request for:
 
-- The `age` and `sex` columns from `participants` and only rows where `sex` is
-  `women`, and
-- The `hba1c` field from `biomarkers` and only rows with a value above 48.
+- The `age` and `sex` columns from `participants`, keeping only rows where `sex`
+  is `women`, and
+- All columns in `biomarkers`, keeping only rows with a `hba1c` value above 48,
 
-Then `participants.parquet` will have just the `age` and `sex` columns for those
-rows, and `biomarkers.parquet` will have just the `hba1c` column for those rows.
+the resulting `participants.parquet` will only have the `age` and `sex` columns
+filtered to those rows, and `biomarkers.parquet` will have all columns from that
+resource, but only the rows where `hba1c > 48`.
 
-Importantly, if `participants` has a primary key `id` that maps to a foreign key
-`participant_id` in `biomarkers`, only rows in `biomarkers` with
-`participant_id` values that are also in the filtered `participants` are
-included.
+Importantly, all row filters cascade to related resources through their key
+relationships: if `participants` has a primary key `id` referenced by a foreign
+key `participant_id` in `biomarkers`, only `biomarkers` rows whose
+`participant_id` matches a filtered `participants` row are included. The reverse
+also holds: only `participant_id`s included in the filtered `biomarkers` are
+included in `participants.parquet`.
 :::
 
 ::: callout-tip
@@ -138,3 +141,5 @@ After the subset has been created, it's up to you, the
 [Requester](/docs/design/architecture.qmd#requester) and any other project
 members who need it, following your institution's practices for handling this
 kind of data.
+
+<!-- TODO: Change project name to `female-diabetes-study` and `women` to `female` -->
