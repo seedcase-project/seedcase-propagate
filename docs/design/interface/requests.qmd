@@ -179,8 +179,8 @@ the interface are also more similar to how they are grouped here with the "any"
 key (described below).
 
 An advantage of this more structured syntax over a more flexible SQL-like form
-is that it is, so it will be easier to check that e.g. only allowed operators
-are used if someone manually edits the file.
+is that it will be easier to check that e.g. only allowed operators are used if
+someone manually edits the file.
 
 Here is an example of what a more complex row filter might look like:
 
