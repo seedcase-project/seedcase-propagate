@@ -220,19 +220,19 @@ rows:
   - E.g. if using `=` and setting `not: true` then all rows NOT matching the
     reference value will be returned.
 - `value`: The reference value to compare against.
-- `any`: By default, listed conditions will be combined so that a rows needs to
-  match all of them to be included. If the user want to specify that it's
+- `any`: By default, listed conditions will be combined so that a row needs to
+  match all of them to be included. If the user wants to specify that it's
   sufficient to meet any of a set of conditions, the `any` key can be used to
-  create a group of conditions where it is enough if one evaluated to true for a
+  create a group of conditions where it is enough if one evaluates to true for a
   row to be included.
-- If we would write the expression in the example above more verbosely, it would
+- If we wrote the expression in the example above more verbosely, it would
   read:
   - The value of col1 is not one of dog or cat
-  - AND col2 greater than or equal to 2012-01-01
-  - AND col is smaller than or equal to 2012-12-31
+  - AND col2 is greater than or equal to 2012-01-01
+  - AND col2 is smaller than or equal to 2012-12-31
   - AND any of the following comparisons are true:
     - col3 is greater than 404
-    - col4 smaller than 101
+    - col4 is smaller than 101
 
 ### A complete example
 
