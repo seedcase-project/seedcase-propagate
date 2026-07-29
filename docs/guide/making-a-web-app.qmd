@@ -1,8 +1,8 @@
 ---
-title: "Add a request web app to a data package's website"
+title: "Adding a request web app to a data package's website"
 description: >-
-  How to use Propagate to add a web app for requesting subsets of a data
-  package.
+  How to add a web app for requesting subsets of a data
+  package with Propagate.
 order: 1
 ---
 
@@ -16,8 +16,8 @@ request web app, and inserting it into the data package website.
 
 ## Building the web app
 
-Use Propagate's `build` command to create a web app for a data package so that
-people can request subsets of the data.
+Use Propagate's `build` command to create a web app for a data package, allowing
+people to request subsets of the data.
 
 The `build` command takes two inputs:
 
@@ -53,9 +53,9 @@ specification.
 ## Adding the web app to a Quarto website
 
 If your data package is set up as a [Quarto](https://quarto.org/) website, you
-can easily include the request web app by doing the following:
+can easily include the request web app by following the steps below:
 
-1. List the folder containing the web app as a `resource` in your `_quarto.yml`.
+1. List the folder containing the web app under `resources` in your `_quarto.yml`.
    This will make Quarto copy the folder into the final website assets. For
    example:
 
@@ -83,7 +83,7 @@ will be available at `https://your-website.org/docs/requests/`.
 While we recommend using Quarto, the generated output is a self-contained static
 web application that can be hosted on any service that can serve static files.
 Simply make the generated output folder available as part of your website and
-add a link to it so that Requesters can find it.
+add a link to it so Requesters can find it.
 :::
 
 ## Publishing the website
