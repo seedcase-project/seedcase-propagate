@@ -44,7 +44,6 @@ request:
   datetime-modified: DATETIME
   datetime-created: DATETIME
   motivation: TEXT
-  iteration: NUMBER
 ```
 
 - `datetime-modified`: When the request was last modified. This can act as an ID
@@ -91,6 +90,14 @@ could be a part of a PhD student's thesis or a collaboration research project
 for a group of researchers. This field is necessary to ensure that the data
 requested is aligned with what it is intended to be used for, which can be a
 legal requirement (e.g. in GDPR).
+
+```{.yaml}
+project:
+  name: TEXT
+  title: TEXT
+  description: TEXT
+```
+
 
 - `name`: Think of name as a repo name, which is meant for consumption by both
   humans and machines. Use lowercase letters and hyphens where possible, e.g.
@@ -240,16 +247,19 @@ A complete request file might look like this.
 
 ```{.yaml}
 request:
-  date-modified: 2026-07-06T01:45:34-12:00
+  datetime-modified: 2026-07-06T01:45:34-12:00
+  datetime-created: 2026-07-04T01:44:34-12:00
   motivation: |
     We would like access to metabolic and block variables to evaluate
     our hypothesis regarding ...
-  date-created: 2026-07-04T01:44:34-12:00
-  iteration: 2
+
+requester:
+  name: Ale
+  email: TEXT
 
 project:
-  name:
-  title: Metabolic costs
+  name: metabolic-cost
+  title: Metabolic cost estimatation
   description: |
     Our project investigates the gas exchange during metabolism
     with the aim to determine ...
