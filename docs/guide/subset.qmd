@@ -97,7 +97,7 @@ included in `participants.parquet`.
 
 ::: callout-tip
 If you want to see the steps Propagate runs **before** it actually creates the
-subset, run the `subset` command with `--show-plan true`. This prints those
+subset, run the `subset` command with `--show-plan`. This prints those
 steps without executing them.
 :::
 
@@ -109,7 +109,8 @@ Let's say we want to create a subset using a request file located at
 `diabetes-subsets/` directory. The command for that would be:
 
 ```bash
-propagate subset requests/female-diabetes-study/request.yaml -s metadata/datapackage.json -o diabetes-subsets/
+propagate subset requests/female-diabetes-study/request.yaml \
+  -s metadata/datapackage.json -o diabetes-subsets/
 ```
 
 This will take the request file in the `requests/female-diabetes-study/`
