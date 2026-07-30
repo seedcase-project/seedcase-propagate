@@ -1,9 +1,12 @@
 ---
-title: "Adding a request web app to a data package's website"
+title: "Adding a request page to a website"
 description: >-
-  How to add a web app for requesting subsets of a data package with Propagate.
+  How to add a web app to a static website for requesting subsets of a data
+  package with Propagate.
 order: 1
 ---
+
+<!-- TODO: Link to the data-pkg-guide when the page is done -->
 
 ::: callout-note
 If you are using [Template Data
