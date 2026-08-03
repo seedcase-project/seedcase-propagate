@@ -41,9 +41,9 @@ especially beneficial for data packages that receive large volumes of requests.
 
 ```{.yaml}
 request:
-  datetime-modified: DATETIME
-  datetime-created: DATETIME
-  motivation: TEXT
+  datetime-modified: "DATETIME"
+  datetime-created: "DATETIME"
+  motivation: "TEXT"
 ```
 
 - `datetime-modified`: When the request was last modified. This can act as an ID
@@ -74,8 +74,8 @@ as the main point of contact for the Owner.
 
 ```{.yaml}
 requester:
-  name: TEXT
-  email: TEXT
+  name: "TEXT"
+  email: "TEXT"
 ```
 
 - `name`: The name of the requester.
@@ -93,9 +93,9 @@ legal requirement (e.g. in GDPR).
 
 ```{.yaml}
 project:
-  name: TEXT
-  title: TEXT
-  description: TEXT
+  name: "TEXT"
+  title: "TEXT"
+  description: "TEXT"
 ```
 
 - `name`: Think of name as a GitHub repository name, which is meant for consumption by both
@@ -119,9 +119,9 @@ when creating a request via the web application or the TUI.
 
 ```{.yaml}
 data-package:
-  id: TEXT
-  name: TEXT
-  version: X.Y.Z
+  id: "TEXT"
+  name: "TEXT"
+  version: "X.Y.Z"
 ```
 
 - `id`: A unique identifier of the data package.
@@ -139,19 +139,19 @@ arbitrary functions, random sampling, or row selection by position.
 
 ```{.yaml}
 subsets:
-  - resource: RESOURCE-NAME
+  - resource: "RESOURCE-NAME"
     columns:
-      - COLUMN-NAME
-      - COLUMN-NAME
-      - COLUMN-NAME
+      - "COLUMN-NAME"
+      - "COLUMN-NAME"
+      - "COLUMN-NAME"
     rows:
-      - column: COLUMN-NAME
+      - column: "COLUMN-NAME"
         operator: "OPERATOR" # E.g. ">"
-        value: VALUE-TO-COMPARE-AGAINST
-        not: BOOLEAN
-  - resource: RESOURCE-NAME
+        value: "VALUE-TO-COMPARE-AGAINST"
+        not: "BOOLEAN"
+  - resource: "RESOURCE-NAME"
     columns:
-      - COLUMN-NAME
+      - "COLUMN-NAME"
 ```
 
 <!-- TODO When editing the file directly, do we require the user to enter row conditions (and maybe all other values too) as strings? It seems like we have to in order not to have yaml parsing potentially break if they do something illegal. -->
@@ -192,25 +192,25 @@ Here is an example of what a more complex row filter might look like:
 
 ```{.yaml}
 rows:
-  - column: col1
+  - column: "col1"
     operator: "IN"
-    not: true
+    not: "true"
     value:
-      - dog
-      - cat
-  - column: col2
+      - "dog"
+      - "cat"
+  - column: "col2"
     operator: ">="
-    value: 2012-01-01
-  - column: col2
+    value: "2012-01-01"
+  - column: "col2"
     operator: "<="
-    value: 2012-12-31
+    value: "2012-12-31"
   any:
-    - column: col3
+    - column: "col3"
       operator: ">"
-      value: 404
-    - column: col4
+      value: "404"
+    - column: "col4"
       operator: "<"
-      value: 101
+      value: "101"
 ```
 
 - `column`: The name of the column to use for the comparison in the row filter.
@@ -231,8 +231,7 @@ rows:
   sufficient to meet any of a set of conditions, the `any` key can be used to
   create a group of conditions where it is enough if one evaluates to true for a
   row to be included.
-- If we wrote the expression in the example above more verbosely, it would
-  read:
+- If we wrote the expression in the example above more verbosely, it would read:
   - The value of col1 is not one of dog or cat
   - AND col2 is greater than or equal to 2012-01-01
   - AND col2 is smaller than or equal to 2012-12-31
@@ -246,35 +245,35 @@ A complete request file might look like this.
 
 ```{.yaml}
 request:
-  datetime-modified: 2026-07-06T01:45:34-12:00
-  datetime-created: 2026-07-04T01:44:34-12:00
+  datetime-modified: "2026-07-06T01:45:34-12:00"
+  datetime-created: "2026-07-04T01:44:34-12:00"
   motivation: |
     We would like access to metabolic and block variables to evaluate
     our hypothesis regarding ...
 
 requester:
-  name: Ale
-  email: TEXT
+  name: "First Last"
+  email: "TEXT"
 
 project:
-  name: metabolic-cost
-  title: Metabolic cost estimatation
+  name: "metabolic-cost"
+  title: "Metabolic" cost estimatation
   description: |
     Our project investigates the gas exchange during metabolism
     with the aim to determine ...
 
 data-package:
-  id: 8dbef2a2-0354-4996-bc9e-71a6c79aec7d
-  name: example-seed-beetle
-  version: 0.5.1
+  id: "8dbef2a2-0354-4996-bc9e-71a6c79aec7d"
+  name: "example-seed-beetle"
+  version: "0.5.1"
 
 subsets:
-  - resource: metabolic-rate
+  - resource: "metabolic-rate"
     columns:
-      - strain
-      - activity
+      - "strain"
+      - "activity"
     rows:
-      - column: block
+      - column: "block"
         operator: "="
-        value: block1
+        value: "block1"
 ```
