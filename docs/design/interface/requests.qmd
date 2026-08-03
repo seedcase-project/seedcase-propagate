@@ -98,8 +98,7 @@ project:
   description: TEXT
 ```
 
-
-- `name`: Think of name as a repo name, which is meant for consumption by both
+- `name`: Think of name as a GitHub repository name, which is meant for consumption by both
   humans and machines. Use lowercase letters and hyphens where possible, e.g.
   `my-research-project`. `name` is meant to be an indirect identifier which
   needs to be combined with other information such as data package, requester,
