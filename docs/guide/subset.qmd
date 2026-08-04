@@ -20,8 +20,7 @@ command needs the following input:
 <!-- TODO: Add link to subset's ref doc above when made -->
 
 1. The path to the request, a `request.yaml` file. Required; it has no default
-   value. The [TUI]() will create the request in
-   `/requests/<project-name>/request.yaml`.
+   value.
 2. The path to the metadata source file (which includes paths to the data).
    Defaults to `datapackage.json` in the current directory.
 3. The output directory. Defaults to `subsets/` in the same directory as the
