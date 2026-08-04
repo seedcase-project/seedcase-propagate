@@ -27,7 +27,7 @@ command needs the following input:
 3. The output directory. Defaults to `subsets/` in the same directory as the
    `request.yaml` file.
 
-<!-- TODO: Add link to build's ref doc above when made -->
+<!-- TODO: Add link above -->
 
 All three arguments take both relative and absolute paths.
 
