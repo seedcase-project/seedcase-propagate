@@ -98,8 +98,8 @@ included in `participants.parquet`.
 
 ::: callout-tip
 If you want to see the steps Propagate runs **before** it actually creates the
-subset, run the `subset` command with `--show-plan`. This prints those
-steps without executing them.
+subset, run the `subset` command with `--show-plan`. This prints those steps
+without executing them.
 :::
 
 ## Creating a subset with custom arguments
