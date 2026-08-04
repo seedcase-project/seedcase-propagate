@@ -54,10 +54,9 @@ request:
     via a user interface (be it the web app or the TUI). If the request is
     edited manually, it must be updated manually.
   - The format should be ISO 8601, e.g. `2026-07-06T01:45:34Z` of the current
-    time without time zone information.
-    - Propagate assumes that it is very rare that Requesters are outside of the
-      Owner's timezone and that it is mostly used by people within the same
-      group or institution that are assumed to be using Propagate together.
+    time without time zone information. Propagate assumes that it is very rare that Requesters are outside of the
+    Owner's timezone and that it is mostly used by people within the same
+    group or institution that are assumed to be using Propagate together.
 - `datetime-created`: When the first iteration of the request was created. It is
   also set at UTC and in ISO 8601 format.
 - `motivation`: Explanation for why the requester's project needs access to this
@@ -119,12 +118,10 @@ when creating a request via the web application or the TUI.
 
 ```{.yaml}
 data-package:
-  id: "TEXT"
   name: "TEXT"
   version: "X.Y.Z"
 ```
 
-- `id`: A unique identifier of the data package.
 - `name`: A human readable name to refer to. It is lowercased and doesn't
   include any spaces. E.g., `my-data-package`.
 - `version`: Helps the Owner detect which version of the data package the
@@ -166,15 +163,14 @@ subsets:
     be selected.
   - Note that all filters will be applied to select a subset of
     statistical/observational units (e.g. individuals) will be applied to all
-    the created subsets. This is for GDPR purposes (and other legal/privacy
-    regulations) and for statistical reasons.
-    - For example, if in survey a condition is `Gender == "Man"`, and in another
-      resource biometrics that doesn't have a condition, the participant IDs
-      from the subsetted survey will be applied to the biometrics, so that all
+    the resources. This is for GDPR purposes (and other legal/privacy
+    regulations) and for statistical reasons. For example, if in a survey a condition is `Gender == "Man"`, and in another
+      resource biometrics that doesn't have a condition, the subsetted participant IDs
+      from the survey will be applied to the biometrics, so that all
       resources contain the same set of participants. This is a legal thing, as
-      much as a statistical thing. It's to ensure that only the necessary data
+      much as a statistical thing since nearly all statistical methods require the same observational units within the data (e.g. minimal missingness). It's to ensure that the researcher is only given the data that they need for the analysis, as described in the motivation.
       is given to a researcher that needs it. The principle of "least
-      permissions" but in data context"
+      permissions" but in a data context.
   - Since the row filters can be quite intricate, there is a separate subsection
     below that details how to use them.
 - `columns`: The columns to include from each resource. Each list item must
