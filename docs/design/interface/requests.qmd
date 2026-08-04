@@ -176,7 +176,8 @@ subsets:
 - `columns`: The columns to include from each resource. Each list item must
   correspond to an exact column name.
   - If the `columns` key is empty or not included, all columns from all
-    resources will be selected.
+    resources will be selected. If a `resource` is specified but no columns,
+    then all columns from that resource will be included.
   - SQL-like shorthands are not supported in order to keep the request file
     simple and to avoid parsing unsafe queries of the data (e.g. via SQL
     injection).
