@@ -161,7 +161,7 @@ subsets:
 - `rows`: Rows that match the specified filters will be included in the subset.
   - If the `rows` key is empty or not included, all rows from all resources will
     be selected.
-  - Note that all filters will be applied to select a subset of
+  - Note that all the filters used to select a subset of
     statistical/observational units (e.g. individuals) will be applied to all
     the resources. This is for GDPR purposes (and other legal/privacy
     regulations) and for statistical reasons. For example, if in a survey a condition is `Gender == "Man"`, and in another
