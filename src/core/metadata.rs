@@ -123,10 +123,10 @@ pub enum Extreme {
     /// The allowed extreme value for a column with values as numbers (numbers
     /// with a decimal point).
     Number(f64),
-    /// The allowed extreme value for a column of type `date`. The string should be in
-    /// the format `YYYY-MM-DD`.
+    /// The allowed extreme value for a column of type `date`. The string should
+    /// be in the format `YYYY-MM-DD`.
     Date(String),
-    /// The allowed extreme value for a column of type `datetime`. The string should be
-    /// in the format `YYYY-MM-DDTHH:MM:SS`.
+    /// The allowed extreme value for a column of type `datetime`. The string
+    /// should be in the format `YYYY-MM-DDTHH:MM:SS`.
     Datetime(String),
 }
