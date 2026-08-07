@@ -24,5 +24,10 @@
   "files.insertFinalNewline": true,
   "typos.config": ".config/typos.toml",
   "conventionalCommits.emojiFormat": "emoji",
-  "conventionalCommits.promptScopes": false
+  "conventionalCommits.promptScopes": false,
+  "rust-analyzer.rustfmt.extraArgs": [
+    "+nightly",
+    "--config-path",
+    ".config/rustfmt.toml"
+  ]
 }
