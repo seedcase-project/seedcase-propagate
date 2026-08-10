@@ -29,19 +29,18 @@ example, but not exclusively, a `datapackage.json` file). This application
 allows Requesters to browse and select the columns and rows they want to include
 in their request. The application can be added to a static website.
 
-We decided on HTML and WASM for the web application for a few reasons. We need
-something that can run without a server (called client-side rendering) and WASM
-allows running code directly in the browser. This means that the Owner doesn't
-need to set up or pay for a server to host the web application on any static
-website. We also didn't want to develop the package in multiple languages (e.g.
-JavaScript for the web app and Python for everything else), and WASM is a
-technology where it can be compiled from other languages. That way we aren't
-dependent on using JavaScript to build something that works in the browser. We
-chose
+We decided on HTML and WASM for the web application for a few reasons. We
+wanted a fully client-side application, where all application logic runs in the
+browser rather than on a backend server. This allows the Owner to host the
+application as static files on any static website without needing to set up or pay
+for an application server. We also didn't want to develop the web application in
+multiple languages (e.g. JavaScript for the browser interface and Python for
+everything else). Compiling to WASM allows us to write all components of the
+application in a single language. We chose
 [Rust](https://decisions.seedcase-project.org/why-rust-for-building-software/)
-for compiling to WASM, as it is a language that can be compiled into WASM and is
-a language that has more potential for data engineering and software development
-work compared to JavaScript.
+as the development language because it compiles directly to WASM and has
+more potential for future data engineering and software development work than
+JavaScript.
 
 The web application includes:
 
@@ -65,7 +64,7 @@ The web application includes:
 
 <!-- TODO: How do we handle theming? Inherit from the website theme somehow? -->
 
-The web application does not send the request nor be involved in its approval;
+The web application does not send the request and it is not involved in its approval;
 the Requester sends the email manually, and the Owner decides whether to fulfil
 the request outside of Propagate. The web application also doesn't contain any
 extensive custom keybindings. This is because:
@@ -87,7 +86,7 @@ For Requesters comfortable with running commands in the terminal, the web
 application can also be run locally. The benefit of this is that the Requester
 can create a request even when the Owner has not set up a web application for
 the data package. However, it isn't a workflow we expect or recommend a
-Requester to use, nor we do intend to maintain or document the web application
+Requester to use, nor do we intend to maintain or document the web application
 for these use cases. That's because it's an inherently more complex workflow to
 run a web application locally. The user would need to build the web application
 into a specific location on their computer, run a command to start a local
