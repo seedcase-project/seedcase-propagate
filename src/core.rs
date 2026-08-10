@@ -3,4 +3,5 @@
 // Therefore, they aren't included here.
 pub mod check;
 pub mod metadata;
+pub mod request;
 pub mod subset;
