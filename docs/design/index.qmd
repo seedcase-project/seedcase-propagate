@@ -54,9 +54,10 @@ Specifically, Propagate must:
   with a pre-filled email to the data owner containing the instruction file as
   an attachment.
 - Allow users to save and resume partially completed requests.
-- Include request metadata in the instructions (e.g., requester name and email).
+- Include the request metadata in the instructions (e.g., requester name and
+  email).
 - Ensure that the request process and interface is simple and easy to use for
-  non-technical users.
+  nontechnical users.
 - For more technically experienced users, provide an interface designed for
   them, e.g. a terminal user interface, to create the request interactively
   without needing to open a web app.
