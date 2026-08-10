@@ -11,10 +11,10 @@ pub struct RequestMetadata {
     pub requester: Requester,
     /// Details about the research [`Project`] that will use the requested data.
     pub project: Project,
-    /// Details about the data package ([`DataPackage`]) that the request is for.
-    /// Mostly used to provide a reference to the original data package, as
-    /// well as to provide a way for the Owner to track which version of the
-    /// data package the request is for.
+    /// Details about the data package ([`DataPackage`]) that the request is
+    /// for. Mostly used to provide a reference to the original data
+    /// package, as well as to provide a way for the Owner to track which
+    /// version of the data package the request is for.
     pub data_package: DataPackage,
     /// The specific resources, columns, and rows to make as [`Subsets`] for the
     /// request.
@@ -74,7 +74,7 @@ pub struct DataPackage {
 /// Details about what resources, columns, and rows are being requested as a
 /// subset of the data package.
 pub struct Subsets {
-  /// TODO: Update after design PR has been merged.
-  pub rows: String,
-  pub columns: String
+    /// TODO: Update after design PR has been merged.
+    pub rows: String,
+    pub columns: String,
 }
