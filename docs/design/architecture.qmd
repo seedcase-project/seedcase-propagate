@@ -15,7 +15,7 @@ interested in the internal workings of the package.
 
 Propagate supports two primary user types: a **Requester** and an **Owner**.
 
-### Requester
+### Requester {#requester}
 
 The term "Requester" is used throughout the documentation to refer to any user
 who wants to request a subset of data from a data package. We use "Requester" as
@@ -55,7 +55,7 @@ data.
   familiar with the data and the request process. They value efficiency and
   speed over a more guided process.
 
-### Owner
+### Owner {#owner}
 
 The term "Owner" is used throughout the documentation to refer to any user who
 is responsible for setting up the request web application, receiving requests
