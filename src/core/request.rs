@@ -74,18 +74,7 @@ pub struct DataPackage {
 /// Details about what resources, columns, and rows are being requested as a
 /// subset of the data package.
 pub struct Subsets {
-    /// Subset information for the specific resources being requested as a
-    /// [`ResourceSubset`].
-    pub resources: Vec<ResourceSubset>,
-}
-
-/// Information on which columns and rows that are being requested for a
-/// specific resource in the data package.
-pub struct ResourceSubset {
-    /// The name of the resource that is being requested as a subset.
-    pub name: String,
-    /// The columns of the resource that are being requested as a subset.
-    pub columns: Vec<String>,
-    /// The rows of the resource that are being requested as a subset.
-    pub rows: Vec<String>,
+  /// TODO: Update after design PR has been merged.
+  pub rows: String,
+  pub columns: String
 }
