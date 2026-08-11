@@ -136,8 +136,8 @@ The system context diagram shows the users and external systems that interact
 with Propagate.
 
 ::: callout-important
-Our targeted user for the web application are non-technical Requesters, while
-the targeted user for the terminal user interface are more technically
+Our target users for the web application are non-technical Requesters, while
+the target users for the terminal user interface are more technically
 experienced Requesters. So these two user interfaces have different design
 goals.
 :::
@@ -148,9 +148,10 @@ goals.
 %%|   C4 system context diagram showing the users and external systems Propagate
 %%|   interacts with.
 %%| fig-alt: >-
-%%|   A flow diagram showing the flow of text boxes with other boxes, connected
-%%|   by arrows. The flow is from user, to creating a request form, filling in
-%%|   the request form, and creating  a subset of the data based on the request.
+%%|   A context diagram showing Propagate, its users, the systems that interact
+%%|   with it, and the files it consumes and produces. All entities are represented by
+%%|   boxes connected with labelled arrows, which describe how they interact with
+%%|   one another.
 
 flowchart TD
 
@@ -216,10 +217,12 @@ Propagate is primarily designed for use as a CLI.
 %%|   C4 container diagram showing the main Rust crates in Propagate and the
 %%|   command-line interface.
 %%| fig-alt: >-
-%%|   Flow diagram showing the internal parts of Propagate, with text boxes
-%%|   connected by arrows. The parts include the web application, terminal
-%%|   interface, command-line interface, and the request file, connected
-%%|   together with the common domain models and logic.
+%%|   A container diagram showing the internal components of Propagate and
+%%|   how they interact. The components are represented by text boxes and
+%%|   connected by labelled arrows. It shows the shared domain models and
+%%|   logic, request and subset builders, web application, terminal interface,
+%%|   and command-line interface, as well as the web assets built from the web
+%%|   application.
 
 flowchart TD
 
