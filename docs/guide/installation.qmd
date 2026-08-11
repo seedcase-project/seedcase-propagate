@@ -31,9 +31,9 @@ cargo install --git https://github.com/seedcase-project/seedcase-propagate
 ```
 
 ::: callout-note
-As Propagate is not yet on crate.io, you also need to have Git installed on you
+As Propagate is not yet on crate.io, you also need to have Git installed on your
 computer. When we officially release Propagate, you will not need Git and will
-be able to instal it using the following command instead:
+be able to install it using the following command instead:
 
 ```bash {filename="Terminal"}
 cargo install seedcase-propagate
@@ -65,7 +65,7 @@ cd %USERPROFILE%\.cargo\bin
 ```
 
 You can verify that seedcase-propagate is among the files in that folder by
-running the command above and follow up with this command:
+running the command above and following up with this command:
 
 ```bash {filename="Terminal"}
 ls -l
