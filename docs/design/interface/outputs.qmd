@@ -9,7 +9,7 @@ Owner, referred to below.
 
 The outputs are:
 
-- HTML and WebAssembly (WASM) files for a web application either hosted by the
+- HTML and WebAssembly (WASM) files for a web application hosted by the
   Owner.
 
 - A `request.yaml` file created by the Requester based on their selections in
@@ -82,7 +82,7 @@ contain any extensive custom keybindings. This is because:
   more below.
 
 While technically the web application could be built and ran locally by an
-experienced Requester, it isn't a workflow we design for nor encourage. That's
+experienced Requester, it isn't a workflow we design for nor encourage. This is
 because it is an inherently more complex workflow (with more sources of failure)
 and we don't want to maintain nor develop this type of functionality.
 
