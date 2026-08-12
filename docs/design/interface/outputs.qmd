@@ -82,9 +82,9 @@ contain any extensive custom keybindings. This is because:
   more below.
 
 While technically the web application could be built and ran locally by an
-experienced Requester, it isn't a workflow we design for nor encourage. This is
+experienced Requester, it isn't a workflow we design for or encourage. This is
 because it is an inherently more complex workflow (with more sources of failure)
-and we don't want to maintain nor develop this type of functionality.
+and we don't want to maintain or develop this type of functionality.
 
 ## Data request
 
