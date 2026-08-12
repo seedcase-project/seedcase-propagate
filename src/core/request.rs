@@ -4,23 +4,6 @@ use chrono::{DateTime, Utc};
 use semver::Version;
 
 /// A type that maps the contents of `request.yaml`.
-pub struct RequestMetadata {
-    /// Details about the [`Request`] overall.
-    pub request: Request,
-    /// Details about the [`Requester`] who is making the request for the data.
-    pub requester: Requester,
-    /// Details about the research [`Project`] that will use the requested data.
-    pub project: Project,
-    /// Details about the data package ([`DataPackage`]) that the request is
-    /// for. Mostly used to provide a reference to the original data
-    /// package, as well as to provide a way for the Owner to track which
-    /// version of the data package the request is for.
-    pub data_package: DataPackage,
-    /// The specific resources, columns, and rows to make as [`Subsets`] for the
-    /// request.
-    pub subsets: Subsets,
-}
-
 pub struct Request {
     /// The initial datetime when the request was created.
     pub datetime_created: DateTime<Utc>,
@@ -30,6 +13,19 @@ pub struct Request {
     /// The explanation for why the specific data is needed for the given
     /// [`Project`].
     pub motivation: String,
+    /// Details about the [`Requester`] who is making the request for the data.
+    pub requester: Requester,
+    /// Details about the research [`Project`] that will use the requested data.
+    pub project: Project,
+    /// Details about the data package ([`DataPackage`]) that the request is
+    /// for. Mostly used to provide a reference to the original data
+    /// package, as well as to provide a way for the Owner to track which
+    /// version of the data package the request is for.
+    pub data_package: DataPackage,
+    /// The specific rows from the resources requested, as [`Rows`].
+    pub rows: Rows,
+    /// The specific columns from the resources requested, as [`Columns`].
+    pub columns: Columns,
 }
 
 /// The details about the research project that the request is for. This is used
@@ -71,10 +67,14 @@ pub struct DataPackage {
     pub version: Version,
 }
 
-/// Details about what resources, columns, and rows are being requested as a
-/// subset of the data package.
-pub struct Subsets {
+/// Details about what rows are being requested as a subset of the data package.
+pub struct Rows {
     /// TODO: Update after design PR has been merged.
-    pub rows: String,
-    pub columns: String,
+    pub resources: String,
+}
+
+/// Details about what columns are being requested as a subset of the data package.
+pub struct Columns {
+    /// TODO: Update after design PR has been merged.
+    pub resources: String,
 }
