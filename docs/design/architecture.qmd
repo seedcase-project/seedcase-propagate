@@ -15,7 +15,7 @@ interested in the internal workings of the package.
 
 Propagate supports two primary user types: a **Requester** and an **Owner**.
 
-### Requester
+### Requester {#requester}
 
 The term "Requester" is used throughout the documentation to refer to any user
 who wants to request a subset of data from a data package. We use "Requester" as
@@ -55,7 +55,7 @@ data.
   familiar with the data and the request process. They value efficiency and
   speed over a more guided process.
 
-### Owner
+### Owner {#owner}
 
 The term "Owner" is used throughout the documentation to refer to any user who
 is responsible for setting up the request web application, receiving requests
@@ -120,8 +120,8 @@ subsets of data from the data package efficiently.
   | export          | Download the contents of the request form as a request file.                                                    |
   | send            | Open the user's email client with an email to the data owner pre-filled with the request file as an attachment. |
 
-  : Web-based functionality in Propagate. The TUI supports a subset of this
-    functionality.
+  : Web-based functionality in Propagate. The terminal user interface supports a
+    subset of this functionality.
 
 ## C4 Models
 
@@ -135,16 +135,28 @@ architectural abstraction: system context, containers, components, and code.
 The system context diagram shows the users and external systems that interact
 with Propagate.
 
+::: callout-important
+Our target users for the web application are non-technical Requesters, while
+the target users for the terminal user interface are more technically
+experienced Requesters. So these two user interfaces have different design
+goals.
+:::
+
 ```{mermaid}
 %%| label: fig-c4-context
 %%| fig-cap: >-
 %%|   C4 system context diagram showing the users and external systems Propagate
 %%|   interacts with.
+%%| fig-alt: >-
+%%|   A context diagram showing Propagate, its users, the systems that interact
+%%|   with it, and the files it consumes and produces. All entities are represented by
+%%|   boxes connected with labelled arrows, which describe how they interact with
+%%|   one another.
 
 flowchart TD
 
-    user_requester_web("Web UI Requester<br>[person]")
-    user_requester_tui("TUI Requester<br>[person]")
+    user_requester_web("Web Requester<br>[person]")
+    user_requester_tui("Terminal Requester<br>[person]")
     user_owner("Owner<br>[person]")
 
     data(["Data<br>[Parquet]"])
@@ -204,6 +216,13 @@ Propagate is primarily designed for use as a CLI.
 %%| fig-cap: >-
 %%|   C4 container diagram showing the main Rust crates in Propagate and the
 %%|   command-line interface.
+%%| fig-alt: >-
+%%|   A container diagram showing the internal components of Propagate and
+%%|   how they interact. The components are represented by text boxes and
+%%|   connected by labelled arrows. It shows the shared domain models and
+%%|   logic, request and subset builders, web application, terminal interface,
+%%|   and command-line interface, as well as the web assets built from the web
+%%|   application.
 
 flowchart TD
 
@@ -212,7 +231,7 @@ flowchart TD
     request_builder("Request builder<br>[Rust]<br>Shared logic")
     subset_builder("Subset builder<br>[Rust]")
     web("Web<br>[Rust, Dioxus]<br>UI components")
-    tui("TUI<br>[Rust, ratatui]<br>UI components")
+    tui("Terminal<br>user interface<br>[Rust, ratatui]<br>UI components")
     cli("CLI<br>[Rust]<br>Build, check, subset<br>and request commands")
 
     subset_builder -- "Uses" --> common

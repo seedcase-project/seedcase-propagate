@@ -170,11 +170,29 @@ flowchart LR
 ## {{< var planned >}} `check`
 
 The `check` command confirms that the `request.yaml` file is correctly
-structured and that it matches the content of the source metadata file. While
-internally `build`, `subset`, and `create-request` run this check when
-processing or creating the `request.yaml` file, we also expose it so the user
-can manually check the request file (e.g. if included within an automated
-pipeline). It has the following signature with two positional arguments:
+structured and that it matches the content of the source metadata file. More
+precisely, the following checks are made:
+
+- Required sections and keys are present.
+- The referenced data package has the same id and name as the source metadata
+  file.
+- The referenced resources exist in the data package.
+- The requested columns exist in the selected resources.
+- Row filters reference existing columns.
+- Row filters use supported SQL-like syntax.
+- Only allowed SQL operations and shorthands are used.
+
+While most of these check are likely easier to test directly in the YAML file,
+the subset queries filters can also be converted to SQL and checked with
+existing SQL parsers or checkers where possible. This avoids implementing a
+custom expression parser for the request format.
+
+Internally `build`, `subset`, and `create-request` run these checks when
+processing or creating the `request.yaml` file. We also expose it as a command
+so the user can check the request file independently (e.g. if included within an
+automated pipeline).
+
+`check` has the following signature with two positional arguments:
 
 ```bash {filename="Terminal"}
 seedcase-propagate check [REQUEST] [SOURCE]
