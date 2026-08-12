@@ -16,15 +16,15 @@ cargo --version
 
 - If you see a version number, you're ready to install Propagate.
 - If you get an error such as `command not found`, be sure to first download
-  Cargo by following the instructions at
-  [**https://rust-lang.org/tools/install/**](https://rust-lang.org/tools/install/).
-- Once installation is complete, reopen your Terminal and verify the
-  installation using the shell command above.
+  Cargo by [following their instructions](https://rust-lang.org/tools/install/).
+- Once installation is complete, verify the installation using the shell command
+  above.
 
 ## Install Propagate with Cargo
 
-Propagate is currently only a GitHub repository and needs to be built. You can
-download the repository and build the package by running the following command:
+Propagate is currently only a GitHub repository and needs to be built from the
+source files. You can download the repository and build the package by running
+the following command:
 
 ```bash {filename="Terminal"}
 cargo install --git https://github.com/seedcase-project/seedcase-propagate
