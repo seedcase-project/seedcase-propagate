@@ -1,6 +1,6 @@
 
 
-# seedcase-propagate: Submit requests for data in a data package
+# seedcase-propagate: From data requests to reproducible subsets
 
 <!-- TODO: Include DOI after uploading -->
 

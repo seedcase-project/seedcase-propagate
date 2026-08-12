@@ -4,7 +4,7 @@ use clap::Parser;
 
 mod cli;
 
-/// Submit requests for data in a data package.
+/// From data requests to reproducible subsets.
 #[derive(Debug, Parser)]
 #[command(version, about, arg_required_else_help = true)]
 struct Cli {}
