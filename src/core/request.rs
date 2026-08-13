@@ -82,10 +82,10 @@ pub struct Rows {
 pub enum Where {
     /// The logic conditions when **all** are true that determine which rows are
     /// kept, as a [`WhereSubset`] struct.
-    All(WhereSubset),
+    All(Vec<WhereSubset>),
     /// The logic conditions when **any of them** true that determine which rows
     /// are kept, as a [`WhereSubset`] struct.
-    Any(WhereSubset),
+    Any(Vec<WhereSubset>),
 }
 
 /// The individual row conditions that will be applied to an individual
