@@ -1,0 +1,90 @@
+---
+title: "Installing Propagate"
+---
+
+## Before installing Propagate
+
+Before installing Propagate, you need to have [Rust and
+Cargo](https://rust-lang.org/tools/install/) installed.
+
+To check that these programs are installed, run the following command in your
+Terminal:
+
+```bash {filename="Terminal"}
+cargo --version
+```
+
+- If you see a version number, you're ready to install Propagate.
+- If you get an error such as `command not found`, be sure to first download
+  Cargo by [following their instructions](https://rust-lang.org/tools/install/).
+- Once installation is complete, verify the installation using the shell command
+  above.
+
+## Install Propagate with Cargo
+
+Propagate is currently only a GitHub repository and needs to be built from the
+source files. You can download the repository and build the package by running
+the following command:
+
+```bash {filename="Terminal"}
+cargo install --git https://github.com/seedcase-project/seedcase-propagate
+```
+
+::: callout-note
+As Propagate is not yet on crate.io, you also need to have Git installed on your
+computer. When we officially release Propagate, you will not need Git and will
+be able to install it using the following command instead:
+
+```bash {filename="Terminal"}
+cargo install seedcase-propagate
+```
+:::
+
+## Verify the installation
+
+To confirm that Propagate is installed correctly, run:
+
+```bash {filename="Terminal"}
+seedcase-propagate --version
+```
+
+- If you see a version number, you're good to go.
+- Propagate will be installed in the following folders, depending on your
+  operating system:
+
+*On MacOS or Linux:*
+
+```bash {filename="Terminal"}
+cd $HOME/.cargo/bin
+```
+
+*On Windows:*
+
+```bash {filename="Terminal"}
+cd %USERPROFILE%\.cargo\bin
+```
+
+You can verify that seedcase-propagate is among the files in that folder by
+running the command above and following up with this command:
+
+```bash {filename="Terminal"}
+ls -l
+```
+
+Once installed, you're ready to start using Propagate!
+
+<!-- TODO: uncomment when we have auto-completions
+## Shell auto-completions
+
+To enable shell auto-completions, run:
+
+```bash {filename="Terminal"}
+propagate --install-completion
+```
+
+::: callout-note
+Completions only work for bash, fish, and zsh shells.
+:::
+
+Once installed, you're ready to start using Propagate!
+-->
