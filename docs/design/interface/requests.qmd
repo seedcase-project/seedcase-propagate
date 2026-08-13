@@ -208,9 +208,9 @@ rows:
     be selected. If a resource is specified without columns, then all columns
     from that resource will be included.
   - `all`: All of the filter conditions specified need to be met for a row to be
-    concluded.
+    included.
   - `any`: Any of the filter conditions specified need to be met for a row to be
-    concluded. The any key can be repeated to express a logic like
+    included. The `any` key can be repeated to express a logic like
     `any(A, B) AND any(C, D)`.
     - `column`: The name of the column to use for the comparison in the row
       filter.
@@ -237,8 +237,8 @@ rows:
     statistical thing since nearly all statistical methods require the same
     observational units within the data (e.g. minimal missingness). It's to
     ensure that the researcher is only given the data that they need for the
-    analysis, as described in the motivation. is given to a researcher that
-    needs it. The principle of "least permissions" but in a data context.
+    analysis, as described in the motivation. Like the principle of 
+    "least permissions" but in a data context.
 
 Here is an example of what a somewhat complex row filter might look like:
 
@@ -305,7 +305,6 @@ project:
     with the aim to determine ...
 
 data-package:
-  id: "8dbef2a2-0354-4996-bc9e-71a6c79aec7d"
   name: "example-seed-beetle"
   version: "0.5.1"
 
@@ -313,6 +312,7 @@ columns:
   metabolic-rate:
     - "strain"
     - "activity"
+
 rows:
   metabolic-rate:
     - all:
