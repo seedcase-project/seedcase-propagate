@@ -145,7 +145,7 @@ columns:
 
 - `resource-N`: The name(s) of the data resource(s) to select columns from.
   Multiple subsets can be created in the same request by specifying multiple
-  resrouces; e.g. in the example above there would be two data subsets created,
+  resources; e.g. in the example above there would be two data subsets created,
   one with columns 1-3 from resource 1 and one with a single column from
   resource 2. The same resource can only be specified once.
   - If the `columns` key is empty or not included, all columns from all
@@ -179,28 +179,28 @@ someone manually edits the file.
 rows:
   resource-1:
     - all:
-      - column: COLUMN-NAME1
+      - column: "COLUMN-NAME1"
         operator: "OPERATOR"
-        value: VALUE-TO-COMPARE-AGAINST
+        value: "VALUE-TO-COMPARE-AGAINST"
         not: "BOOLEAN"
-      - column: COLUMN-NAME2
+      - column: "COLUMN-NAME2"
         operator: "OPERATOR"
-        value: VALUE-TO-COMPARE-AGAINST
+        value: "VALUE-TO-COMPARE-AGAINST"
         not: "BOOLEAN"
   resource-2:
     - all:
-      - column: COLUMN-NAME
+      - column: "COLUMN-NAME"
         operator: "OPERATOR"
-        value: VALUE-TO-COMPARE-AGAINST
+        value: "VALUE-TO-COMPARE-AGAINST"
         not: "BOOLEAN"
     - any:
-      - column: COLUMN-NAME
+      - column: "COLUMN-NAME"
         operator: "OPERATOR"
-        value: VALUE-TO-COMPARE-AGAINST
+        value: "VALUE-TO-COMPARE-AGAINST"
         not: "BOOLEAN"
-      - column: COLUMN-NAME
+      - column: "COLUMN-NAME"
         operator: "OPERATOR"
-        value: VALUE-TO-COMPARE-AGAINST
+        value: "VALUE-TO-COMPARE-AGAINST"
         not: "BOOLEAN"
 ```
 
