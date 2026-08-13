@@ -81,23 +81,23 @@ pub struct Rows {
 /// Details about how the rows will be kept from the resources.
 pub enum Where {
     /// The logic conditions when **all** are true that determine which rows are
-    /// kept, as a [`WhereSubset`] struct.
-    All(Vec<WhereSubset>),
+    /// kept, as a [`WhereCondition`] struct.
+    All(Vec<WhereCondition>),
     /// The logic conditions when **any of them** true that determine which rows
-    /// are kept, as a [`WhereSubset`] struct.
-    Any(Vec<WhereSubset>),
+    /// are kept, as a [`WhereCondition`] struct.
+    Any(Vec<WhereCondition>),
 }
 
 /// The individual row conditions that will be applied to an individual
 /// resource.
-pub struct WhereSubset {
+pub struct WhereCondition {
     /// The column to apply the logic condition to.
     pub column: String,
     // TODO: This should probably be converted into an enum of allowed operators.
     /// The logic operator to apply between the `column` and `value`.
     pub operator: String,
     /// The value to compare against the row value.
-    pub value: String,
+    pub value: Option<String>,
     /// Whether to do the inverse of the logical condition.
     pub not: Option<bool>,
 }
