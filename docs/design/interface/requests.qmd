@@ -6,8 +6,8 @@ The request file, `request.yaml`, contains the instructions for requesting a
 subset of data from a data package. The file is created by a Requester through
 the web application, terminal interface, or even manually (though not
 recommended). The file is used by an Owner to check and generate the requested
-data subset. You can [read more about the Requester and Owner user types in the
-Design overview page](/docs/design/interface/inputs.qmd)
+data subset. You can
+[read more about the Requester and Owner user types in the Design overview page](/docs/design/interface/inputs.qmd)
 
 The request file is intended to be both human-readable and machine-readable. It
 should be simple enough for a Requester to understand and, when needed, edit
@@ -246,14 +246,14 @@ Here is an example of what a somewhat complex row filter might look like:
 ```{.yaml}
 rows:
   resource-1:
-    all:
+    - all:
       - column: "col2"
         operator: ">="
         value: "2012-01-01"
       - column: "col2"
         operator: "<="
         value: "2012-12-31"
-  - resource: "resource2"
+  resource-2:
     - any:
       - column: "col1"
         operator: ">"
