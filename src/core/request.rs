@@ -36,8 +36,9 @@ pub struct Request {
 
     /// Row-level subsets of resources (as a hashmaps), with the
     /// resource name as the first item and the where conditions (as a
-    /// vector) as the second.
-    pub rows: HashMap<String, Vec<Where>>,
+    /// vector) as the second. If not included, will assume to keep all
+    /// rows in all selected resources in `columns`.
+    pub rows: Option<HashMap<String, Vec<Where>>>,
 
     /// Column-level subsets of resources (as a hashmaps) that
     /// contains the specific columns to include (as a vector of strings).
@@ -131,7 +132,44 @@ mod tests {
     use serde_saphyr;
 
     #[test]
-    fn test_deserialising_correctly() {
+    fn test_serde_without_rows() {
+        // `r#` means "raw string literal", to allow using `"` without escaping.
+        let test_request_yaml = r#"
+datetime-modified: "2026-07-06T01:45:34Z"
+datetime-created: "2026-07-04T01:44:34Z"
+motivation: |
+  We would like access to metabolic and block variables to evaluate
+  our hypothesis regarding ...
+
+requester:
+  name: "First Last"
+  email: "TEXT"
+
+project:
+  name: "metabolic-cost"
+  title: "Metabolic cost estimation"
+  description: |
+    Our project investigates the gas exchange during metabolism
+    with the aim to determine ...
+
+data-package:
+  name: "example-seed-beetle"
+  version: "0.5.1"
+
+columns:
+  metabolic-rate:
+    - "strain"
+    - "activity"
+  biometrics:
+  ids:
+"#;
+
+        let config: Result<Request, _> = serde_saphyr::from_str(test_request_yaml);
+        assert!(config.is_ok())
+    }
+
+    #[test]
+    fn test_serde_everything() {
         // `r#` means "raw string literal", to allow using `"` without escaping.
         let test_request_yaml = r#"
 datetime-modified: "2026-07-06T01:45:34Z"
