@@ -79,7 +79,7 @@ contain any extensive custom keybindings. This is because:
   interface. Custom keybindings are largely something more technical users would
   use, and we don't design the web application for these types of technical
   Requesters. For them we include a terminal user interface, which is described
-  more below.
+  more on the [terminal user interface](/docs/design/interface/tui.qmd) page.
 
 While technically the web application could be built and ran locally by an
 experienced Requester, it isn't a workflow we design for or encourage. This is
