@@ -222,10 +222,18 @@ rows:
       - Comparisons: `>`, `>=`, `<`, `<=`
       - Membership: `IN`
       - Missing values: `IS NULL`
+    - `value`: The reference value to compare against.
     - `not`: Invert the comparison
       - E.g. if using `=` and setting `not: true` then all rows NOT matching the
         reference value will be returned.
-    - `value`: The reference value to compare against.
+      - Note that one slightly inconsistent aspect in SQL is that `NOT` is a
+        prefix to negating all operators except `IS NULL` where it is advised to
+        use the special operator `IS NOT NULL` rather than `NOT` + `IS NULL`
+        because of how null comparisons work in SQL. The most consistent user
+        experience would be to still use `not: true` and that we take care of
+        converting that to the operator `IS NOT NULL` behind the scenes, but if
+        that seems complicated we can also introduce this special operator to
+        the user.
 - Note that all the filters used to select a subset of statistical/observational
   units (e.g. individuals) will be applied to all the resources. This is for
   GDPR purposes (and other legal/privacy regulations) and for statistical
@@ -237,8 +245,8 @@ rows:
     statistical thing since nearly all statistical methods require the same
     observational units within the data (e.g. minimal missingness). It's to
     ensure that the researcher is only given the data that they need for the
-    analysis, as described in the motivation. Like the principle of 
-    "least permissions" but in a data context.
+    analysis, as described in the motivation. Like the principle of "least
+    permissions" but in a data context.
 
 Here is an example of what a somewhat complex row filter might look like:
 
