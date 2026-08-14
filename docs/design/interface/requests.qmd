@@ -269,7 +269,7 @@ rows:
           - "cat"
       - column: "col4"
         operator: "is null"
-        not: "true"
+        not: true
 ```
 
 - If we wrote the expression in the example above more verbosely, it would read:
