@@ -1,10 +1,9 @@
 //! Functions and types for making requests for subsets of the data package.
 
-use serde::Deserialize;
-use std::collections::HashMap;
-
 use chrono::{DateTime, Utc};
 use semver::Version;
+use serde::Deserialize;
+use std::collections::HashMap;
 
 /// A type that maps the contents of `request.yaml`.
 #[derive(Debug, Deserialize)]
