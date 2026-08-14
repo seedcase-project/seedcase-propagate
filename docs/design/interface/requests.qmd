@@ -299,7 +299,7 @@ requester:
 
 project:
   name: "metabolic-cost"
-  title: "Metabolic" cost estimatation
+  title: "Metabolic cost estimation"
   description: |
     Our project investigates the gas exchange during metabolism
     with the aim to determine ...
