@@ -195,7 +195,6 @@ motivation: |
 "#;
 
         let config: Result<Request, _> = serde_saphyr::from_str(test_request_yaml);
-
         assert!(config.is_err())
     }
 }
