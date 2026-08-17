@@ -9,8 +9,8 @@ Owner, referred to below.
 
 The outputs are:
 
-- HTML and WebAssembly (WASM) files for a web application where Requesters can
-  fill in a data request.
+- HTML and WebAssembly (WASM) files for a web application hosted by the
+  Owner.
 
 - A `request.yaml` file created by the Requester based on their selections in
   the web application or terminal interface. The file includes the selected
@@ -22,11 +22,24 @@ The outputs are:
 
 ## HTML and WebAssembly (WASM) files for a web application
 
-The Owner uses Propagate to create HTML and WASM files that form a web
-application from the data package metadata file (for example, but not
-exclusively, a `datapackage.json` file). This application allows Requesters to
-browse and select the columns and rows they want to include in their request.
-The application can be added to a static website.
+The Owner uses Propagate to create HTML and [WASM](https://webassembly.org)
+files that form a web application from the data package metadata file (for
+example, but not exclusively, a `datapackage.json` file). This application
+allows Requesters to browse and select the columns and rows they want to include
+in their request. The application can be added to a static website.
+
+We decided on HTML and WASM for the web application for a few reasons. We wanted
+a fully client-side application, where all application logic runs in the browser
+rather than on a backend server. This allows the Owner to host the application
+as static files on any static website without needing to set up or pay for an
+application server. We also didn't want to develop the web application in
+multiple languages (e.g. JavaScript for the browser interface and Python for
+everything else). Compiling to WASM allows us to write all components of the
+application in a single language. We chose
+[Rust](https://decisions.seedcase-project.org/why-rust-for-building-software/)
+as the development language because it compiles directly to WASM and has more
+potential for future data engineering and software development work than
+JavaScript.
 
 The web application includes:
 
@@ -50,9 +63,28 @@ The web application includes:
 
 <!-- TODO: How do we handle theming? Inherit from the website theme somehow? -->
 
-The web application does not send the request or determine its outcome; the
-Requester sends the email manually, and the Owner decides whether to fulfil the
-request outside of Propagate.
+The web application does not send the request and it is not involved in its
+approval; the Requester sends the email manually, and the Owner decides whether
+to fulfil the request outside of Propagate. The web application also doesn't
+contain any extensive custom keybindings. This is because:
+
+- Most browser users don't use keybindings when navigating web pages, or only
+  use a few basic ones.
+- Browsers have their own keybindings that could conflict with custom ones.
+- Some browser extensions can override keybindings, which could break the web
+  application.
+- Adding keybindings is an extra implementation detail to consider and maintain,
+  especially when considering the best practices for creating an
+  [accessible](https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/)
+  interface. Custom keybindings are largely something more technical users would
+  use, and we don't design the web application for these types of technical
+  Requesters. For them we include a terminal user interface, which is described
+  more on the [terminal user interface](/docs/design/interface/tui.qmd) page.
+
+While technically the web application could be built and ran locally by an
+experienced Requester, it isn't a workflow we design for or encourage. This is
+because it is an inherently more complex workflow (with more sources of failure)
+and we don't want to maintain or develop this type of functionality.
 
 ## Data request
 
