@@ -7,6 +7,7 @@ use std::collections::HashMap;
 
 /// A type that maps the contents of `request.yaml`.
 #[derive(Debug, Deserialize)]
+#[serde(rename_all = "kebab-case")]
 pub struct Request {
     /// The initial datetime when the request was created.
     #[serde(rename = "datetime-created")]
@@ -95,6 +96,7 @@ pub struct DataPackage {
 
 /// Details about how the rows will be kept from the resources.
 #[derive(Debug, Deserialize)]
+#[serde(rename_all = "lowercase")]
 pub enum Where {
     /// The logic conditions when **all** are true that determine which rows are
     /// kept, as a [`WhereCondition`] struct.
@@ -122,7 +124,8 @@ pub struct WhereCondition {
     pub value: Option<String>,
 
     /// Whether to do the inverse of the logical condition.
-    pub not: Option<bool>,
+    #[serde(default)]
+    pub not: bool,
 }
 
 #[cfg(test)]
