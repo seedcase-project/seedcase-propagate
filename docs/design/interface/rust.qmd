@@ -9,9 +9,10 @@ tracks the implementation status.
 
 ## {{< var planned >}} `check()`
 
-The `check()` function first reads and parses a `request.yaml` and a source
-metadata file, checking that they contain the required keys. It then runs the
-checks described below in order, returning a `CheckError` if any check fails.
+The `check()` function first reads and parses a `request.yaml` and a metadata
+file, `datapackage.json`, checking that they contain the required keys. It then
+runs the checks described below in order, returning a `CheckError` if any check
+fails.
 
 <!-- TODO: We could consider bundling up the errors and return a vector of CheckError's instead? -->
 
@@ -20,28 +21,28 @@ checks described below in order, returning a `CheckError` if any check fails.
 %%| fig-cap: "The flow of input and output through the check function."
 %%| fig-alt: >-
 %%|   Diagram showing the flow of input and output through the `check` function.
-%%|   The user provides the request and source metadata file. The function
-%%|   completes a set of checks, before returning a result that's either the
-%%|   unit type or a CheckError.
+%%|   The user provides the request and metadata file. The function completes a
+%%|   set of checks, before returning a result that's either the unit type or a
+%%|   CheckError.
 %%|   
 
 flowchart TD
     request["request<br>path to request.yaml"]
-    source["source<br>path to datapackage.json"]
+    metadata["metadata<br>path to datapackage.json"]
     output[/"Output<br>Result&lt;(), CheckError&gt;"/]
 
     subgraph check ["check()"]
-      read_request["read_request()<br>Read and parse request to Request struct"]
-      read_source["read_source()<br>Read and parse source metadata file to Package struct"]
-      check_package_name["check_package_name()<br>Request package name matches source package name"]
-      check_package_version["check_package_version()<br>Request package version matches source package version"]
-      check_resource_names["check_resource_names()<br>Request resource names matches source resource names"]
-      check_column_names["check_column_names()<br>Request column names matches source column names"]
+      read_request["read_request()<br>Read and parse a request to Request struct"]
+      read_metadata["read_metadata()<br>Read and parse a metadata file to Package struct"]
+      check_package_name["check_package_name()<br>Request package name matches the metadata package name"]
+      check_package_version["check_package_version()<br>Request package version matches the metadata package version"]
+      check_resource_names["check_resource_names()<br>Request resource names matches the metadata resource names"]
+      check_column_names["check_column_names()<br>Request column names matches the metadata column names"]
       check_row_filters["check_row_filters()<br>Row filters reference existing columns"]
     end
 
     request --> read_request --> check_package_name --> check_package_version --> check_resource_names --> check_column_names --> check_row_filters --> output
-    source --> read_source --> check_package_name
+    metadata --> read_metadata --> check_package_name
 
     check:::outer_function
 
@@ -49,29 +50,29 @@ flowchart TD
 ```
 
 ```rs
-/// Checks a request yaml against the source metadata file.
+/// Checks a request yaml against the metadata file.
 /// 
 /// The checks include: 
 /// 
-/// - Required sections and keys are present in the request and source.
-/// - Data package name and version in the request matches the source.
-/// - The resources and columns in the request exist in the source.
-/// - The row filters reference columns in the source.
+/// - Required sections and keys are present in the request and metadata.
+/// - Data package name and version in the request matches the metadata.
+/// - The resources and columns in the request exist in the metadata.
+/// - The row filters reference columns in the metadata.
 /// 
-/// Errors if the request and source file can't be read, or if any
+/// Errors if the request or metadata file can't be read, or if any
 /// check fails.
-pub fn check(request: Path, source: Path) -> Result<(), CheckError> {
+pub fn check(request: Path, metadata: Path) -> Result<(), CheckError> {
   let request = read_request(request)
-  let source = read_source(source)
-  // Referenced data package has the same version and name as the source.
-  check_package_name(&request, &source)
-  check_package_version(&request, &source)
-  // Referenced resources exist in the data package.
-  check_resource_names(&request, &source)
+  let metadata = read_metadata(metadata)
+  // Referenced data package has the same version and name as the in the metadata.
+  check_package_name(&request, &metadata)
+  check_package_version(&request, &metadata)
+  // Referenced resources exist in the data package metadata.
+  check_resource_names(&request, &metadata)
   // The requested columns exist in the selected resources.
-  check_column_names(&request, &source)
+  check_column_names(&request, &metadata)
   // Row filters reference existing columns.
-  check_row_filters(&request, &source)
+  check_row_filters(&request, &metadata)
 
   Ok(())
 }
