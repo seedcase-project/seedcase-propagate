@@ -1,3 +1,9 @@
 ---
 title: "Rust library interface"
 ---
+
+This document describes the design of the functions forming the Rust library and
+tracks the implementation status.
+
+{{< include /docs/includes/_design-status.qmd >}}
+
