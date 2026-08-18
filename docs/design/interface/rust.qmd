@@ -51,14 +51,14 @@ flowchart TD
 
 ```rs
 /// Checks a request yaml against the metadata file.
-/// 
-/// The checks include: 
-/// 
+///
+/// The checks include:
+///
 /// - Required sections and keys are present in the request and metadata.
 /// - Data package name and version in the request matches the metadata.
 /// - The resources and columns in the request exist in the metadata.
 /// - The row filters reference columns in the metadata.
-/// 
+///
 /// Errors if the request or metadata file can't be read, or if any
 /// check fails.
 pub fn check(request: Path, metadata: Path) -> Result<(), CheckError> {
