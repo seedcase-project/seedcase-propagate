@@ -9,6 +9,12 @@ tracks the implementation status.
 
 ## {{< var planned >}} `check()`
 
+The `check()` function first reads and parses a `request.yaml` and a source
+metadata file, checking that they contain the required keys. It then runs the
+checks described below in order, returning a `CheckError` if any check fails.
+
+<!-- TODO: We could consider bundling up the errors and return a vector of CheckError's instead? -->
+
 ```{mermaid}
 %%| label: fig-check-flow
 %%| fig-cap: "The flow of input and output through the check function."
@@ -44,5 +50,3 @@ flowchart TD
 
   classDef outer_function fill:none
 ```
-
-<!-- TODO: We could consider bundling up the errors and return a vector of CheckError's instead? -->
