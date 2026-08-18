@@ -7,3 +7,42 @@ tracks the implementation status.
 
 {{< include /docs/includes/_design-status.qmd >}}
 
+## {{< var planned >}} `check()`
+
+```{mermaid}
+%%| label: fig-check-flow
+%%| fig-cap: "The flow of input and output through the check function."
+%%| fig-alt: >-
+%%|   Diagram showing the flow of input and output through the `check` function.
+%%|   The user provides the request and source metadata file. The function
+%%|   completes a set of checks, before returning a result that's either the
+%%|   unit type or a CheckError.
+%%|   
+
+flowchart TD
+    request["request<br>path to request.yaml"]
+    source["source<br>path to datapackage.json"]
+    output[/"Output<br>Result&lt;(), CheckError&gt;"/]
+
+    subgraph check ["check()"]
+      read_request["read_request()<br>Read and parse request to Request struct"]
+      read_source["read_source()<br>Read and parse source metadata file to Package struct"]
+      check_request_keys["check_request_keys()<br>Required keys are present"]
+      check_source_keys["check_source_keys()<br>Required keys are present"]
+      check_package_name["check_package_name()<br>Request package name matches source package name"]
+      check_package_version["check_package_version()<br>Request package version matches source package version"]
+      check_resource_names["check_resource_names()<br>Request resource names matches source resource names"]
+      check_column_names["check_column_names()<br>Request column names matches source column names"]
+      check_row_filters["check_row_filters()<br>Row filters reference existing columns"]
+      check_sql_operators["check_sql_operators()<br>Row filters use only allowed operators"]
+    end
+
+    request --> read_request --> check_request_keys --> check_package_name --> check_package_version --> check_resource_names --> check_column_names --> check_row_filters --> check_sql_operators --> output
+    source --> read_source --> check_source_keys --> check_package_name
+
+    check:::outer_function
+
+  classDef outer_function fill:none
+```
+
+<!-- TODO: We could consider bundling up the errors and return a vector of CheckError's instead? -->
