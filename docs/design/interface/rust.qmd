@@ -50,3 +50,37 @@ flowchart TD
 
   classDef outer_function fill:none
 ```
+
+```rs
+/// Checks a request yaml against the source metadata file.
+/// 
+/// The checks include: 
+///   - Required sections and keys are present in the request and source.
+///   - Data package name and version in the request matches the source.
+///   - The resources and columns in the request exist in the source.
+///   - The row filters reference columns in the source and only uses 
+///     allowed SQL operators.
+/// 
+/// Errors if the request and source file can't be read, or if any
+/// check fails.
+pub fn check(request: Path, source: Path) -> Result<(), CheckError> {
+  let request = read_request(request)
+  let source = read_source(source)
+  // Required sections and keys are present.
+  check_request_keys(&request)
+  check_source_keys(&source)
+  // Referenced data package has the same version and name as the source.
+  check_package_name(&request, &source)
+  check_package_version(&request, &source)
+  // Referenced resources exist in the data package.
+  check_resource_names(&request, &source)
+  // The requested columns exist in the selected resources.
+  check_column_names(&request, &source)
+  // Row filters reference existing columns.
+  check_row_filters(&request, &source)
+  // Only allowed SQL operators.
+  check_sql_operators(&request)
+
+  Ok(())
+}
+```
