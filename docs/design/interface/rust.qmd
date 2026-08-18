@@ -72,8 +72,6 @@ pub fn check(request: Path, source: Path) -> Result<(), CheckError> {
   check_column_names(&request, &source)
   // Row filters reference existing columns.
   check_row_filters(&request, &source)
-  // Only allowed SQL operators.
-  check_sql_operators(&request)
 
   Ok(())
 }
