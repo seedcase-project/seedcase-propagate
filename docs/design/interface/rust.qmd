@@ -62,18 +62,18 @@ flowchart TD
 /// Errors if the request or metadata file can't be read, or if any
 /// check fails.
 pub fn check(request: Path, metadata: Path) -> Result<(), CheckError> {
-  let request = read_request(request)
-  let metadata = read_metadata(metadata)
-  // Package name and version matches metadata.
-  check_package_name(&request, &metadata)
-  check_package_version(&request, &metadata)
-  // Resource names match metadata.
-  check_resource_names(&request, &metadata)
-  // Column names match metadata.
-  check_column_names(&request, &metadata)
-  // Row filters match metadata columns.
-  check_row_filters(&request, &metadata)
+    let request = read_request(request);
+    let metadata = read_metadata(metadata);
+    // Package name and version matches metadata.
+    check_package_name(&request, &metadata);
+    check_package_version(&request, &metadata);
+    // Resource names match metadata.
+    check_resource_names(&request, &metadata);
+    // Column names match metadata.
+    check_column_names(&request, &metadata);
+    // Row filters match metadata columns.
+    check_row_filters(&request, &metadata);
 
-  Ok(())
+    Ok(())
 }
 ```
