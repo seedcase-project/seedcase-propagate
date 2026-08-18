@@ -52,11 +52,11 @@ flowchart TD
 /// Checks a request yaml against the source metadata file.
 /// 
 /// The checks include: 
-///   - Required sections and keys are present in the request and source.
-///   - Data package name and version in the request matches the source.
-///   - The resources and columns in the request exist in the source.
-///   - The row filters reference columns in the source and only uses 
-///     allowed SQL operators.
+/// 
+/// - Required sections and keys are present in the request and source.
+/// - Data package name and version in the request matches the source.
+/// - The resources and columns in the request exist in the source.
+/// - The row filters reference columns in the source.
 /// 
 /// Errors if the request and source file can't be read, or if any
 /// check fails.
