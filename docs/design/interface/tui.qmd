@@ -139,7 +139,7 @@ columns. Selecting a resource without specifying individual columns requests all
 columns from that resource. Available columns are shown by name and title. The
 TUI does not reproduce the complete data package documentation because its
 purpose is to create a request, not to replace interfaces designed for exploring
-metadata, such as Flower.
+metadata, such as [Flower](https://flower.seedcase-project.org).
 
 Search is available for data packages with many resources or columns. Selected
 items are kept easy to find, for example by sorting them before unselected
@@ -170,7 +170,7 @@ Conditions can be organized into `all` and `any` groups:
 
 The panel describes this logic in plain language and shows a readable summary of
 each condition. The Requester does not need to understand how the groups are
-serialized to YAML.
+converted to YAML.
 
 ## Interaction modes
 
