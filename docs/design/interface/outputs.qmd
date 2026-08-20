@@ -117,8 +117,8 @@ criteria](https://en.wikipedia.org/wiki/Inclusion_and_exclusion_criteria) (to
 create a set of `AND` logic conditions) and a set of variables needed to answer
 the research question. In general, inclusion criteria are a list of `AND`
 conditions that form the sample population. Rarely is an `OR` condition required
-for inclusion criteria, so we don't design for using it to keep our
-implementation simple. If more complex row filtering is desired, it's would be
-easier for the Request to simply require all rows (or a minimal set of inclusion
-criteria) and do the filter themselves. Otherwise, the design would get quite
-complex to include all edge cases.
+for inclusion criteria, so we don't design for it so that we keep our
+implementation simple. If more complex row filtering is desired, it would be
+easier if the Request simply ask for all rows (or a minimal set of inclusion
+criteria) and do the row filtering themselves. Otherwise, the design would get
+quite complex to include all edge cases.
