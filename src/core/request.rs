@@ -73,7 +73,8 @@ pub struct Rows {
     pub resources: String,
 }
 
-/// Details about what columns are being requested as a subset of the data package.
+/// Details about what columns are being requested as a subset of the data
+/// package.
 pub struct Columns {
     /// TODO: Update after design PR has been merged.
     pub resources: String,
