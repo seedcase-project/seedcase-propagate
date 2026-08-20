@@ -9,8 +9,7 @@ Owner, referred to below.
 
 The outputs are:
 
-- HTML and WebAssembly (WASM) files for a web application hosted by the
-  Owner.
+- HTML and WebAssembly (WASM) files for a web application hosted by the Owner.
 
 - A `request.yaml` file created by the Requester based on their selections in
   the web application or terminal interface. The file includes the selected
