@@ -57,7 +57,7 @@ flowchart TD
 /// - Required sections and keys are present in the request and metadata.
 /// - Data package name and version in the request matches the metadata.
 /// - The resources and columns in the request exist in the metadata.
-/// - The row filters reference columns in the metadata.
+/// - The row filters match columns in the metadata.
 ///
 /// Errors if the request or metadata file can't be read, or if any
 /// check fails.
@@ -71,7 +71,8 @@ pub fn check(request: Path, metadata: Path) -> Result<(), CheckError> {
     check_resource_names(&request, &metadata);
     // Column names match metadata.
     check_column_names(&request, &metadata);
-    // Row filters match metadata columns.
+    // Row filters match metadata columns (including whether the operator
+    // types and values are allowed with the column type).
     check_row_filters(&request, &metadata);
 
     Ok(())
