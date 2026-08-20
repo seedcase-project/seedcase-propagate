@@ -96,9 +96,8 @@ explicitly with `is null` or `is not null`.
 
 <!-- TODO: How do we want to handle other column types? E.g., nested types like arrays or objects? -->
 
-Conditions are combined using `AND` or `OR` operators. They can also be grouped
-using parentheses to control the order of evaluation.
-
+Conditions are combined using `AND` operators (see
+[architecture](/docs/design/architecture.qmd)) to create the inclusion criteria.
 Below is a text-based mock-up of the user interface based on the
 [Flora](https://github.com/seedcase-project/seedcase-soil/blob/main/src/seedcase_soil/example-datapackages/flora.json)
 example data package:
@@ -110,7 +109,7 @@ Resource: [ species_catalog ]  [ 🗑️ ] -------------------------------------
 
 [ NOT ✗ ] [ common_name ⏷ ] [ in ⏷ ] [ "rose", "tulip" ]       [ 🗑️ ]
 
-[ + Add condition ] [ + Add group ]
+[ + Add condition ]
 
 ---------------------------------------------------------------------------
 
@@ -118,21 +117,17 @@ Resource: [ growth_records ] [ 🗑️ ] ---------------------------------------
 
 [ NOT ✓ ] [ location_country ⏷ ] [ is null ⏷ ]                 [ 🗑️ ]
 
-[ AND ⏷ ]
-
 Group: ----------------------------------------------------------
 
 [ NOT ✗ ] [ growth_stage ⏷ ] [ = ⏷ ] [ "flowering" ]      [ 🗑️ ]
 
-[ OR ⏷ ]
-
 [ NOT ✗ ] [ observation_date ⏷ ] [ > ⏷ ] [ "2020-01-01" ] [ 🗑️ ]
 
-[ + Add condition to group ]
+[ + Add condition ]
 
 -----------------------------------------------------------------
 
-[ + Add condition ] [ + Add group ]
+[ + Add condition ]
 
 ---------------------------------------------------------------------------
 

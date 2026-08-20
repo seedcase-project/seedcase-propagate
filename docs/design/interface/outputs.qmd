@@ -9,8 +9,7 @@ Owner, referred to below.
 
 The outputs are:
 
-- HTML and WebAssembly (WASM) files for a web application hosted by the
-  Owner.
+- HTML and WebAssembly (WASM) files for a web application hosted by the Owner.
 
 - A `request.yaml` file created by the Requester based on their selections in
   the web application or terminal interface. The file includes the selected
@@ -104,8 +103,22 @@ The request includes:
 
 The data subset is a subset of the data in the data package that is filtered
 based on the request to include only the selected resources, columns, and rows
-(if applicable). The subset contains one file per original resource file (i.e.,
-Propagate does not join data files into fewer files or a single file). The data
-subset format is [Parquet](https://parquet.apache.org/). See our [Why
+(if applicable). A data subset would be considered the [sample
+population](https://en.wikipedia.org/wiki/Sampling_(statistics)) that is used to
+answer a set of related research questions (all part of a research project). The
+subset contains one file per original resource file (i.e., Propagate does not
+join data files into fewer files or a single file). The data subset format is
+[Parquet](https://parquet.apache.org/). See our [Why
 Parquet](https://decisions.seedcase-project.org/why-parquet/index.html) decision
 post for the rationale.
+
+The subset is created based on a set of [inclusion
+criteria](https://en.wikipedia.org/wiki/Inclusion_and_exclusion_criteria) (to
+create a set of `AND` logic conditions) and a set of variables needed to answer
+the research question. In general, inclusion criteria are a list of `AND`
+conditions that form the sample population. Rarely is an `OR` condition required
+for inclusion criteria, so we don't design for using it to keep our
+implementation simple. If more complex row filtering is desired, it's would be
+easier for the Request to simply require all rows (or a minimal set of inclusion
+criteria) and do the filter themselves. Otherwise, the design would get quite
+complex to include all edge cases.

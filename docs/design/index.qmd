@@ -14,7 +14,9 @@ and patterns described there.
 ## Purpose
 
 The overall aim of Propagate is to streamline requesting and subsetting data
-from a data package.
+from a data package in order to create a [sample
+population](https://en.wikipedia.org/wiki/Sampling_(statistics)) needed to
+answer specific research questions.
 
 The central concept in Propagate is a set of **instructions** that describe a
 requested subset of data. These instructions are intended to be both
@@ -43,6 +45,9 @@ Specifically, Propagate must:
   future.
 - Support checking instructions against the metadata before generating a subset.
 - Assume one request per research project per data package.
+- Subset the data package using a set of [inclusion
+  criteria](https://en.wikipedia.org/wiki/Inclusion_and_exclusion_criteria) and
+  a list of required variables.
 
 ### Data request functionality
 
