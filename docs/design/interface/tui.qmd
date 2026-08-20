@@ -119,7 +119,7 @@ but cannot be edited from the TUI.
 Moving through the left pane automatically updates the right pane with a short
 explanation of the selected item. Opening the right pane makes its controls
 active. Text values use either single-line or multiline inputs, while choices
-derived from the data package use searchable selection lists/drodowns. This
+derived from the data package use searchable selection lists/dropdowns. This
 means that a Requester can type part of a resource or column name to filter the
 dropdown instead of scrolling through a long list.
 
