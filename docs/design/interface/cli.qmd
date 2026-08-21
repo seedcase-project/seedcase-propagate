@@ -125,16 +125,17 @@ directory, since `subset` is meant to be run by the Owner or data manager while
 in the data package folder.
 
 The `SOURCE` argument is the same as the `SOURCE` argument used above for
-`build`. The default for `OUTPUT-DIR` is `subsets/`. Ideally, the `request.yaml`
-file and the `subset/` directory are both in the same directory. The final
-output path is created from the Requester's project `name` field in the request
-file and the resource `name` field(s) of the source file. For example, if the
-Requester's project is `diet-diabetes` and the request file asks for two
-resources, `resource1` and `resource2`, the output will be:
+`build`. The default for `OUTPUT-DIR` is `subset/`. Ideally, the `request.yaml`
+file and the `subset/` directory are both in the same directory. By default, the
+`subset/` directory will be created in the same directory as the `request.yaml`
+file. The final output path is created from the Requester's project `name` field
+in the request file and the resource `name` field(s) of the source file. For
+example, if the Requester's project is `diet-diabetes` and the request file asks
+for two resources, `resource1` and `resource2`, the output will be:
 
 ```text
-subsets/diet-diabetes/resource1.parquet
-subsets/diet-diabetes/resource2.parquet
+subset/diet-diabetes/resource1.parquet
+subset/diet-diabetes/resource2.parquet
 ```
 
 The `--show-plan` flag is a boolean that defaults to `false`. If `true`, the CLI
@@ -158,8 +159,8 @@ flowchart LR
     subset["subset"]
     request[/"request.yaml<br>[REQUEST: request.yaml<br>instructions for subsetting]"/]
     show_plan[/"--show-plan<br>[--show-plan: flag to output SQL plan]"/]
-    output_dir[/"subsets/<br>[OUTPUT-DIR: folder]"/]
-    output[/"subsets/<project-name>/<resource-name>.parquet<br>[Parquet file(s)]"/]
+    output_dir[/"subset/<br>[OUTPUT-DIR: folder]"/]
+    output[/"subset/<project-name>/<resource-name>.parquet<br>[Parquet file(s)]"/]
 
     request --> subset
     source --> subset
