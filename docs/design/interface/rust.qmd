@@ -1,3 +1,80 @@
 ---
 title: "Rust library interface"
 ---
+
+This document describes the design of the functions forming the Rust library and
+tracks the implementation status.
+
+{{< include /docs/includes/_design-status.qmd >}}
+
+## {{< var planned >}} `check()`
+
+The `check()` function first reads and parses a `request.yaml` and a metadata
+file, `datapackage.json`, checking that they contain the required keys. It then
+runs the checks described below in order, returning a `CheckError` if any check
+fails.
+
+<!-- TODO: We could consider bundling up the errors and return a vector of CheckError's instead? -->
+
+```{mermaid}
+%%| label: fig-check-flow
+%%| fig-cap: "The flow of input and output through the check function."
+%%| fig-alt: >-
+%%|   Diagram showing the flow of input and output through the `check` function.
+%%|   The user provides the request and metadata file. The function completes a
+%%|   set of checks, before returning a result that's either the unit type or a
+%%|   CheckError.
+%%|   
+
+flowchart TD
+    request["request<br>path to request.yaml"]
+    metadata["metadata<br>path to datapackage.json"]
+    output[/"Output<br>Result&lt;(), CheckError&gt;"/]
+
+    subgraph check ["check()"]
+      read_request["read_request()<br>Parse request into a Request struct"]
+      read_metadata["read_metadata()<br>Parse metadata file into a Package struct"]
+      check_package_name["check_package_name()<br>Package name matches metadata"]
+      check_package_version["check_package_version()<br>Package version matches metadata"]
+      check_resource_names["check_resource_names()<br>Resource names match metadata"]
+      check_column_names["check_column_names()<br>Column names match metadata"]
+      check_row_filters["check_row_filters()<br>Row filters match metadata columns"]
+    end
+
+    request --> read_request --> check_package_name --> check_package_version --> check_resource_names --> check_column_names --> check_row_filters --> output
+    metadata --> read_metadata --> check_package_name
+
+    check:::outer_function
+
+  classDef outer_function fill:none
+```
+
+```rs
+/// Checks a request yaml against the metadata file.
+///
+/// The checks include:
+///
+/// - Required sections and keys are present in the request and metadata.
+/// - Data package name and version in the request matches the metadata.
+/// - The resources and columns in the request exist in the metadata.
+/// - The row filters match columns in the metadata.
+///
+/// Errors if the request or metadata file can't be read, or if any
+/// check fails.
+pub fn check(request: Path, metadata: Path) -> Result<(), CheckError> {
+    let request = read_request(request);
+    let metadata = read_metadata(metadata);
+    // Package name and version matches metadata.
+    check_package_name(&request, &metadata);
+    check_package_version(&request, &metadata);
+    // Resource names match metadata.
+    check_resource_names(&request, &metadata);
+    // Column names match metadata.
+    check_column_names(&request, &metadata);
+    // Row filters match metadata columns (including whether the operator
+    // types and values are allowed with the column type).
+    check_row_filters(&request, &metadata);
+
+    Ok(())
+}
+```
