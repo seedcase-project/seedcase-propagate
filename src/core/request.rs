@@ -3,19 +3,16 @@
 use chrono::{DateTime, Utc};
 use semver::Version;
 use serde::Deserialize;
-use std::collections::HashMap;
 
 /// A type that maps the contents of `request.yaml`.
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub struct Request {
     /// The initial datetime when the request was created.
-    #[serde(rename = "datetime-created")]
     pub datetime_created: DateTime<Utc>,
 
     /// The request's datetime when it was last modified, mainly used when
     /// requesting an update to a previously submitted request.
-    #[serde(rename = "datetime-modified")]
     pub datetime_modified: DateTime<Utc>,
 
     /// The explanation for why the specific data is needed for the given
@@ -32,18 +29,12 @@ pub struct Request {
     /// for. Mostly used to provide a reference to the original data
     /// package, as well as to provide a way for the Owner to track which
     /// version of the data package the request is for.
-    #[serde(rename = "data-package")]
     pub data_package: DataPackage,
 
-    /// Row-level subsets of resources (as a hashmaps), with the
-    /// resource name as the first item and the where conditions (as a
-    /// vector) as the second. If not included, will assume to keep all
-    /// rows in all selected resources in `columns`.
-    pub rows: Option<HashMap<String, Vec<Where>>>,
-
-    /// Column-level subsets of resources (as a hashmaps) that
-    /// contains the specific columns to include (as a vector of strings).
-    pub columns: HashMap<String, Vec<String>>,
+    // TODO: Replace with non-empty vec
+    /// The specific resources being requested, subsetted by the requested
+    /// columns and rows declared in [`Subsets`].
+    pub subsets: Vec<Subsets>,
 }
 
 /// The details about the research project that the request is for. This is used
@@ -94,19 +85,23 @@ pub struct DataPackage {
     pub version: Version,
 }
 
-/// Details about how the rows will be kept from the resources.
+/// Details about which resources are being requested and how they will be
+/// subset, based on requested columns and row filters (as inclusion criteria).
 #[derive(Debug, Deserialize)]
-#[serde(rename_all = "lowercase")]
-pub enum Where {
-    /// The logic conditions when **all** are true that determine which rows are
-    /// kept, as a [`WhereCondition`] struct.
-    #[serde(rename = "all")]
-    All(Vec<WhereCondition>),
+#[serde(rename_all = "kebab-case")]
+pub struct Subsets {
+    /// Name of the resource to select.
+    pub resource: String,
 
-    /// The logic conditions when **any of them** true that determine which rows
-    /// are kept, as a [`WhereCondition`] struct.
-    #[serde(rename = "any")]
-    Any(Vec<WhereCondition>),
+    // TODO: Convert to non-empty vec.
+    /// Rows (inclusion criteria) as where conditions to keep from the resource.
+    /// If no `rows` is given, it means that all rows are requested.
+    pub rows: Option<Vec<WhereCondition>>,
+
+    // TODO: Convert to non-empty vec.
+    /// Columns to keep from the resource. If no `columns` is given, it means
+    /// that all columns are requested.
+    pub columns: Option<Vec<String>>,
 }
 
 /// The individual row conditions that will be applied to an individual
@@ -135,6 +130,44 @@ mod tests {
     use serde_saphyr;
 
     #[test]
+    fn test_serde_without_columns() {
+        // `r#` means "raw string literal", to allow using `"` without escaping.
+        let test_request_yaml = r#"
+datetime-modified: "2026-07-06T01:45:34Z"
+datetime-created: "2026-07-04T01:44:34Z"
+motivation: |
+  We would like access to metabolic and block variables to evaluate
+  our hypothesis regarding ...
+
+requester:
+  name: "First Last"
+  email: "TEXT"
+
+project:
+  name: "metabolic-cost"
+  title: "Metabolic cost estimation"
+  description: |
+    Our project investigates the gas exchange during metabolism
+    with the aim to determine ...
+
+data-package:
+  name: "example-seed-beetle"
+  version: "0.5.1"
+
+subsets:
+  - resource: "metabolism"
+  - resource: "metabolism-2"
+    rows:
+      - column: "strain-2"
+        operator: "="
+        value: "20"
+"#;
+
+        let config: Result<Request, _> = serde_saphyr::from_str(test_request_yaml);
+        assert!(config.is_ok())
+    }
+
+    #[test]
     fn test_serde_without_rows() {
         // `r#` means "raw string literal", to allow using `"` without escaping.
         let test_request_yaml = r#"
@@ -159,12 +192,12 @@ data-package:
   name: "example-seed-beetle"
   version: "0.5.1"
 
-columns:
-  metabolic-rate:
-    - "strain"
-    - "activity"
-  biometrics:
-  ids:
+subsets:
+  - resource: "metabolism"
+    columns:
+      - "strain"
+      - "activity"
+  - resource: "metabolism-2"
 "#;
 
         let config: Result<Request, _> = serde_saphyr::from_str(test_request_yaml);
@@ -196,29 +229,16 @@ data-package:
   name: "example-seed-beetle"
   version: "0.5.1"
 
-columns:
-  metabolic-rate:
-    - "strain"
-    - "activity"
-  biometrics:
-  ids:
-
-rows:
-  metabolic-rate:
-    - all:
-      - column: "block"
+subsets:
+  - resource: "metabolism"
+    columns:
+      - "strain"
+      - "activity"
+  - resource: "metabolism-2"
+    rows:
+      - column: "strain-2"
         operator: "="
-        value: "block1"
-    - any:
-      - column: "block1"
-        operator: "="
-        value: "10"
-        not: true
-    - any:
-      - column: "block2"
-        operator: "="
-        value: "10"
-        not: true
+        value: "20"
 "#;
 
         let config: Result<Request, _> = serde_saphyr::from_str(test_request_yaml);
