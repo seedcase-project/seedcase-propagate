@@ -8,7 +8,7 @@ mod cli;
 #[derive(Debug, Parser)] // clap::Parser for the whole CLI
 #[command(version, about, arg_required_else_help = true)]
 struct Cli {
-  #[command(subcommand)]
+    #[command(subcommand)]
     command: cli::Commands,
     // Connect Commands enum to Cli struct in `cli.rs`.
 }
