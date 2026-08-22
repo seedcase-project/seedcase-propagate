@@ -103,8 +103,25 @@ The request includes:
 
 The data subset is a subset of the data in the data package that is filtered
 based on the request to include only the selected resources, columns, and rows
-(if applicable). The subset contains one file per original resource file (i.e.,
-Propagate does not join data files into fewer files or a single file). The data
-subset format is [Parquet](https://parquet.apache.org/). See our [Why
+(if applicable). A data subset would be considered the [sample
+population](https://en.wikipedia.org/wiki/Sampling_(statistics)) that is used to
+answer a set of related research questions (all part of a research project). The
+subset contains one file per original resource file (i.e., Propagate does not
+join data files into fewer files or a single file). The data subset format is
+[Parquet](https://parquet.apache.org/). See our [Why
 Parquet](https://decisions.seedcase-project.org/why-parquet/index.html) decision
 post for the rationale.
+
+The subset is created based on a set of [inclusion
+criteria](https://en.wikipedia.org/wiki/Inclusion_and_exclusion_criteria) defining
+the sample population and a set of names for the variables/columns needed to 
+answer the research question. Propagate currently only supports inclusions 
+criteria defined as a list of `AND` conditions. 
+This is because we anticipate that `OR` condition inclusion criteria will rarely 
+be required for researchers using Propagate. Only supporting `AND` keeps our 
+implementation simple. If more complex row filtering is desired, the Requester is 
+required to ask for all rows (or at least a larger subset than they need) and do 
+the row filtering on their end. The Requester can also reach out to the Owner of
+the data package and ask them to create a new column corresponding to the
+advanced filter. If `OR` inclusion criteria turns out to be  commonly required, 
+Propagate could be extended to support these in the future.

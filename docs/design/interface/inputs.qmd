@@ -30,14 +30,13 @@ The inputs include:
 There should be only one `request.yaml` file per research project per data
 package. A *research project* is a specific activity or study conducted by the
 Requester that needs access to data from the data package. This `request.yaml`
-file specifies all the data that the research project needs from a given data
-package. This design is to avoid confusion about different versions of the
-request or needing to remember which request files to run for a research
-project. If a Requester receives a data subset from a submitted `request.yaml`
-file and later realizes that they need different data, they must update their
-existing `request.yaml` file and resubmit it to the Owner. The updated file
-needs to contain all the data (both new and previously requested) that the
-research project needs from the data package. For example, if a Requester wants
-an additional column from the data package, the new request must include not
-only this additional column, but also all the (still relevant) columns from the
-previous request.
+file specifies the sample population, with inclusion criteria and required
+variables. Specifying all the data that the research project needs from a given data package in a single file avoids confusion about different versions of the request or needing
+to remember which request files to run for a research project. If a Requester
+receives a data subset from a submitted `request.yaml` file and later realizes
+that they need different data, they must update their existing `request.yaml`
+file and resubmit it to the Owner. The updated file needs to contain all the
+data (both new and previously requested) that the research project needs from
+the data package. For example, if a Requester wants an additional column from
+the data package, the new request must include not only this additional column,
+but also all the (still relevant) columns from the previous request.
