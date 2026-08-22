@@ -180,14 +180,14 @@ being typed into a text input.
 
 In navigation mode (left pane):
 
-| Shortcut                        | Action                                                    |
-|---------------------------------|-----------------------------------------------------------|
-| `j` / `k` or down / up arrow    | Move to the next or previous request item.                |
-| `h` / `l` or left / right arrow | Collapse or expand the selected section.                  |
-| `Enter`                         | Move focus to the contextual panel for the selected item. |
-| `s` or `Ctrl+S`                 | Save the request.                                         |
-| `?`                             | Show help for the available shortcuts.                    |
-| `q`                             | Quit, with a prompt if there are unsaved changes.         |
+  | Shortcut                        | Action                                                    |
+  | ------------------------------- | --------------------------------------------------------- |
+  | `j` / `k` or down / up arrow    | Move to the next or previous request item.                |
+  | `h` / `l` or left / right arrow | Collapse or expand the selected section.                  |
+  | `Enter`                         | Move focus to the contextual panel for the selected item. |
+  | `s` or `Ctrl+S`                 | Save the request.                                         |
+  | `?`                             | Show help for the available shortcuts.                    |
+  | `q`                             | Quit, with a prompt if there are unsaved changes.         |
 
 Collapsing or expanding with `h` and `l` changes how much of the request is
 shown in the left pane. Pressing `Enter` has a different purpose: it moves focus
@@ -195,18 +195,18 @@ to the right pane so that the selected value can be changed.
 
 In editing mode (right pane):
 
-| Shortcut                     | Action                                                  |
-|------------------------------|---------------------------------------------------------|
-| `Tab` / `Shift+Tab`          | Move to the next or previous control.                   |
-| `j` / `k` or down / up arrow | Move through a selection list or dropdown.              |
-| `Space`                      | Toggle the selected choice.                             |
-| `Enter`                      | Open a dropdown or activate the selected control.       |
-| `/`                          | Search the current resource or column list.             |
-| `a`                          | Add an item, such as a condition, group, or `IN` value. |
-| `d`                          | Delete the selected item.                               |
-| `Ctrl+Enter`                 | Apply the edits and return to navigation mode.          |
-| `Esc`                        | Cancel the edits and return to navigation mode.         |
-| `Ctrl+S`                     | Apply the current edits and save the request.           |
+  | Shortcut                     | Action                                                  |
+  | ---------------------------- | ------------------------------------------------------- |
+  | `Tab` / `Shift+Tab`          | Move to the next or previous control.                   |
+  | `j` / `k` or down / up arrow | Move through a selection list or dropdown.              |
+  | `Space`                      | Toggle the selected choice.                             |
+  | `Enter`                      | Open a dropdown or activate the selected control.       |
+  | `/`                          | Search the current resource or column list.             |
+  | `a`                          | Add an item, such as a condition, group, or `IN` value. |
+  | `d`                          | Delete the selected item.                               |
+  | `Ctrl+Enter`                 | Apply the edits and return to navigation mode.          |
+  | `Esc`                        | Cancel the edits and return to navigation mode.         |
+  | `Ctrl+S`                     | Apply the current edits and save the request.           |
 
 The footer only shows shortcuts that are relevant to the active context. The
 arrow keys and common form-navigation keys are provided alongside the
