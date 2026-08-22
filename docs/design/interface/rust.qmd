@@ -7,6 +7,43 @@ tracks the implementation status.
 
 {{< include /docs/includes/_design-status.qmd >}}
 
+## {{< var planned >}} Read module
+
+The read module consists of a few utility functions used in the externally
+facing functions.
+
+### {{< var planned >}} `read_metadata()`
+
+```rs
+/// Reads and parses a metadata file into a `Package`.
+///
+/// # Errors
+///
+/// Returns `ReadSourceError` if the file cannot be opened (e.g., it doesn't
+/// exist) or if the metadata file is malformed (e.g., a `datapackage.json` file
+/// that doesn't contain parsable JSON).
+fn read_metadata(path: &Path) -> Result<Package, ReadSourceError> {
+    // Open the file in read-only mode with buffer.
+    let file = File::open(path)?;
+    let reader = BufReader::new(file);
+
+    // Read the JSON contents of the file as an instance of `Package`.
+    let package: Package = serde_json::from_reader(reader)?;
+
+    Ok(package)
+}
+
+pub enum ReadMetadataError {
+    // File can't be opened.
+    // File doesn't contain parsable JSON.
+}
+```
+
+<!-- TODO: We could add a todo()! for `datadict.yaml` -->
+
+The function outline above is based on a `serde_json`
+[example](https://docs.rs/serde_json/latest/serde_json/fn.from_reader.html).
+
 ## {{< var planned >}} `check()`
 
 The `check()` function first reads and parses a `request.yaml` and a metadata
