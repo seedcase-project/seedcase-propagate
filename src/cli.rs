@@ -1,4 +1,4 @@
-use clap::{Subcommand, Args};
+use clap::{Args, Subcommand};
 // Subcommand: parses command-line subcommands into the user-defined enum.
 // Args: We need to use clap::Args to parse the arguments for each command
 
