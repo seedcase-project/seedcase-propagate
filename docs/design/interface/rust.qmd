@@ -140,4 +140,62 @@ flowchart TD
   classDef outer_function fill:none
 ```
 
+```rs
+pub fn subset(request: Path, metadata: Path, output_dir: Path, show_plan: bool) -> Result<SubsetOutcome, SubsetError> {
+    let request = read_request(request);
+    let metadata = read_metadata(metadata);
+
+    check(&request, &metadata)?; // TODO: This assumes a change in the inputs to check(); taking the loaded request and metadata as Structs  instead of the paths. This seems like a more natural flow to me here and in the other public facing functions. Thoughts?
+
+    if show_plan {
+      print_plan(&request, &metadata);
+      return Ok(SubsetOutcome::Planned);
+    }
+  
+    let subset = Subset::read_resources(&request, &metadata)?
+      .apply_column_filters(&request)?
+      .apply_row_filters(&request)?;
+    
+    let ids = subset.get_intersecting_ids(&metadata)?;
+    let subset = subset.apply_id_filter(&ids)?;
+
+    write_subset(subset, &output_dir)?;
+
+    Ok(SubsetOutcome::Written(output_dir))
+}
+
+pub enum SubsetOutcome {
+  Planned, // show_plan = true. Print steps that would be run to write the subset
+  Written(Path),  // show_plan = false. Subset is written to output_dir and output_dir is returned.
+}
+
+pub enum SubsetError {
+  // ReadRequestError
+  // ReadMetadataError
+  // CheckError
+  // ...
+}
+
+struct Subset {
+  resources: Vec<LazyFrame>
+}
+
+impl Subset {
+  /// Reads the requested resources from disk using the data paths in
+  /// `metadata`, keeping only the resources listed in `request`.
+  fn read_resources() ...
+
+  /// Keeps only the requested columns from each resource.
+  fn apply_column_filters() ...
+
+  /// Keeps only the rows matching the request's row filters for each resource.
+  fn apply_row_filters() ...
+
+  /// Finds the intersecting IDs present across every resource, following the primary
+  /// and foreign key relations in metadata.
+  fn get_intersecting_ids() ...
+
+  /// Keeps only rows whose ID is in `ids` for each resource.
+  fn apply_id_filter() ...
+}
 ```
