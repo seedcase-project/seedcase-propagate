@@ -7,7 +7,7 @@ tracks the implementation status.
 
 {{< include /docs/includes/_design-status.qmd >}}
 
-## {{< var planned >}} `check()`
+## {{< var planned >}} `check()` {#sec-check}
 
 The `check()` function first reads and parses a `request.yaml` and a metadata
 file, `datapackage.json`, checking that they contain the required keys. It then
@@ -77,4 +77,24 @@ pub fn check(request: Path, metadata: Path) -> Result<(), CheckError> {
 
     Ok(())
 }
+```
+
+## {{< var planned >}} `subset()`
+
+`subset()` takes a request, metadata file, an output directory, and a choice to
+show the plan or actually write the subset as input.
+
+First, the `request.yaml` and metadata file are [checked](#sec-check). If set to
+only show the plan (`show_plan = true`), `subset()` prints the steps to create
+the subset, including the column and row filters from the request, without
+writing the subset.
+
+If set to write the subset (`show_plan = false`), `subset()` filters the
+requested resources to only include the requested columns and rows, using the
+data paths in the metadata file. Then, it finds the intersection of the IDs
+across the requested resources using the primary and foreign key relations
+defined in the metadata and keeps only these IDs in each resource. Then, it
+outputs the subset to the `output_dir`. The subset will be in a tar file
+containing one Parquet file per requested resource, containing only the
+requested columns and rows from each resource.
 ```
