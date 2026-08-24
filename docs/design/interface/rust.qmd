@@ -97,4 +97,47 @@ defined in the metadata and keeps only these IDs in each resource. Then, it
 outputs the subset to the `output_dir`. The subset will be in a tar file
 containing one Parquet file per requested resource, containing only the
 requested columns and rows from each resource.
+
+```{mermaid}
+%%| label: fig-subset-flow
+%%| fig-cap: "The flow of input and output through the subset function."
+%%| fig-alt: >-
+%%|   Diagram showing the flow of input and output through the `subset()`
+%%|   function. The user provides the request, metadata file, output directory,
+%%|   and whether they want to only print the planned steps (`show_plan = true`)
+%%|   or actually execute the subsetting and write the output (`show_plan =
+%%|   false`). Both paths return a `SubsetOutcome`.
+%%|   
+flowchart TD
+    request[/"request<br>path to request.yaml"/]
+    metadata[/"metadata<br>path to datapackage.json"/]
+    output_dir[/"output_dir<br>path to output directory"/]
+    show_plan[/"show_plan<br>Boolean; show plan only or execute"/]
+    output[/"Output<br>Result&lt;SubsetOutcome, SubsetError&gt;"/]
+
+
+    subgraph subset ["subset()"]
+      read_request["read_request()<br>Parse request into a Request struct"]
+      read_metadata["read_metadata()<br>Parse metadata file into a Package struct"]
+      check["check()<br>Check request yaml against metadata file"]
+      show_plan_expr{Show plan only?}
+      print_plan["print_plan()<br>Print planned steps for subsetting requested data"]
+      read_resources["read_resources()<br>Read requested resources using paths from metadata"]
+      apply_column_filters["apply_column_filters()<br>Keep only requested columns from each resource"]
+      apply_row_filters["apply_row_filters()<br>Keep only requested rows from each resource"]
+      get_intersecting_ids["get_intersecting_ids()<br>Get intersecting ids across resources"]
+      apply_id_filter["apply_id_filter()<br>Apply filter that only keeps ids from get_intersecting_ids() across resources"]
+      write_subset["write_subset()<br>Write subset as .tar containing one Parquet per requested resource"]
+
+    end
+    show_plan --> show_plan_expr
+    request --> read_request --> check 
+    metadata --> read_metadata --> check --> show_plan_expr --false--> read_resources --> apply_column_filters --> apply_row_filters --> get_intersecting_ids --> apply_id_filter --> write_subset --> output
+    show_plan_expr --true--> print_plan --> output
+    output_dir --> write_subset
+
+    subset:::outer_function
+  classDef outer_function fill:none
+```
+
 ```
