@@ -106,8 +106,8 @@ subsets of data from the data package efficiently.
   | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
   | build          | Generate the WASM bundle that makes up the web component for creating requests.                                                                                                          |
   | check          | Check the request against the metadata.                                                                                                                                                  |
-  | subset         | Generate a subset of data based on the request provided to create a [sample population](https://en.wikipedia.org/wiki/Sampling_(statistics)) for a given research project and questions. |
-  | create-request | Create a request file to create a subset interactively using the terminal.                                                                                                               |
+  | subset         | Generate a data subset from a request to create the [sample population](https://en.wikipedia.org/wiki/Sampling_(statistics)) for a given research project. |
+  | create-request | Create a request file interactively using the terminal.                                                                                                               |
 
   : CLI commands in Propagate.
 
@@ -116,7 +116,7 @@ subsets of data from the data package efficiently.
   | select resource | Add instructions for selecting a specific resource from the data package.                                                                                                      |
   | select column   | Add instructions for selecting a specific column from the resource.                                                                                                            |
   | select rows     | Add instructions for selecting rows to create a set of [inclusion criteria](https://en.wikipedia.org/wiki/Inclusion_and_exclusion_criteria) for the subset (only `AND` logic). |
-  | save progress   | Save the current contents of the request form to local storage in the browser.                                                                                                 |
+  | save progress   | Save the current contents of the request to local storage in the browser.                                                                                                 |
   | export          | Download the contents of the request form as a request file.                                                                                                                   |
   | send            | Open the user's email client with an email to the data owner pre-filled with the request file as an attachment.                                                                |
 
