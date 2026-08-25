@@ -7,10 +7,9 @@ tracks the implementation status.
 
 {{< include /docs/includes/_design-status.qmd >}}
 
-## {{< var planned >}} Read module
+## {{< var planned >}} Read functions
 
-The read module consists of a few utility functions used in the externally
-facing functions.
+These are the external-facing read functions that are used internally in the CLI commands.
 
 ### {{< var planned >}} `read_metadata()`
 
@@ -19,12 +18,16 @@ facing functions.
 ///
 /// # Errors
 ///
-/// Returns `ReadSourceError` if the file cannot be opened (e.g., it doesn't
+/// Returns `ReadMetadataError` if the file cannot be opened (e.g., it doesn't
 /// exist) or if the metadata file is malformed (e.g., a `datapackage.json` file
 /// that doesn't contain parsable JSON).
 fn read_metadata(path: &Path) -> Result<Package, ReadSourceError> {
     // Open the file in read-only mode with buffer.
-    let file = File::open(path)?;
+    let file_result = File::open(path);
+    let file = match file_result {
+      Ok(file) => file,
+      Err(error) => ReadMetadataError::FileCannotOpen
+    }
     let reader = BufReader::new(file);
 
     // Read the JSON contents of the file as an instance of `Package`.
@@ -71,7 +74,7 @@ pub enum ReadRequestError {
 }
 ```
 
-Using [yaml-serde](https://docs.rs/yaml_serde/latest/yaml_serde/index.html).
+Maybe using [serde-saphyr](https://github.com/bourumir-wyngs/serde-saphyr).
 
 ## {{< var planned >}} `check()`
 
