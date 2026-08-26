@@ -24,16 +24,13 @@ fails.
 %%|   The user provides the request and metadata file. The function completes a
 %%|   set of checks, before returning a result that's either the unit type or a
 %%|   CheckError.
-%%|   
 
 flowchart TD
-    request["request<br>path to request.yaml"]
-    metadata["metadata<br>path to datapackage.json"]
+    request["request<br>as Request struct"]
+    metadata["metadata<br>as Package struct"]
     output[/"Output<br>Result&lt;(), CheckError&gt;"/]
 
     subgraph check ["check()"]
-      read_request["read_request()<br>Parse request into a Request struct"]
-      read_metadata["read_metadata()<br>Parse metadata file into a Package struct"]
       check_package_name["check_package_name()<br>Package name matches metadata"]
       check_package_version["check_package_version()<br>Package version matches metadata"]
       check_resource_names["check_resource_names()<br>Resource names match metadata"]
@@ -41,8 +38,8 @@ flowchart TD
       check_row_filters["check_row_filters()<br>Row filters match metadata columns"]
     end
 
-    request --> read_request --> check_package_name --> check_package_version --> check_resource_names --> check_column_names --> check_row_filters --> output
-    metadata --> read_metadata --> check_package_name
+    request --> check_package_name --> check_package_version --> check_resource_names --> check_column_names --> check_row_filters --> output
+    metadata --> check_package_name
 
     check:::outer_function
 
@@ -59,21 +56,25 @@ flowchart TD
 /// - The resources and columns in the request exist in the metadata.
 /// - The row filters match columns in the metadata.
 ///
-/// Errors if the request or metadata file can't be read, or if any
-/// check fails.
-pub fn check(request: Path, metadata: Path) -> Result<(), CheckError> {
-    let request = read_request(request);
-    let metadata = read_metadata(metadata);
+/// # Arguments:
+///
+/// - `request`: The [`Request`] struct with the request details.
+/// - `metadata`: The [`Package`] struct with the data package's metadata.
+///
+/// # Errors:
+///
+/// Errors if any check fails.
+pub fn check(request: Request, metadata: Package) -> Result<(), CheckError> {
     // Package name and version matches metadata.
-    check_package_name(&request, &metadata);
-    check_package_version(&request, &metadata);
+    check_package_name(&request, &metadata)?;
+    check_package_version(&request, &metadata)?;
     // Resource names match metadata.
-    check_resource_names(&request, &metadata);
+    check_resource_names(&request, &metadata)?;
     // Column names match metadata.
-    check_column_names(&request, &metadata);
+    check_column_names(&request, &metadata)?;
     // Row filters match metadata columns (including whether the operator
     // types and values are allowed with the column type).
-    check_row_filters(&request, &metadata);
+    check_row_filters(&request, &metadata)?;
 
     Ok(())
 }
