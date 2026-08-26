@@ -93,12 +93,12 @@ pub struct Subsets {
     /// Name of the resource to select.
     pub resource: String,
 
-    // TODO: Convert to non-empty vec.
+    // TODO: Convert to non-empty vec (e.g. `nonempty_collections` crate)
     /// Rows (inclusion criteria) as where conditions to keep from the resource.
     /// If no `rows` is given, it means that all rows are requested.
     pub rows: Option<Vec<WhereCondition>>,
 
-    // TODO: Convert to non-empty vec.
+    // TODO: Convert to non-empty vec (e.g. `nonempty_collections` crate)
     /// Columns to keep from the resource. If no `columns` is given, it means
     /// that all columns are requested.
     pub columns: Option<Vec<String>>,
