@@ -3,78 +3,79 @@ title: "Rust library interface"
 ---
 
 This document describes the design of the functions forming the Rust library and
-tracks the implementation status.
+tracks the implementation status. All of these functions are external-facing
+functions that are used internally in the [CLI](cli.qmd) commands.
 
 {{< include /docs/includes/_design-status.qmd >}}
 
-## {{< var planned >}} Read functions
+## {{< var planned >}} `read_metadata()`
 
-These are the external-facing read functions that are used internally in the CLI commands.
-
-### {{< var planned >}} `read_metadata()`
+This function reads in metadata files (currently only the `datapackage.json`
+file) into a `Package` struct. While we called it `source` in the args of many
+CLI commands, we call it `metadata` here to be clearer. "Source" on it's own is
+a vague term, "source of what?", so we wanted to be explicit that it is the data
+package's metadata we are reading in.
 
 ```rs
 /// Reads and parses a metadata file into a `Package`.
 ///
+/// # Argument:
+///
+/// - `path`: This is the path to the metadata file for the data package
+///   (called `source` argument in some of the CLI command).
+///
 /// # Errors
 ///
-/// Returns `ReadMetadataError` if the file cannot be opened (e.g., it doesn't
+/// Returns `Error` if the file cannot be opened (e.g., it doesn't
 /// exist) or if the metadata file is malformed (e.g., a `datapackage.json` file
 /// that doesn't contain parsable JSON).
-fn read_metadata(path: &Path) -> Result<Package, ReadSourceError> {
+fn read_metadata(path: &Path) -> Result<Package, Box<dyn Error> { // Box holds an unknown number of errors known only at runtime.
     // Open the file in read-only mode with buffer.
-    let file_result = File::open(path);
-    let file = match file_result {
-      Ok(file) => file,
-      Err(error) => ReadMetadataError::FileCannotOpen
-    }
-    let reader = BufReader::new(file);
+    // We'll have to either make custom errors or make use of error packages
+    // like `thiserror`, `anyhow`, and/or `eyre`. Or just bundle the original
+    // errors from e.g. the default reader and make reporting of them nicer with
+    // `eyre`. Right now, we'll use `?` and see how that goes.
+    let file_result = File::open(path)?;
+    let reader = BufReader::new(file)?;
 
+    // Potentially include a match for if the file is JSON or other file format.
+    // For now, only load in `datapackage.json` structured JSON.
     // Read the JSON contents of the file as an instance of `Package`.
-    let package: Package = serde_json::from_reader(reader)?;
-
+    let package: Package = read_from_json(reader)?;
     Ok(package)
-}
-
-pub enum ReadMetadataError {
-    // File can't be opened.
-    // File doesn't contain parsable JSON.
 }
 ```
 
 <!-- TODO: We could add a todo()! for `datadict.yaml` -->
 
-The function outline above is based on a `serde_json`
-[example](https://docs.rs/serde_json/latest/serde_json/fn.from_reader.html).
+## {{< var planned >}} `read_request()`
 
-### {{< var planned >}} `read_request()`
+This reads in the `request.yaml` file into the `Request` struct. This
+functionality is very similar to `read_metadata()`.
 
 ```rs
 /// Reads and parses a `request.yaml` into a `Request`.
+///
+/// # Argument:
+///
+/// - `path`:
 ///
 /// # Errors
 ///
 /// Returns `ReadRequestError` if the file cannot be opened (e.g., it doesn't
 /// exist) or if the request file is malformed (i.e., it doesn't contain
 /// parsable YAML).
-fn read_request(path: &Path) -> Result<Request, ReadRequestError> {
+fn read_request(path: &Path) -> Result<Request, Box<dyn Error>> {
     // Open the file in read-only mode with buffer.
     let file = File::open(path)?;
     let reader = BufReader::new(file);
 
-    // Deserialise into a Request.
-    let request: Request = yaml_serde::from_reader(reader)?;
+    // Deserialise into a Request object.
+    let request: Request = read_from_yaml(reader)?;
 
     Ok(request)
 }
-
-pub enum ReadRequestError {
-    // File can't be opened.
-    // File doesn't contain parsable YAML.
-}
 ```
-
-Maybe using [serde-saphyr](https://github.com/bourumir-wyngs/serde-saphyr).
 
 ## {{< var planned >}} `check()`
 
@@ -93,7 +94,6 @@ fails.
 %%|   The user provides the request and metadata file. The function completes a
 %%|   set of checks, before returning a result that's either the unit type or a
 %%|   CheckError.
-%%|   
 
 flowchart TD
     request["request<br>path to request.yaml"]
