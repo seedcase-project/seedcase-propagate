@@ -1,8 +1,7 @@
 ---
 title: "Adding a request page to a website"
 description: >-
-  How to add a web app to a static website for requesting subsets of a data
-  package with Propagate.
+  How to add a web app for requesting data subsets to a static website.
 order: 1
 ---
 

@@ -69,3 +69,167 @@ for the following reasons:
   data are kept on more tightly-managed servers, so options for sharing the
   metadata file and creating web applications are limited. A terminal user
   interface is more portable in these cases.
+
+## Layout
+
+The terminal user interface uses two panes. The left pane shows a structured
+representation of the [`request.yaml` file](requests.qmd), while the right pane
+shows information and controls for the item selected in the left pane. The left
+pane is for navigation only; all information is entered or selected in the right
+pane.
+
+This design makes the structure of the request visible throughout the process
+and shows how each choice changes the file. At the same time, it avoids the
+errors that could occur if the Requester had to edit YAML syntax, indentation,
+or keys directly. It also gives Propagate control over the editing experience,
+including which operators and data package fields can be selected, without
+requiring integration with a particular text editor or constant editor
+re-configuration for each new data package.
+
+The left pane resembles the structure of `request.yaml`, but it is not a literal
+text editor. Long values may be shortened, sections can be collapsed, and
+summary text such as the number of selected columns may be shown instead of the
+full YAML. Changes made in the right pane update this representation so that the
+Requester can see the request take shape as they work. The panes have different
+visual emphasis depending on which one is active. The active pane must be
+identifiable without relying on colour alone. A footer shows the shortcuts that
+apply to the current pane and mode.
+
+## Completion status
+
+The left pane shows the state of information that the Requester needs to enter:
+
+- A check mark (`[✓]`) indicates that the information is filled in and passes
+  its checks.
+- A cross (`[x]`) indicates that information is present but needs correction.
+- An empty marker (`[ ]`) indicates that information has not been filled in.
+
+The same markers can summarize a section. For example, the `project` section
+shows a check mark only when its name, title, and description all pass their
+checks. An explanation is shown in the right pane when a selected value needs
+correction.
+
+Values managed by Propagate, such as `datetime-created`, `datetime-modified`,
+and the `data-package` fields, are visually muted to distinguish them from
+information entered by the Requester. They are shown in the request structure
+but cannot be edited from the TUI.
+
+## Contextual editing
+
+Moving through the left pane automatically updates the right pane with a short
+explanation of the selected item. Opening the right pane makes its controls
+active. Text values use either single-line or multiline inputs, while choices
+derived from the data package use searchable selection lists/dropdowns. This
+means that a Requester can type part of a resource or column name to filter the
+dropdown instead of scrolling through a long list.
+
+Edits in the right pane are applied to an in-memory request and reflected in the
+left pane. The Requester can apply the edits and return to navigation, or cancel
+them and restore the values that were present when the right pane was opened.
+
+## Selecting columns
+
+The columns panel initially offers the choices to request all columns from all
+resources or to customize the selection. This makes the meaning of an omitted
+`columns` key explicit even though Propagate does not need to write that key to
+the request file when all columns are requested.
+
+When customizing the selection, the Requester chooses resources and then their
+columns. Selecting a resource without specifying individual columns requests all
+columns from that resource. Available columns are shown by name and title. The
+TUI does not reproduce the complete data package documentation because its
+purpose is to create a request, not to replace interfaces designed for exploring
+metadata, such as [Flower](https://flower.seedcase-project.org).
+
+Search is available for data packages with many resources or columns. Selected
+items are kept easy to find, for example by sorting them before unselected
+items. The left pane summarizes the selection by resource and expands to show
+individual columns when needed.
+
+## Selecting rows
+
+The rows panel initially offers the choices to request all rows or to add row
+conditions. This makes the meaning of an omitted `rows` key explicit without
+requiring the Requester to understand that detail of the file format.
+
+Row conditions use structured controls rather than free-form SQL. A condition
+contains a column, an operator, a value where applicable, and an option to
+negate the comparison. The available columns and operators come from the data
+package and the request format, preventing unsupported combinations from being
+entered. The initially supported operators are `=`, `>`, `>=`, `<`, `<=`, `IN`,
+and `IS NULL`. Selecting `IS NULL` removes the value input. Selecting `IN`
+provides a list in which multiple values can be added or removed.
+
+Conditions can be organized into `all` and `any` groups:
+
+- Every condition in an `all` group must be met.
+- At least one condition in an `any` group must be met.
+- Separate groups and conditions across resources are combined with `AND`.
+- Multiple `any` groups can be used to express logic such as
+  `any(A, B) AND any(C, D)`.
+
+The panel describes this logic in plain language and shows a readable summary of
+each condition. The Requester does not need to understand how the groups are
+converted to YAML.
+
+## Interaction modes
+
+The TUI has separate navigation and editing modes. Separating the modes allows
+home-row keys to navigate the request without preventing those letters from
+being typed into a text input.
+
+In navigation mode (left pane):
+
+  | Shortcut                        | Action                                                    |
+  | ------------------------------- | --------------------------------------------------------- |
+  | `j` / `k` or down / up arrow    | Move to the next or previous request item.                |
+  | `h` / `l` or left / right arrow | Collapse or expand the selected section.                  |
+  | `Enter`                         | Move focus to the contextual panel for the selected item. |
+  | `s` or `Ctrl+S`                 | Save the request.                                         |
+  | `?`                             | Show help for the available shortcuts.                    |
+  | `q`                             | Quit, with a prompt if there are unsaved changes.         |
+
+Collapsing or expanding with `h` and `l` changes how much of the request is
+shown in the left pane. Pressing `Enter` has a different purpose: it moves focus
+to the right pane so that the selected value can be changed.
+
+In editing mode (right pane):
+
+  | Shortcut                     | Action                                                  |
+  | ---------------------------- | ------------------------------------------------------- |
+  | `Tab` / `Shift+Tab`          | Move to the next or previous control.                   |
+  | `j` / `k` or down / up arrow | Move through a selection list or dropdown.              |
+  | `Space`                      | Toggle the selected choice.                             |
+  | `Enter`                      | Open a dropdown or activate the selected control.       |
+  | `/`                          | Search the current resource or column list.             |
+  | `a`                          | Add an item, such as a condition, group, or `IN` value. |
+  | `d`                          | Delete the selected item.                               |
+  | `Ctrl+Enter`                 | Apply the edits and return to navigation mode.          |
+  | `Esc`                        | Cancel the edits and return to navigation mode.         |
+  | `Ctrl+S`                     | Apply the current edits and save the request.           |
+
+The footer only shows shortcuts that are relevant to the active context. The
+arrow keys and common form-navigation keys are provided alongside the
+Vim-inspired shortcuts so that the interface remains discoverable to users who
+do not use Vim.
+
+## Saving and continuing requests
+
+Saving writes a `request.yaml` file and updates the timestamps managed by
+Propagate. The TUI tracks whether the in-memory request differs from the saved
+file. If the Requester tries to quit with unsaved changes, the TUI asks whether
+to save, continue editing, or discard the changes. This avoids accidental data
+loss without making `Esc` unexpectedly close the application.
+
+New requests are started from a source metadata file with the `create-request`
+CLI command. Existing requests are opened through a CLI option rather than a
+file picker inside the TUI. Keeping file selection in the CLI makes the source
+and request explicit before the full-screen interface starts and avoids adding a
+separate opening screen to the TUI. Propagate checks that an existing request
+matches the supplied data package before allowing resource, column, or row
+selections to be changed.
+
+The TUI does not include a separate review screen or a preview of the selected
+data. The left pane continuously summarizes the request and its completion
+state, while the saved YAML file provides the final detailed representation. The
+Requester can reopen that file in the TUI to review or change it.

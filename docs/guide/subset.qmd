@@ -1,5 +1,8 @@
 ---
 title: Making a data subset
+description: >-
+  How to create a data subset from `request.yaml`.
+order: 3
 ---
 
 Once the `request.yaml` has been created by a
