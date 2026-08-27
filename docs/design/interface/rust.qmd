@@ -24,7 +24,6 @@ fails.
 %%|   The user provides the request and metadata file. The function completes a
 %%|   set of checks, before returning a result that's either the unit type or a
 %%|   CheckError.
-%%|   
 
 flowchart TD
     request["request<br>path to request.yaml"]
@@ -79,123 +78,78 @@ pub fn check(request: Path, metadata: Path) -> Result<(), CheckError> {
 }
 ```
 
-## {{< var planned >}} `subset()`
+## {{< var planned >}} `subset_resources()`
 
-`subset()` takes a request, metadata file, an output directory, and a choice to
-show the plan or actually write the subset as input.
+`subset_resources()` takes the data package metadata and the request details and
+applies the request to the resources into a data subset. While also visually
+shown in the diagram below, briefly, it needs to:
 
-First, the `request.yaml` and metadata file are [checked](#sec-check). If set to
-only show the plan (`show_plan = true`), `subset()` prints the steps to create
-the subset, including the column and row filters from the request, without
-writing the subset.
+1. Keep the selected resources.
+2. Read in the resource data.
+3. Row-filter the resources and keep the primary keys.
+4. Combine all the kept resource primary keys.
+5. Row-filter *all* the resources again on the keys.
+6. Keep all the selected columns in the resources.
+7. Output all the kept data, along with the resource's name (for later
+   processing).
 
-If set to write the subset (`show_plan = false`), `subset()` filters the
-requested resources to only include the requested columns and rows, using the
-data paths in the metadata file. Then, it finds the intersection of the IDs
-across the requested resources using the primary and foreign key relations
-defined in the metadata and keeps only these IDs in each resource. Then, it
-outputs the subset to the `output_dir`. The subset will be in a tar file
-containing one Parquet file per requested resource, containing only the
-requested columns and rows from each resource.
+We need to filter all resources by the keys *after* the first row-filtering in
+order to create the correct population for the research project.
+
+The signature is:
+
+```
+subset_resources(rap: Rap) -> Result<Arc<SubsettedResource>, Errors>
+```
+
+<!-- TODO: Arc for Ids may need to be Vec -->
 
 ```{mermaid}
 %%| label: fig-subset-flow
-%%| fig-cap: "The flow of input and output through the subset function."
+%%| fig-cap: "The flow of input and output through the `subset_resources()` function."
 %%| fig-alt: >-
-%%|   Diagram showing the flow of input and output through the `subset()`
-%%|   function. The user provides the request, metadata file, output directory,
-%%|   and whether they want to only print the planned steps (`show_plan = true`)
-%%|   or actually execute the subsetting and write the output (`show_plan =
-%%|   false`). Both paths return a `SubsetOutcome`.
-%%|   
+%%|   Diagram showing the flow of input and output through the
+%%|   `subset_resources()` function. There are several steps involved, which are
+%%|   textually described in the list above the diagram.
+
 flowchart TD
-    request[/"request<br>path to request.yaml"/]
-    metadata[/"metadata<br>path to datapackage.json"/]
-    output_dir[/"output_dir<br>path to output directory"/]
-    show_plan[/"show_plan<br>Boolean; show plan only or execute"/]
-    output[/"Output<br>Result&lt;SubsetOutcome, SubsetError&gt;"/]
+    Request[/"Request"/]
+    Package[/"Package"/]
+    Rap[/"Rap"/]
+    output[/"Result\< <br>Arc\< SubsettedResource \>,<br>Error\>"/]
 
+    Request & Package --> Rap
+    Rap --> get_resource_data
 
-    subgraph subset ["subset()"]
-      read_request["read_request()<br>Parse request into a Request struct"]
-      read_metadata["read_metadata()<br>Parse metadata file into a Package struct"]
-      check["check()<br>Check request yaml against metadata file"]
-      show_plan_expr{Show plan only?}
-      print_plan["print_plan()<br>Print planned steps for subsetting requested data"]
-      read_resources["read_resources()<br>Read requested resources using paths from metadata"]
-      apply_column_filters["apply_column_filters()<br>Keep only requested columns from each resource"]
-      apply_row_filters["apply_row_filters()<br>Keep only requested rows from each resource"]
-      get_intersecting_ids["get_intersecting_ids()<br>Get intersecting ids across resources"]
-      apply_id_filter["apply_id_filter()<br>Apply filter that only keeps ids from get_intersecting_ids() across resources"]
-      write_subset["write_subset()<br>Write subset as .tar containing one Parquet per requested resource"]
+    subgraph subset_resources ["subset_resources()"]
+      get_resource_data["get_resource_data()"]
+      RequestedResource1[/"Arc\< RequestedResource \><br>data as mutable reference"/]
+      map_keep_requested_rows["map(keep_requested_rows)"]
+      RequestedResource2[/"Arc\< RequestedResource \><br>row-filtered data"/]
+      map_get_ids["map(get_ids)"]
+      AAIds[/"Arc\< Arc\< Ids \> \><br>Ids as String"/]
+      flatten["flatten()"]
+      ArcIds[/"Arc\< Ids \><br>Ids as string"/]
+      unique["unique()"]
+      UniqueIds[/"Arc\< Ids \><br>No duplicate Ids"/]
+      RequestedResource3[/"Arc\< RequestedResource \><br>original data, now with ids field"/]
+      map_subset_resource["map(subset_resource)<br>Keep rows with Ids and<br>select columns"]
 
+      get_resource_data -->
+        RequestedResource1 -->
+        map_keep_requested_rows -->
+        RequestedResource2 -->
+        map_get_ids -->
+        AAIds -->
+        flatten -->
+        ArcIds -->
+        unique -->
+        UniqueIds -->|add to struct| RequestedResource3 -->
+        map_subset_resource
     end
-    show_plan --> show_plan_expr
-    request --> read_request --> check 
-    metadata --> read_metadata --> check --> show_plan_expr --false--> read_resources --> apply_column_filters --> apply_row_filters --> get_intersecting_ids --> apply_id_filter --> write_subset --> output
-    show_plan_expr --true--> print_plan --> output
-    output_dir --> write_subset
 
-    subset:::outer_function
-  classDef outer_function fill:none
-```
+    map_subset_resource --> output
 
-```rs
-pub fn subset(request: Path, metadata: Path, output_dir: Path, show_plan: bool) -> Result<SubsetOutcome, SubsetError> {
-    let request = read_request(request);
-    let metadata = read_metadata(metadata);
-
-    check(&request, &metadata)?; // TODO: This assumes a change in the inputs to check(); taking the loaded request and metadata as Structs  instead of the paths. This seems like a more natural flow to me here and in the other public facing functions. Thoughts?
-
-    if show_plan {
-      print_plan(&request, &metadata);
-      return Ok(SubsetOutcome::Planned);
-    }
-  
-    let subset = Subset::read_resources(&request, &metadata)?
-      .apply_column_filters(&request)?
-      .apply_row_filters(&request)?;
-    
-    let ids = subset.get_intersecting_ids(&metadata)?;
-    let subset = subset.apply_id_filter(&ids)?;
-
-    write_subset(subset, &output_dir)?;
-
-    Ok(SubsetOutcome::Written(output_dir))
-}
-
-pub enum SubsetOutcome {
-  Planned, // show_plan = true. Print steps that would be run to write the subset
-  Written(Path),  // show_plan = false. Subset is written to output_dir and output_dir is returned.
-}
-
-pub enum SubsetError {
-  // ReadRequestError
-  // ReadMetadataError
-  // CheckError
-  // ...
-}
-
-struct Subset {
-  resources: Vec<LazyFrame>
-}
-
-impl Subset {
-  /// Reads the requested resources from disk using the data paths in
-  /// `metadata`, keeping only the resources listed in `request`.
-  fn read_resources() ...
-
-  /// Keeps only the requested columns from each resource.
-  fn apply_column_filters() ...
-
-  /// Keeps only the rows matching the request's row filters for each resource.
-  fn apply_row_filters() ...
-
-  /// Finds the intersecting IDs present across every resource, following the primary
-  /// and foreign key relations in metadata.
-  fn get_intersecting_ids() ...
-
-  /// Keeps only rows whose ID is in `ids` for each resource.
-  fn apply_id_filter() ...
-}
+    subset_resources:::outer_function
+    classDef outer_function fill:none
 ```

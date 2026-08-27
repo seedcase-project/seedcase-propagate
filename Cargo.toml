@@ -6,4 +6,6 @@ edition = "2024"
 [dependencies]
 chrono = "0.4.45"
 clap = { version = "4.5.42", features = ["derive"] }
+itertools = "0.15.0"
+polars = { version = "0.55.2", features = ["lazy"] }
 semver = "1.0.28"
