@@ -4,6 +4,8 @@
 use crate::core::Rap;
 use std::error::Error;
 
+// TODO: Might use something other than `Error`
+// TODO: Remove `allow` once implemented.
 /// Checks a request yaml against the metadata file.
 ///
 /// The checks include:
@@ -13,18 +15,18 @@ use std::error::Error;
 /// - The resources and columns in the request exist in the metadata.
 /// - The row filters match columns in the metadata.
 ///
-/// # Argument:
+/// # Argument
 ///
-/// - `rap`: The [`Rap`] struct contains the [`Request`] and [`Package`] structs
-///    to make it easier to pass these two structs around.
+/// - `rap`: The [`Rap`] struct contains the `Request` and `Package` structs to
+///   make it easier to pass these two structs around.
 ///
-/// # Errors:
+/// # Errors
 ///
 /// Errors if any check fails.
-// TODO: Remove allow once implemented.
 #[allow(unused_variables)]
 pub fn check_request(rap: &Rap) -> Result<(), Box<dyn Error>> {
-    // TODO: We may need to revise this so we can group all errors together and output them at the end.
+    // TODO: We may need to revise this so we can group all errors together and
+    // output them at the end.
 
     // Package name and version matches metadata.
     // check_package_name(&rap)?;
