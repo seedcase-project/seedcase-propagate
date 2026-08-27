@@ -1,5 +1,8 @@
 ---
 title: "Installing Propagate"
+description: >-
+  How to install Propagate.
+order: 0
 ---
 
 ## Before installing Propagate
