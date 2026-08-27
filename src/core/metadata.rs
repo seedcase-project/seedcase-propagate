@@ -1,5 +1,7 @@
 //! Library functionality for interacting with the metadata of a data package.
 
+use std::error::Error;
+
 /// Top-level representation of the metadata of a data package. Contains only
 /// the fields from the Data Package spec that are relevant to Propagate.
 pub struct Package {
@@ -129,4 +131,46 @@ pub enum Extreme {
     /// The allowed extreme value for a column of type `datetime`. The string
     /// should be in the format `YYYY-MM-DDTHH:MM:SS`.
     Datetime(String),
+}
+
+#[allow(clippy::needless_pass_by_value)]
+pub enum PackageSource {
+    Path(String),
+    Https(String),
+    GitHub(String),
+}
+
+/// Reads and parses a data package's metadata file into a `Package` struct.
+///
+/// # Argument:
+///
+/// - `source`: This is the source location to the metadata file for the data
+///   package, either a path, URL or `gh:` (GitHub) repo locations are
+///   supported.
+///
+/// # Errors
+///
+/// Returns `Error` if the metadata file cannot be opened (e.g., it doesn't
+/// exist) or if the metadata file is malformed (e.g., a `datapackage.json` file
+/// that doesn't contain parsable JSON).
+#[allow(unused_variables)]
+pub fn read_package(source: &PackageSource) -> Result<Package, Box<dyn Error>> {
+    // Box holds an unknown number of errors known only at runtime.
+    // Open the metadata from the source locations
+    // We'll have to either make custom errors or make use of error packages
+    // like `thiserror`, `anyhow`, and/or `eyre`. Or just bundle the original
+    // errors from e.g. the default reader and make reporting of them nicer with
+    // `eyre`. Right now, we'll use `?` and see how that goes.
+    // let package = match source {
+    //   PackageSource::Path(file) => open_file(file)?,
+    //   PackageSource::Https(url) => open_url(url)?,
+    //   PackageSource::GitHub(gh) => open_url(gh_to_url(gh))?
+    // };
+
+    // Potentially include a match for if the file is JSON or other file format.
+    // For now, only load in `datapackage.json` structured JSON.
+    // Read the JSON contents of the file as an instance of `Package`.
+    // let package: Package = read_from_json(package)?;
+    // Ok(package)
+    todo!("Planned")
 }

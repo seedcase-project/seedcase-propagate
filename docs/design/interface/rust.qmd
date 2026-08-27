@@ -8,73 +8,33 @@ functions that are used internally in the [CLI](cli.qmd) commands.
 
 {{< include /docs/includes/_design-status.qmd >}}
 
-## {{< var planned >}} `read_metadata()`
+## {{< var planned >}} `read_package()`
 
-This function reads in metadata files (currently only the `datapackage.json`
-file) into a `Package` struct. While we called it `source` in the args of many
-CLI commands, we call it `metadata` here to be clearer. "Source" on it's own is
-a vague term, "source of what?", so we wanted to be explicit that it is the data
-package's metadata we are reading in.
+This function reads in the data package's metadata file (currently only the
+`datapackage.json` file) into a `Package` struct. While we called it `source` in
+the args of many CLI commands, we call it `package` here to be clearer. "Source"
+on it's own is a vague term, "source of what?", so we wanted to be explicit that
+it is the data package's metadata we are reading in. Plus, the struct is called
+`Package`. However, the `read_package()` has the argument called `source`, which
+is the location given in the `SOURCE` arg of many of the CLI commands.
 
-```rs
-/// Reads and parses a metadata file into a `Package`.
-///
-/// # Argument:
-///
-/// - `path`: This is the path to the metadata file for the data package
-///   (called `source` argument in some of the CLI command).
-///
-/// # Errors
-///
-/// Returns `Error` if the file cannot be opened (e.g., it doesn't
-/// exist) or if the metadata file is malformed (e.g., a `datapackage.json` file
-/// that doesn't contain parsable JSON).
-fn read_metadata(path: &Path) -> Result<Package, Box<dyn Error>> { // Box holds an unknown number of errors known only at runtime.
-    // Open the file in read-only mode with buffer.
-    // We'll have to either make custom errors or make use of error packages
-    // like `thiserror`, `anyhow`, and/or `eyre`. Or just bundle the original
-    // errors from e.g. the default reader and make reporting of them nicer with
-    // `eyre`. Right now, we'll use `?` and see how that goes.
-    let file_result = File::open(path)?;
-    let reader = BufReader::new(file_result);
+At some point we aim to support other metadata formats, but for now only
+[`datapackage.json`](https://datapackage.org) is supported.
 
-    // Potentially include a match for if the file is JSON or other file format.
-    // For now, only load in `datapackage.json` structured JSON.
-    // Read the JSON contents of the file as an instance of `Package`.
-    let package: Package = read_from_json(reader)?;
-    Ok(package)
-}
+The signature is (with an internal `PackageSource` enum for the different source
+locations):
+
 ```
-
-<!-- TODO: We could add a todo()! for `datadict.yaml` -->
+fn read_package(source: PackageSource) -> Result<Package, Error>
+```
 
 ## {{< var planned >}} `read_request()`
 
 This reads in the `request.yaml` file into the `Request` struct. This
-functionality is very similar to `read_metadata()`.
+functionality is very similar to `read_package()`. The signature is:
 
-```rs
-/// Reads and parses a `request.yaml` into a `Request`.
-///
-/// # Argument:
-///
-/// - `path`:
-///
-/// # Errors
-///
-/// Returns `ReadRequestError` if the file cannot be opened (e.g., it doesn't
-/// exist) or if the request file is malformed (i.e., it doesn't contain
-/// parsable YAML).
-fn read_request(path: &Path) -> Result<Request, Box<dyn Error>> {
-    // Open the file in read-only mode with buffer.
-    let file = File::open(path)?;
-    let reader = BufReader::new(file);
-
-    // Deserialise into a Request object.
-    let request: Request = read_from_yaml(reader)?;
-
-    Ok(request)
-}
+```
+fn read_request(path: &str) -> Result<Request, Error>
 ```
 
 ## {{< var planned >}} `check()`
