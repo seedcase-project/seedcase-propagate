@@ -135,6 +135,7 @@ pub enum Extreme {
 
 #[allow(clippy::needless_pass_by_value)]
 pub enum PackageSource {
+    // TODO: May need to use e.g. `Path` or `PathBuf`, depends on what the `open` functions need.
     Path(String),
     Https(String),
     GitHub(String),

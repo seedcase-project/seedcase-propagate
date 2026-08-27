@@ -24,8 +24,8 @@ At some point we aim to support other metadata formats, but for now only
 The signature is (with an internal `PackageSource` enum for the different source
 locations):
 
-```
-fn read_package(source: PackageSource) -> Result<Package, Error>
+```text
+read_package(source: PackageSource) -> Result<Package, Error>
 ```
 
 ## {{< var planned >}} `read_request()`
@@ -33,8 +33,8 @@ fn read_package(source: PackageSource) -> Result<Package, Error>
 This reads in the `request.yaml` file into the `Request` struct. This
 functionality is very similar to `read_package()`. The signature is:
 
-```
-fn read_request(path: &str) -> Result<Request, Error>
+```text
+read_request(path: &str) -> Result<Request, Error>
 ```
 
 ## {{< var planned >}} `check()`
