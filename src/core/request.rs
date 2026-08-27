@@ -88,7 +88,7 @@ pub struct DataPackage {
 /// Details about which resources are being requested and how they will be
 /// subset, based on requested columns and row filters (as inclusion criteria).
 #[derive(Debug, Deserialize)]
-#[serde(rename_all = "kebab-case")]
+#[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct Subsets {
     /// Name of the resource to select.
     pub resource: String,
@@ -116,7 +116,7 @@ pub struct WhereCondition {
     pub operator: String,
 
     /// The value to compare against the row value.
-    pub value: Option<String>,
+    pub value: Option<Vec<String>>,
 
     /// Whether to do the inverse of the logical condition.
     #[serde(default)]
