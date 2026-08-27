@@ -13,10 +13,10 @@ use std::error::Error;
 /// - The resources and columns in the request exist in the metadata.
 /// - The row filters match columns in the metadata.
 ///
-/// # Arguments:
+/// # Argument:
 ///
-/// - `request`: The [`Request`] struct with the request details.
-/// - `metadata`: The [`Package`] struct with the data package's metadata.
+/// - `rap`: The [`Rap`] struct contains the [`Request`] and [`Package`] structs
+///    to make it easier to pass these two structs around.
 ///
 /// # Errors:
 ///
