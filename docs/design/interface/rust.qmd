@@ -98,7 +98,7 @@ order to create the correct population for the research project.
 
 The signature is:
 
-```
+```text
 subset_resources(rap: Rap) -> Result<Arc<SubsettedResource>, Errors>
 ```
 
