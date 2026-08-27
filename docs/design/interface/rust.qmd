@@ -7,30 +7,46 @@ tracks the implementation status.
 
 {{< include /docs/includes/_design-status.qmd >}}
 
-## {{< var planned >}} `check()`
+## {{< var planned >}} `Rap`
 
-The `check()` function first reads and parses a `request.yaml` and a metadata
-file, `datapackage.json`, checking that they contain the required keys. It then
-runs the checks described below in order, returning a `CheckError` if any check
-fails.
+This struct contains everything needed for later functions by bundling `Package`
+and `Request` structs together. It's called `Rap` as an acronym for "Request And
+Package". Nearly all internal functions make use of this struct.
 
-<!-- TODO: We could consider bundling up the errors and return a vector of CheckError's instead? -->
+## {{< var planned >}} `check_request()`
+
+The `check_request()` function takes the `Rap` struct that contains the
+`Request` and `Package` data and outputs whether any checks failed. It takes
+`Rap` as a reference (`&`) since `check_request()` doesn't do any operations to
+`Rap` nor needs ownership. The output is a set of errors that indicate the
+problems. See the diagram below for an overview of what is going on internally.
+Once we start implementing it we'll know how to group and organize these errors.
+
+<!-- TODO: Update design once we learn more about errors in Rust. -->
+
+The approximate signature is:
+
+```
+check_request(rap: &Rap) -> Result<(), Error>
+```
 
 ```{mermaid}
 %%| label: fig-check-flow
-%%| fig-cap: "The flow of input and output through the check function."
+%%| fig-cap: "The flow of input and output through the `check_request()` function."
 %%| fig-alt: >-
-%%|   Diagram showing the flow of input and output through the `check` function.
-%%|   The user provides the request and metadata file. The function completes a
-%%|   set of checks, before returning a result that's either the unit type or a
-%%|   CheckError.
+%%|   Diagram showing the flow of input and output through the `check_request()`
+%%|   function. The user bundles the request and package structs into a Rap
+%%|   struct, which is input into `check_request()`. The function completes a
+%%|   set of checks, before returning a result that's either the unit type
+%%|   (nothing) or a set of errors.
 
 flowchart TD
-    request["request<br>as Request struct"]
-    metadata["metadata<br>as Package struct"]
-    output[/"Output<br>Result&lt;(), CheckError&gt;"/]
+    request[/"Request"/]
+    package[/"Package"/]
+    rap[/"Rap"/]
+    output[/"Result"/]
 
-    subgraph check ["check()"]
+    subgraph check ["check_request()"]
       check_package_name["check_package_name()<br>Package name matches metadata"]
       check_package_version["check_package_version()<br>Package version matches metadata"]
       check_resource_names["check_resource_names()<br>Resource names match metadata"]
@@ -38,44 +54,16 @@ flowchart TD
       check_row_filters["check_row_filters()<br>Row filters match metadata columns"]
     end
 
-    request --> check_package_name --> check_package_version --> check_resource_names --> check_column_names --> check_row_filters --> output
-    metadata --> check_package_name
+    request & package --> rap
+
+    rap -->
+      check_package_name -->
+      check_package_version -->
+      check_resource_names -->
+      check_column_names -->
+      check_row_filters -->
+      output
 
     check:::outer_function
-
-  classDef outer_function fill:none
-```
-
-```rs
-/// Checks a request yaml against the metadata file.
-///
-/// The checks include:
-///
-/// - Required sections and keys are present in the request and metadata.
-/// - Data package name and version in the request matches the metadata.
-/// - The resources and columns in the request exist in the metadata.
-/// - The row filters match columns in the metadata.
-///
-/// # Arguments:
-///
-/// - `request`: The [`Request`] struct with the request details.
-/// - `metadata`: The [`Package`] struct with the data package's metadata.
-///
-/// # Errors:
-///
-/// Errors if any check fails.
-pub fn check(request: Request, metadata: Package) -> Result<(), CheckError> {
-    // Package name and version matches metadata.
-    check_package_name(&request, &metadata)?;
-    check_package_version(&request, &metadata)?;
-    // Resource names match metadata.
-    check_resource_names(&request, &metadata)?;
-    // Column names match metadata.
-    check_column_names(&request, &metadata)?;
-    // Row filters match metadata columns (including whether the operator
-    // types and values are allowed with the column type).
-    check_row_filters(&request, &metadata)?;
-
-    Ok(())
-}
+    classDef outer_function fill:none
 ```

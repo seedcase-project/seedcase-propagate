@@ -7,3 +7,10 @@ pub mod request;
 pub mod check;
 pub mod metadata;
 pub mod subset;
+
+// TODO: Remove allow once implemented.
+#[allow(unused)]
+pub struct Rap {
+    package: metadata::Package,
+    request: request::Request,
+}
