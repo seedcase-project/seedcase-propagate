@@ -45,7 +45,7 @@ pub fn subset_resources(rap: CheckedRap) -> Result<Arc<[LazyFrame]>, Box<dyn Err
     // let kept_resource_ids: Arc<[Arc<[String]>]> = requested_resources_rows
     //     .iter()
     //     .map(get_ids)
-    //     .flatten() // Not sure this works.
+    //     .flatten() // Not sure this works, maybe HashSet or Polars joins instead?
     //     .unique(); // from itertools.
     //     .collect()?
 
