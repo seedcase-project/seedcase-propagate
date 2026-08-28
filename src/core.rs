@@ -14,3 +14,9 @@ pub struct Rap {
     package: metadata::Package,
     request: request::Request,
 }
+
+/// Package metadata and request in `Rap` that have been checked with
+/// `check_request()`.
+// TODO: Remove allow once implemented.
+#[allow(unused)]
+pub struct CheckedRap(Rap);

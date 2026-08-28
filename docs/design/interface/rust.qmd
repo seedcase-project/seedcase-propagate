@@ -47,18 +47,19 @@ read_request(path: &str) -> Result<Request, Error>
 
 The `check_request()` function takes the `Rap` struct that contains the
 `Request` and `Package` data and outputs whether any checks failed. It takes
-`Rap` as a reference (`&`) since `check_request()` doesn't do any operations to
-`Rap` nor needs ownership. The output is a set of errors that indicate the
-problems if there as a failure, otherwise, outputs the same input `&Rap` object.
-See the diagram below for an overview of what is going on internally. Once we
-start implementing it we'll know how to group and organize these errors.
+ownership of `Rap` in order to consume it as later functions shouldn't use this
+object anymore. The output is a set of errors that indicate the problems if
+there as a failure, otherwise, outputs a `CheckedRap` object to indicate it has
+been checked. See the diagram below for an overview of what is going on
+internally. Once we start implementing it we'll know how to group and organize
+these errors.
 
 <!-- TODO: Update design once we learn more about errors in Rust. -->
 
 The approximate signature is:
 
 ```text
-check_request(rap: &Rap) -> Result<&Rap, Error>
+check_request(rap: Rap) -> Result<CheckedRap, Error>
 ```
 
 ```{mermaid}
@@ -75,7 +76,7 @@ flowchart TD
     request[/"Request"/]
     package[/"Package"/]
     rap[/"Rap"/]
-    output[/"Result\< Rap, Errors \>"/]
+    output[/"Result\< CheckedRap, Errors \>"/]
 
     subgraph check ["check_request()"]
       check_package_name["check_package_name()<br>Package name matches metadata"]

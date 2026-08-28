@@ -1,7 +1,7 @@
 //! Library functionality for checking the request itself and the metadata
 //! against the request.
 
-use crate::core::Rap;
+use crate::core::{CheckedRap, Rap};
 use std::error::Error;
 
 // TODO: Might use something other than `Error`
@@ -15,7 +15,8 @@ use std::error::Error;
 /// - The resources and columns in the request exist in the metadata.
 /// - The row filters match columns in the metadata.
 ///
-/// If the checks pass, will output the same input [`Rap`] struct.
+/// If the checks pass, will output the same [`Rap`] struct, but as a
+/// [`CheckedRap`] to indicate check status.
 ///
 /// # Argument
 ///
@@ -26,7 +27,7 @@ use std::error::Error;
 ///
 /// Errors if any check fails.
 #[allow(unused_variables)]
-pub fn check_request(rap: &Rap) -> Result<&Rap, Box<dyn Error>> {
+pub fn check_request(rap: Rap) -> Result<CheckedRap, Box<dyn Error>> {
     // TODO: We may need to revise this so we can group all errors together and
     // output them at the end.
 
@@ -44,7 +45,7 @@ pub fn check_request(rap: &Rap) -> Result<&Rap, Box<dyn Error>> {
     // types and values are allowed with the column type).
     // check_row_filters(&rap)?;
 
-    // Ok(rap)
+    // Ok(CheckedRap(rap))
 
     todo!("Planned")
 }
