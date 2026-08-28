@@ -130,7 +130,7 @@ order to create the correct population for the research project.
 The signature is:
 
 ```text
-subset_resources(rap: Rap) -> Result<Arc<[SubsettedResource]>, Errors>
+subset_resources(rap: CheckedRap) -> Result<Arc<[SubsettedResource]>, Errors>
 ```
 
 <!-- TODO: Arc for Ids may need to be Vec -->
