@@ -19,6 +19,15 @@ releases we've made so far, along with what was changed within each release.
 Commits from bots, like `dependabot` or `pre-commit-ci`, are not included in the
 changelog.
 
+## [0.2.0](https://github.com/seedcase-project/seedcase-propagate/compare/0.1.0..0.2.0) - 2026-08-28
+
+### ✨ Features
+
+- Add request subset types
+  [#85](https://github.com/seedcase-project/seedcase-propagate/pull/85) by
+  [`@lwjohnst86`](https://github.com/lwjohnst86)
+  ([91a60ca](https://github.com/seedcase-project/seedcase-propagate/commit/91a60cad776fd1bde8eeb3279dc489d1fa3c42f2))
+
 ## [0.1.0] - 2026-08-28
 
 ### ✨ Features
@@ -277,14 +286,21 @@ changelog.
 
 ### ❤️ New contributors
 
+- `@github-actions[bot]` started making automated contributions
+
 - [`@lwjohnst86`](https://github.com/lwjohnst86) made their first contribution
   in [#132](https://github.com/seedcase-project/seedcase-propagate/pull/132)
+
 - [`@signekb`](https://github.com/signekb) made their first contribution in
   [#106](https://github.com/seedcase-project/seedcase-propagate/pull/106)
+
 - [`@joelostblom`](https://github.com/joelostblom) made their first contribution
   in [#124](https://github.com/seedcase-project/seedcase-propagate/pull/124)
+
 - [`@DanMazJen`](https://github.com/DanMazJen) made their first contribution in
   [#82](https://github.com/seedcase-project/seedcase-propagate/pull/82)
+
 - [`@martonvago`](https://github.com/martonvago) made their first contribution
   in [#69](https://github.com/seedcase-project/seedcase-propagate/pull/69)
+
 - `@dependabot[bot]` started making automated contributions
