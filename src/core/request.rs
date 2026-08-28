@@ -2,6 +2,7 @@
 
 use chrono::{DateTime, Utc};
 use semver::Version;
+use std::error::Error;
 
 /// A type that maps the contents of `request.yaml`.
 pub struct Request {
@@ -78,4 +79,28 @@ pub struct Rows {
 pub struct Columns {
     /// TODO: Update after design PR has been merged.
     pub resources: String,
+}
+
+/// Reads and parses a `request.yaml` into a `Request`.
+///
+/// # Argument:
+///
+/// - `path`: The path to the `request.yaml` file.
+///
+/// # Errors
+///
+/// Returns `Error` if the file cannot be opened (e.g., it doesn't
+/// exist) or if the request file is malformed (i.e., it doesn't contain
+/// parsable YAML).
+#[allow(unused_variables)]
+pub fn read_request(path: &str) -> Result<Request, Box<dyn Error>> {
+    // May not end up using `Error`, but this is pseudocode for now.
+
+    // Open the file in read-only mode with buffer.
+    // let request  = open_file(path)?;
+
+    // Deserialise into a Request object.
+    // let request: Request = read_from_yaml(request)?;
+    // Ok(request)
+    todo!("Planned")
 }
