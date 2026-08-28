@@ -3,6 +3,7 @@
 use chrono::{DateTime, Utc};
 use semver::Version;
 use serde::Deserialize;
+use std::error::Error;
 
 /// A type that maps the contents of `request.yaml`.
 #[derive(Debug, Deserialize)]
@@ -303,4 +304,28 @@ motivation: |
         let config: Result<Request, _> = serde_saphyr::from_str(test_request_yaml);
         assert!(config.is_err())
     }
+}
+
+/// Reads and parses a `request.yaml` into a `Request`.
+///
+/// # Argument:
+///
+/// - `path`: The path to the `request.yaml` file.
+///
+/// # Errors
+///
+/// Returns `Error` if the file cannot be opened (e.g., it doesn't
+/// exist) or if the request file is malformed (i.e., it doesn't contain
+/// parsable YAML).
+#[allow(unused_variables)]
+pub fn read_request(path: &str) -> Result<Request, Box<dyn Error>> {
+    // May not end up using `Error`, but this is pseudocode for now.
+
+    // Open the file in read-only mode with buffer.
+    // let request  = open_file(path)?;
+
+    // Deserialise into a Request object.
+    // let request: Request = read_from_yaml(request)?;
+    // Ok(request)
+    todo!("Planned")
 }
