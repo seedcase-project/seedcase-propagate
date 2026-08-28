@@ -116,11 +116,11 @@ shown in the diagram below, briefly, it needs to:
 
 1. Keep the selected resources.
 2. Read in the resource data.
-3. Row-filter the resources and keep the primary keys.
-4. Combine all the kept resource primary keys.
-5. Row-filter *all* the resources again on the keys.
-6. Keep all the selected columns in the resources.
-7. Output all the kept data, along with the resource's name (for later
+3. Filter each resource separately and keep the primary keys from matching rows.
+4. Combine the primary keys of the kept rows from all resources.
+5. Apply the combined primary keys as a filter to each resource separately to identify which rows to keep.
+6. Keep only the specified columns for each resource.
+7. Output the kept data as one table per kept resource, along with the resource's name (for later
    processing).
 
 We need to filter all resources by the keys *after* the first row-filtering in
