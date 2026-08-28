@@ -116,11 +116,18 @@ pub struct WhereCondition {
     pub operator: String,
 
     /// The value to compare against the row value.
-    pub value: Option<Vec<String>>,
+    pub value: Option<ConditionValue>,
 
     /// Whether to do the inverse of the logical condition.
     #[serde(default)]
     pub not: bool,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(untagged)]
+pub enum ConditionValue {
+    Scalar(String),
+    Sequence(Vec<String>),
 }
 
 #[cfg(test)]
@@ -161,6 +168,44 @@ subsets:
       - column: "strain-2"
         operator: "="
         value: "20"
+"#;
+
+        let config: Result<Request, _> = serde_saphyr::from_str(test_request_yaml);
+        assert!(config.is_ok())
+    }
+
+    #[test]
+    fn test_serde_value_as_vector() {
+        // `r#` means "raw string literal", to allow using `"` without escaping.
+        let test_request_yaml = r#"
+datetime-modified: "2026-07-06T01:45:34Z"
+datetime-created: "2026-07-04T01:44:34Z"
+motivation: |
+  We would like access to metabolic and block variables to evaluate
+  our hypothesis regarding ...
+
+requester:
+  name: "First Last"
+  email: "TEXT"
+
+project:
+  name: "metabolic-cost"
+  title: "Metabolic cost estimation"
+  description: |
+    Our project investigates the gas exchange during metabolism
+    with the aim to determine ...
+
+data-package:
+  name: "example-seed-beetle"
+  version: "0.5.1"
+
+subsets:
+  - resource: "metabolism"
+  - resource: "metabolism-2"
+    rows:
+      - column: "strain-2"
+        operator: "="
+        value: ["20", "10"]
 "#;
 
         let config: Result<Request, _> = serde_saphyr::from_str(test_request_yaml);
