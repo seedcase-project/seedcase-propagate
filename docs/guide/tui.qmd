@@ -43,7 +43,7 @@ URL to the datapackage.json. For example:
 seedcase-propagate create-request https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/refs/heads/main/datapackage.json
 ```
 
-For Data Packages on GitHub, use the gh: prefix as a shortcut instead of the
+For Data Packages on GitHub, use the `gh:` prefix as a shortcut instead of the
 full URL:
 
 ```{.bash filename="Terminal"}
