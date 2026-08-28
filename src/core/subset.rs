@@ -96,7 +96,7 @@ fn subset_resource(resource: RequestedResource) -> Result<SubsettedResource, Box
     // let subsetted_data = select_columns(kept_rows, resource.request.columns)?;
     //   SubsettedResource {
     //     data: subsetted_data,
-    //     resource_name: resource.request.name
+    //     resource_name: resource.request.resource
     // }
     todo!("Planned")
 }
