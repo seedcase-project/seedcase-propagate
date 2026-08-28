@@ -129,7 +129,7 @@ order to create the correct population for the research project.
 The signature is:
 
 ```text
-subset_resources(rap: Rap) -> Result<Arc<SubsettedResource>, Errors>
+subset_resources(rap: Rap) -> Result<Arc<[SubsettedResource]>, Errors>
 ```
 
 <!-- TODO: Arc for Ids may need to be Vec -->
@@ -146,23 +146,23 @@ flowchart TD
     Request[/"Request"/]
     Package[/"Package"/]
     Rap[/"Rap"/]
-    output[/"Result\< <br>Arc\< SubsettedResource \>,<br>Error\>"/]
+    output[/"Result\< <br>Arc\< [SubsettedResource] \>,<br>Error\>"/]
 
     Request & Package --> Rap
     Rap --> get_resource_data
 
     subgraph subset_resources ["subset_resources()"]
       get_resource_data["get_resource_data()"]
-      RequestedResource1[/"Arc\< RequestedResource \><br>data as mutable reference"/]
+      RequestedResource1[/"Arc\< [RequestedResource] \><br>data as mutable reference"/]
       map_keep_requested_rows["map(keep_requested_rows)"]
-      RequestedResource2[/"Arc\< RequestedResource \><br>row-filtered data"/]
+      RequestedResource2[/"Arc\< [RequestedResource] \><br>row-filtered data"/]
       map_get_ids["map(get_ids)"]
-      AAIds[/"Arc\< Arc\< Ids \> \><br>Ids as String"/]
+      AAIds[/"Arc\< [ Arc\< [Ids] \> ] \><br>Ids as String"/]
       flatten["flatten()"]
-      ArcIds[/"Arc\< Ids \><br>Ids as string"/]
+      ArcIds[/"Arc\< [Ids] \><br>Ids as string"/]
       unique["unique()"]
-      UniqueIds[/"Arc\< Ids \><br>No duplicate Ids"/]
-      RequestedResource3[/"Arc\< RequestedResource \><br>original data, now with ids field"/]
+      UniqueIds[/"Arc\< [Ids] \><br>No duplicate Ids"/]
+      RequestedResource3[/"Arc\< [RequestedResource] \><br>original data, now with ids field"/]
       map_subset_resource["map(subset_resource)<br>Keep rows with Ids and<br>select columns"]
 
       get_resource_data -->
