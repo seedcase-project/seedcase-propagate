@@ -2,3 +2,4 @@
 // crate is a collection of Rust code that can be used by other Rust programs.
 
 pub mod core;
+pub mod cli;
