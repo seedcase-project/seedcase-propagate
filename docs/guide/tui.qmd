@@ -36,6 +36,20 @@ directory. To use a metadata file elsewhere, provide its path:
 seedcase-propagate create-request path/to/datapackage.json
 ```
 
+You can also point Propagate to a remote Data Package by providing the full
+URL to the datapackage.json. For example:
+
+```{.bash filename="Terminal"}
+seedcase-propagate create-request https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/refs/heads/main/datapackage.json
+```
+
+For Data Packages on GitHub, use the gh: prefix as a shortcut instead of the
+full URL:
+
+```{.bash filename="Terminal"}
+seedcase-propagate create-request gh:seedcase-project/example-seed-beetle
+```
+
 ### Opening an existing `request.yaml`
 
 To open and edit an existing `request.yaml` instead of reading from a
@@ -94,18 +108,19 @@ section is complete.
 
 ### Request, data package, and project details
 
-- **Motivation:** Explain why your project needs the requested data.
-- **Requester name and email:** Enter the contact details of the main person
-  responsible for the request.
-- **Project name:** Enter a short machine-readable name. Use lowercase letters
-  and hyphens where possible, such as `female-diabetes-study`.
-- **Project title:** Enter a longer, human-readable title.
-- **Project description:** Summarize the project's background, rationale,
-  methods, and research questions.
+This section includes the following items to fill out (in the TUI you can read
+a more detailed description of each item):
 
-Propagate fills in the creation and modification times and the data package
-details. These values appear muted in the left pane because you cannot edit
-them.
+- Motivation
+- Requester name
+- Requester email
+- Project name
+- Project title
+- Project description
+
+Propagate automatically fills in the creation and modification times, and
+the data package details. These values appear muted in the left pane because
+you cannot edit them.
 
 ### Selecting columns
 
@@ -119,21 +134,27 @@ filter the list.
 
 ### Selecting rows
 
-Select the rows item in the left pane and press `Enter`. You can either request
-all rows or add conditions that limit which rows are included.
+First select a resource and then either request all rows or add conditions that
+limit which rows are included. For each row condition within a data resrouce you
+need to specify the following:
 
-For each condition you need to specify the following:
-
-1. A data resource.
-2. A column.
-3. An operator, such as `=`, `>`, `>=`, `<`, `<=`, `IN`, or `IS NULL`.
-4. A value (when the selected operator requires one).
-5. An optional setting that negates the condition.
+1. A column.
+2. An operator, such as `=`, `>`, `>=`, `<`, `<=`, `IN`, or `IS NULL`.
+3. A value (when the selected operator requires one).
+4. An optional setting that negates the condition.
 
 Use `a` to add a condition and `d` to remove the selected condition. For `IN`,
 add each value that the column may match. `IS NULL` does not require a value.
 Propagate limits the available choices to conditions supported by the data
 package and request format.
+
+::: callout-note
+Note that although columns are only applied to the resource they are listed under,
+rows works the opposite way and will be combined across all resources. You can
+read more about this in ...
+:::
+
+<!-- TODO insert a link above when we have a section for this -->
 
 ### Saving the request
 
