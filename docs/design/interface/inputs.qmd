@@ -28,16 +28,18 @@ The inputs include:
 <!-- TODO: Do we want to add a config so users can customise the content of the web application, as we in Flower? -->
 
 There should be only one `request.yaml` file per research project per data
-package. A *research project* is a specific activity or study conducted by the
+package. A *research project* is a specific activity or study conducted by a
 Requester that needs access to data from the data package. This `request.yaml`
-file specifies all the data that the research project needs from a given data
-package. This design is to avoid confusion about different versions of the
-request or needing to remember which request files to run for a research
-project. If a Requester receives a data subset from a submitted `request.yaml`
-file and later realizes that they need different data, they must update their
-existing `request.yaml` file and resubmit it to the Owner. The updated file
-needs to contain all the data (both new and previously requested) that the
-research project needs from the data package. For example, if a Requester wants
-an additional column from the data package, the new request must include not
-only this additional column, but also all the (still relevant) columns from the
-previous request.
+file specifies their desired statistical population, with inclusion criteria and
+required variables (rows and columns). Specifying all the data that the research
+project needs from a given data package in a single file avoids confusion about
+different versions of the request or clearly ties a specific request to a
+specific research project. If a Requester receives a data subset from a
+submitted `request.yaml` file and later realizes that they need different data,
+they must update their existing `request.yaml` file and resubmit it to the
+Owner. The updated file must contain all the data (both new and previously
+requested) needed for the research project from the data package so there always
+is a clear record of what data is included in the project. For example, if a
+Requester wants an additional column from the data package, the new request must
+include not only this additional column, but also all the (still relevant)
+columns from the previous request.
