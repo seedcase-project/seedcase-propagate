@@ -6,6 +6,16 @@
 #[allow(unused)]
 pub struct CheckArgs;
 
+/// Function used in the CLI to check the request file against the package metadata.
+///
+/// # Arguments:
+///
+/// - `args`: This is the [`CheckArgs`] struct that contains the arguments for
+///   the CLI command.
+///
+/// # Errors
+///
+/// Prints any failed checks to `stderr`.
 #[allow(unused, clippy::needless_pass_by_value)]
 pub fn check(args: CheckArgs) {
     // TODO: Make use of loggers to print information when e.g. using verbose?
