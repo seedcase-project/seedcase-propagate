@@ -1,6 +1,6 @@
 //! Library functionality for making the requested subset from the data package.
 
-use crate::core::Rap;
+use crate::core::CheckedRap;
 use polars::prelude::LazyFrame;
 use std::error::Error;
 use std::sync::Arc;
@@ -13,28 +13,28 @@ use std::sync::Arc;
 /// Subsets the resources based on the details in the request.
 ///
 /// This function does not do any checks on the input `Request` and
-/// `Package` (within [`Rap`]), that should be done outside of this function.
+/// `Package` (within [`CheckedRap`]), that should be done outside of this function.
 /// Based on the request, this function will read the path to the data package's
 /// resource (given in `Resource`), so some I/O errors may occur at this
 /// point.
 ///
 /// # Arguments
 ///
-/// - `rap`: The [`Rap`] struct that contains the `Request` and `Package`
+/// - `rap`: The [`CheckedRap`] struct that contains the `Request` and `Package`
 ///   structs.
 ///
 /// # Errors
 ///
 /// Outputs any input errors as well as column and row selection errors.
 #[allow(unused_variables, clippy::needless_pass_by_value)]
-pub fn subset_resources(rap: Rap) -> Result<Arc<[LazyFrame]>, Box<dyn Error>> {
+pub fn subset_resources(rap: CheckedRap) -> Result<Arc<[LazyFrame]>, Box<dyn Error>> {
     // TODO: Not sure if `Box .. Error` is the right approach here.
 
     // Using `path` in `Package`, read in all requested resources and add as `data`
     // to `RequestedResources`.
 
     // let requested_resources: Arc<[RequestedResources]> =
-    // get_resource_data(&Rap)?;
+    // get_resource_data(&CheckedRap)?;
 
     // Using the requested row-filtering, map on all data to keep rows.
 

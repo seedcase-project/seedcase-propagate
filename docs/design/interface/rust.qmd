@@ -118,10 +118,11 @@ shown in the diagram below, briefly, it needs to:
 2. Read in the resource data.
 3. Filter each resource separately and keep the primary keys from matching rows.
 4. Combine the primary keys of the kept rows from all resources.
-5. Apply the combined primary keys as a filter to each resource separately to identify which rows to keep.
+5. Apply the combined primary keys as a filter to each resource separately to
+   identify which rows to keep.
 6. Keep only the specified columns for each resource.
-7. Output the kept data as one table per kept resource, along with the resource's name (for later
-   processing).
+7. Output the kept data as one table per kept resource, along with the
+   resource's name (for later processing).
 
 We need to filter all resources by the keys *after* the first row-filtering in
 order to create the correct population for the research project.
@@ -145,11 +146,11 @@ subset_resources(rap: Rap) -> Result<Arc<[SubsettedResource]>, Errors>
 flowchart TD
     Request[/"Request"/]
     Package[/"Package"/]
-    Rap[/"Rap"/]
+    CheckedRap[/"CheckedRap"/]
     output[/"Result\< <br>Arc\< [SubsettedResource] \>,<br>Error\>"/]
 
-    Request & Package --> Rap
-    Rap --> get_resource_data
+    Request & Package --> CheckedRap
+    CheckedRap --> get_resource_data
 
     subgraph subset_resources ["subset_resources()"]
       get_resource_data["get_resource_data()"]
