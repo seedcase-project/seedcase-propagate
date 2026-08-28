@@ -135,7 +135,7 @@ filter the list.
 ### Selecting rows
 
 First select a resource and then either request all rows or add conditions that
-limit which rows are included. For each row condition within a data resrouce you
+limit which rows are included. For each row condition within a data resource you
 need to specify the following:
 
 1. A column.
