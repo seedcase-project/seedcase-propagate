@@ -27,7 +27,7 @@ use std::sync::Arc;
 ///
 /// Outputs any input errors as well as column and row selection errors.
 #[allow(unused_variables, clippy::needless_pass_by_value)]
-pub fn subset_resources(rap: CheckedRap) -> Result<Arc<[LazyFrame]>, Box<dyn Error>> {
+pub fn subset_resources(rap: CheckedRap) -> Result<Arc<[RequestedResource]>, Box<dyn Error>> {
     // TODO: Not sure if `Box .. Error` is the right approach here.
 
     // Using `path` in `Package`, read in all requested resources and add as `data`
