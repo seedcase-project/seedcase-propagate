@@ -175,3 +175,73 @@ pub fn read_package(source: &PackageSource) -> Result<Package, Box<dyn Error>> {
     // Ok(package)
     todo!("Planned")
 }
+
+/// An example of a datapackage file produced by Sprout.
+/// Used for testing read and write functions.
+// We add another # delimiter to raw because of the use of # in the JSON.
+pub const EXAMPLE_DATAPACKAGE_JSON: &str = r##"
+{
+  "name": "diabetes-study",
+  "id": "0c178bd2-5f27-4c9c-af73-5b06d82ef8ac",
+  "title": "A Study on Diabetes",
+  "description": "# Data from a 2021 study on diabetes prevalence\n\nThis data package contains data from a study conducted in 2021 on the\n*prevalence* of diabetes in various populations. The data includes:\n\n- demographic information\n- health metrics\n- survey responses about lifestyle\n",
+  "version": "0.1.0",
+  "created": "2026-08-24T17:57:46+00:00",
+  "contributors": [
+    {
+      "title": "Jamie Jones",
+      "path": "example.com/jamie_jones",
+      "email": "jamie_jones@example.com",
+      "roles": [
+        "creator"
+      ]
+    }
+  ],
+  "licenses": [
+    {
+      "name": "ODC-BY-1.0",
+      "path": "https://opendatacommons.org/licenses/by",
+      "title": "Open Data Commons Attribution License 1.0"
+    }
+  ],
+  "resources": [
+    {
+      "name": "patients",
+      "path": "resources/patients/data.parquet",
+      "type": "table",
+      "title": "Patients Data",
+      "description": "This data resource contains data about patients in a diabetes study.",
+      "format": "parquet",
+      "mediatype": "application/parquet",
+      "schema": {
+        "fields": [
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "age",
+            "type": "integer"
+          },
+          {
+            "name": "sex",
+            "type": "string"
+          },
+          {
+            "name": "height",
+            "type": "number"
+          },
+          {
+            "name": "weight",
+            "type": "number"
+          },
+          {
+            "name": "diabetes_type",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  ]
+}
+"##;
