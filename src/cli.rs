@@ -19,7 +19,7 @@ pub struct BuildArgs {
 }
 
 #[derive(Debug, Args)]
-pub struct CheckArgs{
+pub struct CheckArgs {
     /// Path to the instructions request.yaml file.
     #[arg(long)]
     pub request: String,
@@ -30,7 +30,7 @@ pub struct CheckArgs{
 }
 
 #[derive(Debug, Args)]
-pub struct CreateRequestArgs{
+pub struct CreateRequestArgs {
     /// Path to the datapackage.json file.
     #[arg(short, long, default_value = "datapackage.json")]
     pub source: String,
@@ -38,21 +38,22 @@ pub struct CreateRequestArgs{
 
 #[derive(Debug, Args)]
 pub struct SubsetArgs {
-  /// Path to the instructions request.yaml file.
-  #[arg()]
-  pub request: String,
+    /// Path to the instructions request.yaml file.
+    #[arg()]
+    pub request: String,
 
-  /// Path to the datapackage.json file.
-  #[arg(short, long, default_value = "datapackage.json")]
-  pub source: String,
+    /// Path to the datapackage.json file.
+    #[arg(short, long, default_value = "datapackage.json")]
+    pub source: String,
 
-  /// Directory where the subsetted output should be written.
-  #[arg(short, long, default_value = "subset/")] // TODO: actually subset/requester-project-name
-  pub output_dir: String,
+    /// Directory where the subsetted output should be written.
+    #[arg(short, long, default_value = "subset/")]
+    // TODO: actually subset/requester-project-name
+    pub output_dir: String,
 
-  /// Show the subsetting plan without executing it.
-  #[arg(short = 'p', long, default_value = "false")]
-  pub show_plan: bool,
+    /// Show the subsetting plan without executing it.
+    #[arg(short = 'p', long, default_value = "false")]
+    pub show_plan: bool,
 }
 
 #[derive(Debug, Subcommand)] // the enum of commands
