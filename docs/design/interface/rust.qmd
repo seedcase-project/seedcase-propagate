@@ -154,7 +154,7 @@ flowchart TD
 
     subgraph subset_resources ["subset_resources()"]
       get_resource_data["get_resource_data()"]
-      RequestedResource1[/"Arc\< [RequestedResource] \><br>data as mutable reference"/]
+      RequestedResource1[/"Vec\< [RequestedResource] \><br>data as mutable reference"/]
       map_keep_requested_rows["map(keep_requested_rows)"]
       RequestedResource2[/"Arc\< [RequestedResource] \><br>row-filtered data"/]
       map_get_ids["map(get_ids)"]

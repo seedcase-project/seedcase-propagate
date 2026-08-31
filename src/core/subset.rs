@@ -27,22 +27,27 @@ use std::sync::Arc;
 ///
 /// Outputs any input errors as well as column and row selection errors.
 #[allow(unused_variables, clippy::needless_pass_by_value)]
-pub fn subset_resources(rap: CheckedRap) -> Result<Arc<[RequestedResource]>, Box<dyn Error>> {
+pub fn subset_resources(rap: &CheckedRap) -> Result<Arc<[SubsettedResource]>, Box<dyn Error>> {
     // TODO: Not sure if `Box .. Error` is the right approach here.
 
     // Using `path` in `Package`, read in all requested resources and add as `data`
     // to `RequestedResources`.
 
-    // let requested_resources: Arc<[RequestedResources]> =
-    // get_resource_data(&CheckedRap)?;
+    // let requested_resources: Vec<RequestedResources> =
+    // get_resource_data(rap)?;
 
     // Using the requested row-filtering, map on all data to keep rows.
 
-    // let requested_resources_rows: Arc<[RequestedResources]> =
-    // requested_resources.iter().map(keep_requested_rows).collect()?;
+    // let requested_resources_rows: Arc<[RequestedResources]> = requested_resources
+    //     // TODO: Not sure if we need to clone here, we don't want to consume `requested_resources`
+    //     .clone()
+    //     .iter()
+    //     .map(keep_requested_rows)
+    //     .collect()?;
 
+    // TODO: Always output the ids as string?
     // Join each requested resource subset with the package resource metadata.
-    // let kept_resource_ids: Arc<[Arc<[String]>]> = requested_resources_rows
+    // let kept_resource_ids: Arc<[String]> = requested_resources_rows
     //     .iter()
     //     .map(get_ids)
     //     .flatten() // Not sure this works, maybe HashSet or Polars joins instead?
@@ -85,13 +90,13 @@ fn keep_requested_rows(resource: RequestedResource) -> Result<RequestedResource,
 #[allow(dead_code)]
 struct RequestedResource {
     // request: Subset,
-    data: LazyFrame,
+    // data: LazyFrame,
     // TODO: This might not be a string, but maybe convert to one?
-    ids: Option<Arc<String>>,
+    // ids: Option<Arc<String>>,
 }
 
 #[allow(unused, clippy::needless_pass_by_value)]
-fn subset_resource(resource: RequestedResource) -> Result<SubsettedResource, Box<dyn Error>> {
+fn subset_resource(resource: &RequestedResource) -> Result<SubsettedResource, Box<dyn Error>> {
     // let kept_rows = keep_rows(resource.data, resource.ids)?;
     // let subsetted_data = select_columns(kept_rows, resource.request.columns)?;
     //   SubsettedResource {
@@ -118,7 +123,7 @@ fn select_columns(data: LazyFrame) -> LazyFrame {
 // Need to output this struct in order to keep the resource name for later
 // processing.
 #[allow(unused)]
-struct SubsettedResource {
+pub struct SubsettedResource {
     data: LazyFrame,
     resource_name: String,
 }
