@@ -10,7 +10,8 @@ pub mod subset;
 
 #[derive(Debug, Args)]
 pub struct BuildArgs {
-    /// Path to the source directory.
+    // TODO: Switch to using enum for e.g. http, gh, and file
+    /// Source to the metadata file.
     #[arg(long, default_value = "datapackage.json")]
     pub source: PathBuf,
 
@@ -21,29 +22,30 @@ pub struct BuildArgs {
 
 #[derive(Debug, Args)]
 pub struct CheckArgs {
-    /// Path to the instructions request.yaml file.
+    /// Path to the request file.
     #[arg(long)]
     pub request: PathBuf,
 
-    /// Path to the datapackage.json file.
+    // TODO: Switch to enum once its made
+    /// Source to the metadata file.
     #[arg(short, long, default_value = "datapackage.json")]
     pub source: PathBuf,
 }
 
 #[derive(Debug, Args)]
 pub struct CreateRequestArgs {
-    /// Path to the datapackage.json file.
+    /// Source to the metadata file.
     #[arg(short, long, default_value = "datapackage.json")]
     pub source: PathBuf,
 }
 
 #[derive(Debug, Args)]
 pub struct SubsetArgs {
-    /// Path to the instructions request.yaml file.
-    #[arg()]
+    /// Path to the request file.
+    #[arg(long)]
     pub request: PathBuf,
 
-    /// Path to the datapackage.json file.
+    /// Source to the metadata file.
     #[arg(short, long, default_value = "datapackage.json")]
     pub source: PathBuf,
 
@@ -60,10 +62,10 @@ pub struct SubsetArgs {
 pub enum Commands {
     /// Build and set up the request web app for including in static websites.
     Build(BuildArgs),
-    /// Validate the compatibility between request.yaml and datapackage.json.
+    /// Check that the request file contains the correct metadata from the data package.
     Check(CheckArgs),
-    /// Interactively create a request.yaml file from source metadata.
+    /// Interactively create a request file from source metadata.
     CreateRequest(CreateRequestArgs),
-    /// Produce a subset based on the request.yaml and your metadata.
+    /// Produce a subset based on the request and the metadata file of the data package.
     Subset(SubsetArgs),
 }

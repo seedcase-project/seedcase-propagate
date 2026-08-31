@@ -22,5 +22,4 @@ fn main() {
         cli::Commands::CreateRequest(_) => todo!(),
         cli::Commands::Subset(_) => todo!(),
     }
-    // panics if used - will be implemented later.
 }
