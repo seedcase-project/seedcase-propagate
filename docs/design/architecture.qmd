@@ -102,23 +102,23 @@ subsets of data from the data package efficiently.
 
   : Concepts and entities in Propagate.
 
-  | Action         | Description                                                                     |
-  | -------------- | ------------------------------------------------------------------------------- |
-  | build          | Generate the WASM bundle that makes up the web component for creating requests. |
-  | check          | Check the request against the metadata.                                         |
-  | subset         | Generate a subset of data based on the request provided.                        |
-  | create-request | Create a request file interactively using the terminal.                         |
+  | Action         | Description                                                                                                                                                                   |
+  | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+  | build          | Generate the WASM bundle that makes up the web component for creating requests.                                                                                               |
+  | check          | Check the request against the metadata.                                                                                                                                       |
+  | subset         | Generate a data subset from a request to create the [statistical population](https://team.seedcase-project.org/glossary#statistical-population) for a given research project. |
+  | create-request | Create a request file interactively using the terminal.                                                                                                                       |
 
   : CLI commands in Propagate.
 
-  | Action          | Description                                                                                                     |
-  | --------------- | --------------------------------------------------------------------------------------------------------------- |
-  | select resource | Add instructions for selecting a specific resource from the data package.                                       |
-  | select column   | Add instructions for selecting a specific column from the resource.                                             |
-  | select rows     | Add instructions for selecting rows in a resource based on certain criteria.                                    |
-  | save progress   | Save the current contents of the request form to local storage in the browser.                                  |
-  | export          | Download the contents of the request form as a request file.                                                    |
-  | send            | Open the user's email client with an email to the data owner pre-filled with the request file as an attachment. |
+  | Action          | Description                                                                                                                                                                    |
+  | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+  | select resource | Add instructions for selecting a specific resource from the data package.                                                                                                      |
+  | select column   | Add instructions for selecting a specific column from the resource.                                                                                                            |
+  | select rows     | Add instructions for selecting rows to create a set of [inclusion criteria](https://en.wikipedia.org/wiki/Inclusion_and_exclusion_criteria) for the subset (only `AND` logic). |
+  | save progress   | Save the current contents of the request to local storage in the browser.                                                                                                      |
+  | export          | Download the contents of the request form as a request file.                                                                                                                   |
+  | send            | Open the user's email client with an email to the data owner pre-filled with the request file as an attachment.                                                                |
 
   : Web-based functionality in Propagate. The terminal user interface supports a
     subset of this functionality.
@@ -136,10 +136,9 @@ The system context diagram shows the users and external systems that interact
 with Propagate.
 
 ::: callout-important
-Our target users for the web application are non-technical Requesters, while
-the target users for the terminal user interface are more technically
-experienced Requesters. So these two user interfaces have different design
-goals.
+Our target users for the web application are non-technical Requesters, while the
+target users for the terminal user interface are more technically experienced
+Requesters. So these two user interfaces have different design goals.
 :::
 
 ```{mermaid}
@@ -149,9 +148,9 @@ goals.
 %%|   interacts with.
 %%| fig-alt: >-
 %%|   A context diagram showing Propagate, its users, the systems that interact
-%%|   with it, and the files it consumes and produces. All entities are represented by
-%%|   boxes connected with labelled arrows, which describe how they interact with
-%%|   one another.
+%%|   with it, and the files it consumes and produces. All entities are
+%%|   represented by boxes connected with labelled arrows, which describe how
+%%|   they interact with one another.
 
 flowchart TD
 
@@ -217,12 +216,11 @@ Propagate is primarily designed for use as a CLI.
 %%|   C4 container diagram showing the main Rust crates in Propagate and the
 %%|   command-line interface.
 %%| fig-alt: >-
-%%|   A container diagram showing the internal components of Propagate and
-%%|   how they interact. The components are represented by text boxes and
-%%|   connected by labelled arrows. It shows the shared domain models and
-%%|   logic, request and subset builders, web application, terminal interface,
-%%|   and command-line interface, as well as the web assets built from the web
-%%|   application.
+%%|   A container diagram showing the internal components of Propagate and how
+%%|   they interact. The components are represented by text boxes and connected
+%%|   by labelled arrows. It shows the shared domain models and logic, request
+%%|   and subset builders, web application, terminal interface, and command-line
+%%|   interface, as well as the web assets built from the web application.
 
 flowchart TD
 

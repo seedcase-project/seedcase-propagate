@@ -9,8 +9,7 @@ Owner, referred to below.
 
 The outputs are:
 
-- HTML and WebAssembly (WASM) files for a web application hosted by the
-  Owner.
+- HTML and WebAssembly (WASM) files for a web application hosted by the Owner.
 
 - A `request.yaml` file created by the Requester based on their selections in
   the web application or terminal interface. The file includes the selected
@@ -104,8 +103,29 @@ The request includes:
 
 The data subset is a subset of the data in the data package that is filtered
 based on the request to include only the selected resources, columns, and rows
-(if applicable). The subset contains one file per original resource file (i.e.,
-Propagate does not join data files into fewer files or a single file). The data
-subset format is [Parquet](https://parquet.apache.org/). See our [Why
+(if applicable). A data subset would be considered the [sample/statistical
+population](htts://team.seedcase-project.org/glossary#statistical-population)
+that is used to answer a set of related research questions (all part of a
+research project). The subset contains one file per original resource file
+(i.e., Propagate does not join data files into fewer files or a single file).
+The data subset format is [Parquet](https://parquet.apache.org/). See our [Why
 Parquet](https://decisions.seedcase-project.org/why-parquet/index.html) decision
-post for the rationale.
+post for the rationale. Propagate bundles the Parquet file(s) into a single tar
+file.
+
+The subset is created from a request that contains a set of [inclusion
+criteria](https://en.wikipedia.org/wiki/Inclusion_and_exclusion_criteria)
+defining the population they need to answer their questions and a set of names
+for the variables/columns needed to answer the research question(s). Propagate
+currently only supports inclusion criteria defined as a list of `AND`
+conditions. This is because, most of the time inclusion criteria are quite
+simple and are usually `AND` conditions (e.g. people above 30 *and* who have
+diabetes). By only supporting `AND`, we can keep our implementation simple.
+
+Potential `OR` conditions at the inclusion stage are (we anticipate) fairly rare
+occurrences. If more complex row filtering is needed, the Requester can ask for
+all rows (or at least a larger subset than they need) and do the row filtering
+themselves. The Requester can also reach out to the Owner of the data package
+and ask them to create a new column corresponding to the more advanced filter.
+If `OR` inclusion criteria turns out to be commonly required, Propagate could be
+extended to support these in the future.
