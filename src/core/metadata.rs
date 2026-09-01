@@ -176,7 +176,7 @@ pub fn read_package(source: &PackageSource) -> Result<Package, Box<dyn Error>> {
     todo!("Planned")
 }
 
-/// An example of a datapackage file produced by Sprout.
+/// An example of a datapackage.json following the Data Package standard.
 /// Used for testing read and write functions.
 // We add another # delimiter to raw because of the use of # in the JSON.
 pub const EXAMPLE_DATAPACKAGE_JSON: &str = r##"
