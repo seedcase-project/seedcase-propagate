@@ -34,8 +34,8 @@ pub struct Request {
 
     // TODO: Replace with non-empty vec
     /// The specific resources being requested, subsetted by the requested
-    /// columns and rows declared in [`Subsets`].
-    pub subsets: Vec<Subsets>,
+    /// columns and rows declared in [`Subset`].
+    pub subsets: Vec<Subset>,
 }
 
 /// The details about the research project that the request is for. This is used
@@ -90,7 +90,7 @@ pub struct DataPackage {
 /// subset, based on requested columns and row filters (as inclusion criteria).
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
-pub struct Subsets {
+pub struct Subset {
     /// Name of the resource to select.
     pub resource: String,
 
