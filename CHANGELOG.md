@@ -19,6 +19,15 @@ releases we've made so far, along with what was changed within each release.
 Commits from bots, like `dependabot` or `pre-commit-ci`, are not included in the
 changelog.
 
+## [0.3.1](https://github.com/seedcase-project/seedcase-propagate/compare/0.3.0..0.3.1) - 2026-09-01
+
+### 🐛 Fixes
+
+- Rename to `Subset` (as it is singular object)
+  [#135](https://github.com/seedcase-project/seedcase-propagate/pull/135) by
+  [`@lwjohnst86`](https://github.com/lwjohnst86)
+  ([5906b14](https://github.com/seedcase-project/seedcase-propagate/commit/5906b143dba25cfa131c983f666c53eaf08e0649))
+
 ## [0.3.0](https://github.com/seedcase-project/seedcase-propagate/compare/0.2.0..0.3.0) - 2026-08-31
 
 ### ✨ Features
