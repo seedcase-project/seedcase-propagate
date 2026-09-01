@@ -19,6 +19,22 @@ releases we've made so far, along with what was changed within each release.
 Commits from bots, like `dependabot` or `pre-commit-ci`, are not included in the
 changelog.
 
+## [0.4.0](https://github.com/seedcase-project/seedcase-propagate/compare/0.3.1..0.4.0) - 2026-09-01
+
+### ✨ Features
+
+- Add `example_datapackage_json` `const`
+  [#138](https://github.com/seedcase-project/seedcase-propagate/pull/138) by
+  [`@DanMazJen`](https://github.com/DanMazJen)
+  ([736424a](https://github.com/seedcase-project/seedcase-propagate/commit/736424a8b2c2fbeb7916e60bd9cad0672e5c653a))
+
+### 📝 Documentation
+
+- Refactor `check_request()` to use `Rap` struct
+  [#125](https://github.com/seedcase-project/seedcase-propagate/pull/125) by
+  [`@lwjohnst86`](https://github.com/lwjohnst86)
+  ([e562b61](https://github.com/seedcase-project/seedcase-propagate/commit/e562b61a9572c3aab6a6016b281d503bc4c141b3))
+
 ## [0.3.1](https://github.com/seedcase-project/seedcase-propagate/compare/0.3.0..0.3.1) - 2026-09-01
 
 ### 🐛 Fixes
