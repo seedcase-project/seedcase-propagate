@@ -27,7 +27,7 @@ use std::sync::Arc;
 ///
 /// Outputs any input errors as well as column and row selection errors.
 #[allow(unused_variables, clippy::needless_pass_by_value)]
-pub fn subset_resources(rap: &CheckedRap) -> Result<Arc<[SubsettedResource]>, Box<dyn Error>> {
+pub fn subset_resources(rap: &CheckedRap) -> Result<Arc<[SubsettedResources]>, Box<dyn Error>> {
     // TODO: Not sure if `Box .. Error` is the right approach here.
 
     // Using `path` in `Package`, read in all requested resources and add as `data`
@@ -50,7 +50,7 @@ pub fn subset_resources(rap: &CheckedRap) -> Result<Arc<[SubsettedResource]>, Bo
     // let kept_resource_ids: Arc<[String]> = requested_resources_rows
     //     .iter()
     //     .map(get_ids)
-    //     .flatten() // Not sure this works, maybe HashSet or Polars joins instead?
+    //     .flatten() // TODO: Maybe HashSet or Polars joins instead? Also update flow diagram above.
     //     .unique(); // from itertools.
     //     .collect()?
 

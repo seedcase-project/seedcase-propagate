@@ -149,7 +149,6 @@ flowchart TD
     CheckedRap[/"CheckedRap"/]
     output[/"Result\< <br>Arc\< [SubsettedResource] \>,<br>Error\>"/]
 
-    Request & Package --> CheckedRap
     CheckedRap --> get_resource_data
 
     subgraph subset_resources ["subset_resources()"]
