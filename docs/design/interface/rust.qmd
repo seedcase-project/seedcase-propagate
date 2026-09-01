@@ -37,7 +37,7 @@ functionality is very similar to `read_package()`. The signature is:
 read_request(path: &str) -> Result<Request, Error>
 ```
 
-## {{< var planned >}} `check()`
+## {{< var planned >}} `check()` {#sec-check}
 
 The `check()` function first reads and parses a `request.yaml` and a metadata
 file, `datapackage.json`, checking that they contain the required keys. It then
@@ -106,4 +106,81 @@ pub fn check(request: Path, metadata: Path) -> Result<(), CheckError> {
 
     Ok(())
 }
+```
+
+## {{< var planned >}} `subset_resources()`
+
+`subset_resources()` takes the data package metadata and the request details and
+applies the request to the resources into a data subset. While also visually
+shown in the diagram below, briefly, it needs to:
+
+1. Keep the selected resources.
+2. Read in the resource data.
+3. Filter each resource separately and keep the primary keys from matching rows.
+4. Combine the primary keys of the kept rows from all resources.
+5. Apply the combined primary keys as a filter to each resource separately to
+   identify which rows to keep.
+6. Keep only the specified columns for each resource.
+7. Output the kept data as one table per kept resource, along with the
+   resource's name (for later processing).
+
+We need to filter all resources by the keys *after* the first row-filtering in
+order to create the correct population for the research project.
+
+The signature is:
+
+```text
+subset_resources(rap: CheckedRap) -> Result<Arc<[SubsettedResource]>, Errors>
+```
+
+<!-- TODO: Arc for Ids may need to be Vec -->
+
+```{mermaid}
+%%| label: fig-subset-flow
+%%| fig-cap: "The flow of input and output through the `subset_resources()` function."
+%%| fig-alt: >-
+%%|   Diagram showing the flow of input and output through the
+%%|   `subset_resources()` function. There are several steps involved, which are
+%%|   textually described in the list above the diagram.
+
+flowchart TD
+    Request[/"Request"/]
+    Package[/"Package"/]
+    CheckedRap[/"CheckedRap"/]
+    output[/"Result\< <br>Arc\< [SubsettedResource] \>,<br>Error\>"/]
+
+    Request & Package --> CheckedRap
+    CheckedRap --> get_resource_data
+
+    subgraph subset_resources ["subset_resources()"]
+      get_resource_data["get_resource_data()"]
+      RequestedResource1[/"Vec\< [RequestedResource] \><br>data as mutable reference"/]
+      map_keep_requested_rows["map(keep_requested_rows)"]
+      RequestedResource2[/"Arc\< [RequestedResource] \><br>row-filtered data"/]
+      map_get_ids["map(get_ids)"]
+      AAIds[/"Arc\< [ Arc\< [Ids] \> ] \><br>Ids as String"/]
+      flatten["flatten()"]
+      ArcIds[/"Arc\< [Ids] \><br>Ids as string"/]
+      unique["unique()"]
+      UniqueIds[/"Arc\< [Ids] \><br>No duplicate Ids"/]
+      RequestedResource3[/"Arc\< [RequestedResource] \><br>original data, now with ids field"/]
+      map_subset_resource["map(subset_resource)<br>Keep rows with Ids and<br>select columns"]
+
+      get_resource_data -->
+        RequestedResource1 -->
+        map_keep_requested_rows -->
+        RequestedResource2 -->
+        map_get_ids -->
+        AAIds -->
+        flatten -->
+        ArcIds -->
+        unique -->
+        UniqueIds -->|add to struct| RequestedResource3 -->
+        map_subset_resource
+    end
+
+    map_subset_resource --> output
+
+    subset_resources:::outer_function
+    classDef outer_function fill:none
 ```
