@@ -199,6 +199,8 @@ pub fn read_package_metadata(source: &PackageSource) -> Result<Package, Box<dyn 
     // todo!("Planned")
     match source {
         PackageSource::Path(path) => {
+          // Note that this is currently faster than serde_json::read_from
+          // https://docs.rs/serde_json/latest/serde_json/fn.from_reader.html and see issue 160.
             let contents = std::fs::read_to_string(path)?;
             let package: Package = serde_json::from_str(&contents)?;
             Ok(package)
