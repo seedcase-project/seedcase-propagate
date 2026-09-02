@@ -1,7 +1,7 @@
 //! Library functionality for interacting with the metadata of a data package.
 
-use std::error::Error;
 use serde::Deserialize;
+use std::error::Error;
 use std::path::PathBuf;
 
 /// Top-level representation of the metadata of a data package. Contains only
@@ -155,7 +155,6 @@ pub enum PackageSource {
     GitHub(String),
 }
 
-
 //#[derive(Debug, thiserror::Error)]
 //pub enum MetadataError {
 //    #[error("failed to read metadata file: {0}")]
@@ -199,22 +198,21 @@ pub fn read_package_metadata(source: &PackageSource) -> Result<Package, Box<dyn 
     // Ok(package)
     // todo!("Planned")
     match source {
-      PackageSource::Path(path) => {
-        let contents = std::fs::read_to_string(path)?;
-        let package: Package = serde_json::from_str(&contents)?;
-        Ok(package)
-      }
+        PackageSource::Path(path) => {
+            let contents = std::fs::read_to_string(path)?;
+            let package: Package = serde_json::from_str(&contents)?;
+            Ok(package)
+        }
 
-      PackageSource::Https(_) => {
-        todo!("HTTPS not yet supported")
-      }
+        PackageSource::Https(_) => {
+            todo!("HTTPS not yet supported")
+        }
 
-      PackageSource::GitHub(_) => {
-        todo!("GitHub not yet supported")
-      }
+        PackageSource::GitHub(_) => {
+            todo!("GitHub not yet supported")
+        }
     }
 }
-
 
 /// An example of a datapackage.json following the Data Package standard.
 /// Used for testing read and write functions.
@@ -292,8 +290,7 @@ mod tests {
 
     #[test]
     fn test_package_struct_deserialization() {
-        let package: Package =
-            serde_json::from_str(EXAMPLE_DATAPACKAGE_JSON).unwrap();
+        let package: Package = serde_json::from_str(EXAMPLE_DATAPACKAGE_JSON).unwrap();
 
         assert_eq!(package.version.as_deref(), Some("0.1.0"));
         assert_eq!(package.resources.len(), 1);
@@ -307,7 +304,7 @@ mod tests {
         // for my design choices around tempfile::NamedTempFile
 
         let mut file = tempfile::NamedTempFile::new().unwrap();
-       file.write_all(EXAMPLE_DATAPACKAGE_JSON.as_bytes()).unwrap();
+        file.write_all(EXAMPLE_DATAPACKAGE_JSON.as_bytes()).unwrap();
 
         let source = PackageSource::Path(file.path().to_path_buf());
 
