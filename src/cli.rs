@@ -1,12 +1,9 @@
 use clap::{Args, Subcommand};
 use std::path::PathBuf;
-// Subcommand: parses command-line subcommands into the user-defined enum.
-// Args: We need to use clap::Args to parse the arguments for each command
-
-pub mod build;
-pub mod check;
-pub mod create_request;
-pub mod subset;
+// use crate::core::metadata::Package;
+// use crate::core::request::Request;
+// use crate::core::Rap;
+// use crate::core::check::{check_request;
 
 #[derive(Debug, Args)]
 pub struct BuildArgs {
@@ -62,10 +59,50 @@ pub struct SubsetArgs {
 pub enum Commands {
     /// Build and set up the request web app for including in static websites.
     Build(BuildArgs),
-    /// Check that the request file contains the correct metadata from the data package.
+    /// Check that the request file contains the correct metadata from the data
+    /// package.
     Check(CheckArgs),
     /// Interactively create a request file from source metadata.
     CreateRequest(CreateRequestArgs),
-    /// Produce a subset based on the request and the metadata file of the data package.
+    /// Produce a subset based on the request and the metadata file of the data
+    /// package.
     Subset(SubsetArgs),
+}
+
+/// Function used in the CLI to check the request file against the package
+/// metadata.
+///
+/// # Arguments:
+///
+/// - `args`: This is the [`CheckArgs`] struct that contains the arguments for
+///   the CLI command.
+///
+/// # Errors
+///
+/// Prints any failed checks to `stderr`.
+#[allow(unused, clippy::needless_pass_by_value)]
+pub fn check(args: CheckArgs) {
+    // TODO: Make use of loggers to print information when e.g. using verbose?
+
+    // TODO: Not sure whether we should do custom `match` for errors, e.g. via
+    // `eprintln`?
+
+    // let package_metadata: Package = read_package_metadata(args.source)?;
+
+    // let request: Request = read_request(args.request)?;
+
+    // let rap = Rap {
+    //   package: package_metadata,
+    //   request: request
+    // };
+
+    // let checked_request = check_request(&Rap);
+
+    // TODO: Look into better/prettier output, via clap Styles?
+    // match checked_request {
+    //   Ok(output) => println!("Request checks passed!"),
+    //   Err(e) => eprint!("Request checks failed: {:?}", e)
+    // }
+
+    todo!("Planned")
 }
