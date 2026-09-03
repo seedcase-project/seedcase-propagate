@@ -40,7 +40,6 @@ why it was created. This helps an Owner organize and track requests, which is
 especially beneficial for data packages that receive large volumes of requests.
 
 ```{.yaml}
-datetime-modified: "DATETIME"
 datetime-created: "DATETIME"
 datetime-modified: "DATETIME"
 motivation: "TEXT"
@@ -160,13 +159,13 @@ subsets:
 Each subset contains:
 
 - `resource`: The name of the data resource to subset. A resource can only be
-  included once in a request and for each resource specified, a separate data
-  table will be outputted.
+  included once in a request and for each resource specified in the request there will be a separate data
+  file created.
 - `columns`: The columns to include from the resource. Each list item must be
   exactly one column name. Regex and SQL-like shorthands are not supported,
   which keeps the request simple and avoids parsing unsafe queries.
-  - If `columns` is empty or not included, all columns from the resource are
-    included.
+  - If `columns` is empty or not included, all columns from the resource will
+    be selected and given in the subset.
   - As expected from the YAML structure, the specified columns are just applied
     to the resource they are listed under; columns with the same name in other
     resource will not be included unless they are explicitly listed under each
@@ -177,7 +176,7 @@ Each subset contains:
   - Contrary to how `columns` work, the row conditions are combined **across**
     resources rather than only applied to the resource they are listed under. In
     other words, the rows that are kept represent the statistical units that
-    meet all the row condition listed under all the resources. This is
+    meet all the row conditions listed under all the resources. This is
     elaborated on with an example at the end of the next section.
 
 #### Row conditions
