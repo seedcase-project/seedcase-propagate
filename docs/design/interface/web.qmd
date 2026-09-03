@@ -96,10 +96,9 @@ explicitly with `is null` or `is not null`.
 
 <!-- TODO: How do we want to handle other column types? E.g., nested types like arrays or objects? -->
 
-Conditions are combined using `AND` or `OR` operators. They can also be grouped
-using parentheses to control the order of evaluation.
-
-Below is a text-based mock-up of the user interface based on the
+Conditions are combined using `AND` operators to create the inclusion criteria
+(explained in the [architecture](/docs/design/architecture.qmd) page). Below is
+a text-based mock-up of the user interface based on the
 [Flora](https://github.com/seedcase-project/seedcase-soil/blob/main/src/seedcase_soil/example-datapackages/flora.json)
 example data package:
 
@@ -110,29 +109,15 @@ Resource: [ species_catalog ]  [ 🗑️ ] -------------------------------------
 
 [ NOT ✗ ] [ common_name ⏷ ] [ in ⏷ ] [ "rose", "tulip" ]       [ 🗑️ ]
 
-[ + Add condition ] [ + Add group ]
-
----------------------------------------------------------------------------
-
 Resource: [ growth_records ] [ 🗑️ ] ---------------------------------------
 
 [ NOT ✓ ] [ location_country ⏷ ] [ is null ⏷ ]                 [ 🗑️ ]
 
-[ AND ⏷ ]
-
-Group: ----------------------------------------------------------
-
 [ NOT ✗ ] [ growth_stage ⏷ ] [ = ⏷ ] [ "flowering" ]      [ 🗑️ ]
-
-[ OR ⏷ ]
 
 [ NOT ✗ ] [ observation_date ⏷ ] [ > ⏷ ] [ "2020-01-01" ] [ 🗑️ ]
 
-[ + Add condition to group ]
-
------------------------------------------------------------------
-
-[ + Add condition ] [ + Add group ]
+[ + Add condition ]
 
 ---------------------------------------------------------------------------
 
@@ -169,7 +154,7 @@ Below is a text-based mock-up of how the Owner(s) are shown:
 | Jamie Johnson | <jamie.johnson@example.org> | [ Send ] |
 | Joey Jensen   | <joey.jensen@example.org>   | [ Send ] |
 
-[ ⬇ Download request.yaml ] 
+[ ⬇ Download request.yaml ]
 ```
 
 After the request has been sent to the Owner by email, the remaining steps

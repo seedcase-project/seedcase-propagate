@@ -1,9 +1,22 @@
 //! Module for the library functionality of Propagate.
 
-pub mod request;
 // `build` and `create-request` CLI commands contain some functionality from
 // these modules, but (will likely) be specific to the CLI commands themselves.
 // Therefore, they aren't included here.
 pub mod check;
 pub mod metadata;
+pub mod request;
 pub mod subset;
+
+// TODO: Remove allow once implemented.
+#[allow(unused)]
+pub struct Rap {
+    package: metadata::Package,
+    request: request::Request,
+}
+
+/// Package metadata and request in `Rap` that have been checked with
+/// `check_request()`.
+// TODO: Remove allow once implemented.
+#[allow(unused)]
+pub struct CheckedRap(Rap);

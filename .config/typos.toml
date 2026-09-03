@@ -1,5 +1,14 @@
 [files]
-extend-exclude = ["*.html", "*.css", ".quarto/*", "_site/*", "*.svg", "*.js"]
+extend-exclude = [
+  "*.html",
+  "*.css",
+  ".quarto/*",
+  "_site/*",
+  "*.svg",
+  "*.js",
+  # Hashes in CHANGELOG trigger typos a lot.
+  "CHANGELOG.md",
+]
 
 [default.extend-words]
 ratatui = "ratatui"
