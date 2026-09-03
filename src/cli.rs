@@ -59,15 +59,18 @@ pub struct SubsetArgs {
 pub enum Commands {
     /// Build and set up the request web app for including in static websites.
     Build(BuildArgs),
-    /// Check that the request file contains the correct metadata from the data package.
+    /// Check that the request file contains the correct metadata from the data
+    /// package.
     Check(CheckArgs),
     /// Interactively create a request file from source metadata.
     CreateRequest(CreateRequestArgs),
-    /// Produce a subset based on the request and the metadata file of the data package.
+    /// Produce a subset based on the request and the metadata file of the data
+    /// package.
     Subset(SubsetArgs),
 }
 
-/// Function used in the CLI to check the request file against the package metadata.
+/// Function used in the CLI to check the request file against the package
+/// metadata.
 ///
 /// # Arguments:
 ///
@@ -81,8 +84,11 @@ pub enum Commands {
 pub fn check(args: CheckArgs) {
     // TODO: Make use of loggers to print information when e.g. using verbose?
 
-    // TODO: Not sure whether we should do custom `match` for errors, e.g. via `eprintln`?
+    // TODO: Not sure whether we should do custom `match` for errors, e.g. via
+    // `eprintln`?
+
     // let package_metadata: Package = read_package_metadata(args.source)?;
+
     // let request: Request = read_request(args.request)?;
 
     // let rap = Rap {
