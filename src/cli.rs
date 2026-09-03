@@ -62,10 +62,12 @@ pub struct SubsetArgs {
 pub enum Commands {
     /// Build and set up the request web app for including in static websites.
     Build(BuildArgs),
-    /// Check that the request file contains the correct metadata from the data package.
+    /// Check that the request file contains the correct metadata from the data
+    /// package.
     Check(CheckArgs),
     /// Interactively create a request file from source metadata.
     CreateRequest(CreateRequestArgs),
-    /// Produce a subset based on the request and the metadata file of the data package.
+    /// Produce a subset based on the request and the metadata file of the data
+    /// package.
     Subset(SubsetArgs),
 }
