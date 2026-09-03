@@ -30,7 +30,7 @@ At some point we aim to support other metadata formats, but for now only
 The signature is (with an internal `PackageSource` enum for the different source
 locations):
 
-```{.text}
+```text
 read_package(source: PackageSource) -> Result<Package, Error>
 ```
 
@@ -39,7 +39,7 @@ read_package(source: PackageSource) -> Result<Package, Error>
 This reads in the `request.yaml` file into the `Request` struct. This
 functionality is very similar to `read_package()`. The signature is:
 
-```{.text}
+```text
 read_request(path: &str) -> Result<Request, Error>
 ```
 
@@ -48,8 +48,16 @@ read_request(path: &str) -> Result<Request, Error>
 This writes the `Request` struct to a `request.yaml` file on disk. The signature
 is:
 
+<<<<<<< HEAD
 ```{.text}
 write_request(request: &Request, path: &str) -> Result<PathBuf, Box<dyn Error>> {
+||||||| parent of ba83da6 (docs: 📝 use pandoc syntax for non-executable code)
+```{.text}
+write_request(request: &request, path: &str) -> Result<PathBuf, Box<dyn Error>> {
+=======
+```text
+write_request(request: &request, path: &str) -> Result<PathBuf, Box<dyn Error>> {
+>>>>>>> ba83da6 (docs: 📝 use pandoc syntax for non-executable code)
 ```
 
 ## {{< var planned >}} `check_request()`
@@ -67,7 +75,7 @@ these errors.
 
 The approximate signature is:
 
-```{.text}
+```text
 check_request(rap: Rap) -> Result<CheckedRap, Error>
 ```
 
