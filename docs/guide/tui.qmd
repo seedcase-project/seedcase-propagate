@@ -11,9 +11,10 @@ without requiring you to write YAML.
 
 ## Opening the TUI
 
-After [installing Propagate](/docs/guide/installation.qmd), run the following command to open the TUI:
+After [installing Propagate](/docs/guide/installation.qmd), run the following
+command to open the TUI:
 
-```{.bash filename="Terminal"}
+```bash {filename="Terminal"}
 seedcase-propagate create-request
 ```
 
@@ -32,21 +33,21 @@ control.
 By default, Propagate will search for `datapackage.json` is in the current
 directory. To use a metadata file elsewhere, provide its path:
 
-```{.bash filename="Terminal"}
+```bash {filename="Terminal"}
 seedcase-propagate create-request path/to/datapackage.json
 ```
 
-You can also point Propagate to a remote Data Package by providing the full
-URL to the datapackage.json. For example:
+You can also point Propagate to a remote Data Package by providing the full URL
+to the datapackage.json. For example:
 
-```{.bash filename="Terminal"}
+```bash {filename="Terminal"}
 seedcase-propagate create-request https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/refs/heads/main/datapackage.json
 ```
 
 For Data Packages on GitHub, use the `gh:` prefix as a shortcut instead of the
 full URL:
 
-```{.bash filename="Terminal"}
+```bash {filename="Terminal"}
 seedcase-propagate create-request gh:seedcase-project/example-seed-beetle
 ```
 
@@ -55,7 +56,7 @@ seedcase-propagate create-request gh:seedcase-project/example-seed-beetle
 To open and edit an existing `request.yaml` instead of reading from a
 `datapackage.json` file, use the `--load` option:
 
-```{.bash filename="Terminal"}
+```bash {filename="Terminal"}
 seedcase-propagate create-request --load request.yaml
 ```
 
@@ -64,31 +65,31 @@ seedcase-propagate create-request --load request.yaml
 You start in the left pane in navigation mode. Use the following shortcuts to
 move through the request:
 
-| Shortcut                        | Action                                    |
-|---------------------------------|-------------------------------------------|
-| `j` / `k` or down / up arrow    | Move to the next or previous item.        |
-| `h` / `l` or left / right arrow | Collapse or expand the selected section.  |
-| `Enter`                         | Edit the selected item in the right pane. |
-| `s` or `Ctrl+S`                 | Save the request.                         |
-| `?`                             | Show help for the available shortcuts.    |
-| `q`                             | Quit the TUI.                             |
+  | Shortcut                        | Action                                    |
+  | ------------------------------- | ----------------------------------------- |
+  | `j` / `k` or down / up arrow    | Move to the next or previous item.        |
+  | `h` / `l` or left / right arrow | Collapse or expand the selected section.  |
+  | `Enter`                         | Edit the selected item in the right pane. |
+  | `s` or `Ctrl+S`                 | Save the request.                         |
+  | `?`                             | Show help for the available shortcuts.    |
+  | `q`                             | Quit the TUI.                             |
 
 When you press `Enter` on an item in the left pane, focus moves to the right
 pane and the TUI enters editing mode. The shortcuts available there depend on
 the type of information you are editing:
 
-| Shortcut                     | Action                                         |
-|------------------------------|------------------------------------------------|
-| `Tab` / `Shift+Tab`          | Move to the next or previous control.          |
-| `j` / `k` or down / up arrow | Move through a selection list or dropdown.     |
-| `Space`                      | Toggle the selected choice.                    |
-| `Enter`                      | Open a dropdown or activate a control.         |
-| `/`                          | Search the current resource or column list.    |
-| `a`                          | Add a condition, group, or value.              |
-| `d`                          | Delete the selected item.                      |
-| `Ctrl+Enter`                 | Apply your edits and return to the left pane.  |
-| `Esc`                        | Cancel your edits and return to the left pane. |
-| `Ctrl+S`                     | Apply your edits and save the request.         |
+  | Shortcut                     | Action                                         |
+  | ---------------------------- | ---------------------------------------------- |
+  | `Tab` / `Shift+Tab`          | Move to the next or previous control.          |
+  | `j` / `k` or down / up arrow | Move through a selection list or dropdown.     |
+  | `Space`                      | Toggle the selected choice.                    |
+  | `Enter`                      | Open a dropdown or activate a control.         |
+  | `/`                          | Search the current resource or column list.    |
+  | `a`                          | Add a condition, group, or value.              |
+  | `d`                          | Delete the selected item.                      |
+  | `Ctrl+Enter`                 | Apply your edits and return to the left pane.  |
+  | `Esc`                        | Cancel your edits and return to the left pane. |
+  | `Ctrl+S`                     | Apply your edits and save the request.         |
 
 Use `Ctrl+Enter` when you want to save your edits and return to the left pane.
 If you use `Esc` instead, that item is restored to the value it had when you
@@ -108,8 +109,8 @@ section is complete.
 
 ### Request, data package, and project details
 
-This section includes the following items to fill out (in the TUI you can read
-a more detailed description of each item):
+This section includes the following items to fill out (in the TUI you can read a
+more detailed description of each item):
 
 - Motivation
 - Requester name
@@ -118,9 +119,9 @@ a more detailed description of each item):
 - Project title
 - Project description
 
-Propagate automatically fills in the creation and modification times, and
-the data package details. These values appear muted in the left pane because
-you cannot edit them.
+Propagate automatically fills in the creation and modification times, and the
+data package details. These values appear muted in the left pane because you
+cannot edit them.
 
 ### Selecting columns
 
@@ -149,9 +150,9 @@ Propagate limits the available choices to conditions supported by the data
 package and request format.
 
 ::: callout-note
-Note that although columns are only applied to the resource they are listed under,
-rows works the opposite way and will be combined across all resources. You can
-read more about this in ...
+Note that although columns are only applied to the resource they are listed
+under, rows works the opposite way and will be combined across all resources.
+You can read more about this in...
 :::
 
 <!-- TODO insert a link above when we have a section for this -->
