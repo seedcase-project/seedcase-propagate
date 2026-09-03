@@ -1,0 +1,176 @@
+---
+title: "Creating a request via the TUI"
+description: >-
+  How to use Propagate's terminal user interface to create a request.
+order: 2
+---
+
+If you prefer to work in the terminal instead of in a browser, Propagate's
+terminal user interface (TUI) guides you through creating a `request.yaml` file
+without requiring you to write YAML.
+
+## Opening the TUI
+
+After [installing Propagate](/docs/guide/installation.qmd), run the following command to open the TUI:
+
+```{.bash filename="Terminal"}
+seedcase-propagate create-request
+```
+
+The TUI opens with two panes:
+
+- The left pane shows the structure and completion status of your request. Use
+  this pane to navigate between request items.
+- The right pane explains the selected item and contains the controls for
+  editing it.
+
+The footer shows the keyboard shortcuts available for the active pane and
+control.
+
+### Opening a data package in another location
+
+By default, Propagate will search for `datapackage.json` is in the current
+directory. To use a metadata file elsewhere, provide its path:
+
+```{.bash filename="Terminal"}
+seedcase-propagate create-request path/to/datapackage.json
+```
+
+You can also point Propagate to a remote Data Package by providing the full
+URL to the datapackage.json. For example:
+
+```{.bash filename="Terminal"}
+seedcase-propagate create-request https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/refs/heads/main/datapackage.json
+```
+
+For Data Packages on GitHub, use the `gh:` prefix as a shortcut instead of the
+full URL:
+
+```{.bash filename="Terminal"}
+seedcase-propagate create-request gh:seedcase-project/example-seed-beetle
+```
+
+### Opening an existing `request.yaml`
+
+To open and edit an existing `request.yaml` instead of reading from a
+`datapackage.json` file, use the `--load` option:
+
+```{.bash filename="Terminal"}
+seedcase-propagate create-request --load request.yaml
+```
+
+## Moving through the request
+
+You start in the left pane in navigation mode. Use the following shortcuts to
+move through the request:
+
+| Shortcut                        | Action                                    |
+|---------------------------------|-------------------------------------------|
+| `j` / `k` or down / up arrow    | Move to the next or previous item.        |
+| `h` / `l` or left / right arrow | Collapse or expand the selected section.  |
+| `Enter`                         | Edit the selected item in the right pane. |
+| `s` or `Ctrl+S`                 | Save the request.                         |
+| `?`                             | Show help for the available shortcuts.    |
+| `q`                             | Quit the TUI.                             |
+
+When you press `Enter` on an item in the left pane, focus moves to the right
+pane and the TUI enters editing mode. The shortcuts available there depend on
+the type of information you are editing:
+
+| Shortcut                     | Action                                         |
+|------------------------------|------------------------------------------------|
+| `Tab` / `Shift+Tab`          | Move to the next or previous control.          |
+| `j` / `k` or down / up arrow | Move through a selection list or dropdown.     |
+| `Space`                      | Toggle the selected choice.                    |
+| `Enter`                      | Open a dropdown or activate a control.         |
+| `/`                          | Search the current resource or column list.    |
+| `a`                          | Add a condition, group, or value.              |
+| `d`                          | Delete the selected item.                      |
+| `Ctrl+Enter`                 | Apply your edits and return to the left pane.  |
+| `Esc`                        | Cancel your edits and return to the left pane. |
+| `Ctrl+S`                     | Apply your edits and save the request.         |
+
+Use `Ctrl+Enter` when you want to save your edits and return to the left pane.
+If you use `Esc` instead, that item is restored to the value it had when you
+opened the right pane.
+
+## Completing the sections of the request
+
+The marker beside each item shows whether it is completed correctly:
+
+- `[✓]` means the information is complete and passes its checks.
+- `[x]` means the information needs correction. Select the item to see an
+  explanation in the right pane.
+- `[ ]` means the information has not been entered.
+
+A section receives a check mark only when all required information in that
+section is complete.
+
+### Request, data package, and project details
+
+This section includes the following items to fill out (in the TUI you can read
+a more detailed description of each item):
+
+- Motivation
+- Requester name
+- Requester email
+- Project name
+- Project title
+- Project description
+
+Propagate automatically fills in the creation and modification times, and
+the data package details. These values appear muted in the left pane because
+you cannot edit them.
+
+### Selecting columns
+
+When customizing your request, first select a resource and then select which
+columns to include from this resource. Selecting a resource without selecting
+individual columns requests all columns from that resource.
+
+Resource and column choices show both their names and human-readable titles. If
+a data package contains many choices, press `/` and type part of a name to
+filter the list.
+
+### Selecting rows
+
+First select a resource and then either request all rows or add conditions that
+limit which rows are included. For each row condition within a data resource you
+need to specify the following:
+
+1. A column.
+2. An operator, such as `=`, `>`, `>=`, `<`, `<=`, `IN`, or `IS NULL`.
+3. A value (when the selected operator requires one).
+4. An optional setting that negates the condition.
+
+Use `a` to add a condition and `d` to remove the selected condition. For `IN`,
+add each value that the column may match. `IS NULL` does not require a value.
+Propagate limits the available choices to conditions supported by the data
+package and request format.
+
+::: callout-note
+Note that although columns are only applied to the resource they are listed under,
+rows works the opposite way and will be combined across all resources. You can
+read more about this in ...
+:::
+
+<!-- TODO insert a link above when we have a section for this -->
+
+### Saving the request
+
+Before saving, check the left pane for empty markers or crosses. Once the
+required sections are complete, press `s` from the left pane to save. From the
+right pane, press `Ctrl+S` to apply your current edits and save.
+
+Propagate creates `request.yaml` in the current directory and updates the
+timestamps it manages. The left pane provides a summary while you work; the
+saved file contains the complete request.
+
+Press `q` to quit. If you have unsaved changes, Propagate asks whether you want
+to save them, continue editing, or discard them.
+
+## Next steps
+
+Send `request.yaml` to the data package Owner using the submission method they
+provide. The Owner can check the request against the data package and use it to
+create the requested subset.
