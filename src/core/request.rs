@@ -349,10 +349,9 @@ pub fn write_request(request: &Request, path: &str) -> Result<PathBuf, Box<dyn E
 
     // Create the file if it doesn't already exist
     // let file = File::create(path)?;
-    // TODO: Prompt if file exists before overwriting?
 
     // Serialise into YAML.
-    // let request: Request = write_to_yaml(request, file)?;
+    // write_to_yaml(request, file)?;
     // Ok(PathBuf::from(path))
     todo!("Planned")
 }

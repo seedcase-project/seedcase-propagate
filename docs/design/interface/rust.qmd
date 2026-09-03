@@ -49,7 +49,7 @@ This writes the `Request` struct to a `request.yaml` file on disk. The signature
 is:
 
 ```{.text}
-write_request(request: &request, path: &str) -> Result<PathBuf, Box<dyn Error>> {
+write_request(request: &Request, path: &str) -> Result<PathBuf, Box<dyn Error>> {
 ```
 
 ## {{< var planned >}} `check_request()`
