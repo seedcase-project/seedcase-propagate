@@ -19,7 +19,7 @@ generating the requested data subset.
 
 The request file uses YAML. YAML was chosen because it is more readable for
 manual editing than JSON and less verbose than TOML for lists of columns and row
-filters.
+conditions.
 
 ## Structure
 
@@ -128,183 +128,118 @@ data-package:
 - `version`: Helps the Owner detect which version of the data package the
   request is for.
 
-### Columns
+### Subsets
 
-The `columns` section describes which columns the Requester would like to
-obtain.
-
-```{.yaml}
-columns:
-  resource-1:
-    - "COLUMN-NAME-1"
-    - "COLUMN-NAME-2"
-    - "COLUMN-NAME-3"
-  resource-2:
-    - "COLUMN-NAME"
-```
-
-- `resource-N`: The name(s) of the data resource(s) to select columns from.
-  Multiple subsets can be created in the same request by specifying multiple
-  resources; e.g. in the example above there would be two data subsets created,
-  one with columns 1-3 from resource 1 and one with a single column from
-  resource 2. The same resource can only be specified once.
-  - If the `columns` key is empty or not included, all columns from all
-    resources will be selected. If a resource is specified without columns, then
-    all columns from that resource will be included.
-  - Each list item must correspond to exactly one column name, so Regex or
-    SQL-like shorthands are not supported in order to keep the request file
-    simple and to avoid parsing unsafe queries of the data (e.g. via SQL
-    injection).
-
-### Rows
-
-The `rows` section describes which rows the Requester would like to obtain. Rows
-that match the specified filters will be included in the subset. Note that the
-row filters are not intended to allow for a general-purpose query syntax, e.g.
-the request format should not support joins, grouping, arbitrary functions,
-random sampling, or row selection by position.
-
-Row filters are specified via a structured key-value mapping for the different
-components of the filter condition. This structured format allows for close
-mapping to the user interfaces, e.g. a graphical dropdown element for the
-operator would correspond to the "operator" key here and the condition groups in
-the interface are also more similar to how they are grouped here with the "any"
-key (described below).
-
-An advantage of this more structured syntax over a more flexible SQL-like form
-is that it will be easier to check that e.g. only allowed operators are used if
-someone manually edits the file.
+The `subsets` section describes the data the Requester would like to obtain. It
+is a sequence with one item for each requested resource. Note that the subset
+section is not intended to allow for a general-purpose query syntax, e.g. the
+request format should not support joins, grouping, arbitrary functions, random
+sampling, or row selection by position.
 
 ```{.yaml}
-rows:
-  resource-1:
-    - all:
-      - column: "COLUMN-NAME1"
+subsets:
+  - resource: "RESOURCE-NAME-1"
+    columns:
+      - "COLUMN-NAME-1"
+      - "COLUMN-NAME-2"
+    rows:
+      - column: "COLUMN-NAME-1"
         operator: "OPERATOR"
         value: "VALUE-TO-COMPARE-AGAINST"
         not: "BOOLEAN"
-      - column: "COLUMN-NAME2"
-        operator: "OPERATOR"
-        value: "VALUE-TO-COMPARE-AGAINST"
-        not: "BOOLEAN"
-  resource-2:
-    - all:
-      - column: "COLUMN-NAME"
-        operator: "OPERATOR"
-        value: "VALUE-TO-COMPARE-AGAINST"
-        not: "BOOLEAN"
-    - any:
-      - column: "COLUMN-NAME"
-        operator: "OPERATOR"
-        value: "VALUE-TO-COMPARE-AGAINST"
-        not: "BOOLEAN"
+  - resource: "RESOURCE-NAME-2"
+    columns:
+      - "COLUMN-NAME"
+    rows:
       - column: "COLUMN-NAME"
         operator: "OPERATOR"
         value: "VALUE-TO-COMPARE-AGAINST"
         not: "BOOLEAN"
 ```
 
-- `resource-N`: The name(s) of the data resource(s) to use when filtering rows.
-  - If the `rows` key is empty or not included, all rows from all resources will
-    be selected. If a resource is specified without columns, then all columns
-    from that resource will be included.
-  - `all`: All of the filter conditions specified need to be met for a row to be
+Each subset contains:
+
+- `resource`: The name of the data resource to subset. A resource can only be
+  included once in a request and for each resource specified, a separate data
+  table will be outputted.
+- `columns`: The columns to include from the resource. Each list item must be
+  exactly one column name. Regex and SQL-like shorthands are not supported,
+  which keeps the request simple and avoids parsing unsafe queries.
+  - If `columns` is empty or not included, all columns from the resource are
     included.
-  - `any`: Any of the filter conditions specified need to be met for a row to be
-    included. The `any` key can be repeated to express a logic like
-    `any(A, B) AND any(C, D)`.
-    - `column`: The name of the column to use for the comparison in the row
-      filter.
-    - `operator`: How to compare the column value against a reference value. The
-      initially supported row filter syntax includes the following operators (an
-      example of each can be found above):
-      - Equality: `=`
-        - For inequality, use the `not` key described below.
-      - Comparisons: `>`, `>=`, `<`, `<=`
-      - Membership: `IN`
-      - Missing values: `IS NULL`
-    - `value`: The reference value to compare against.
-    - `not`: Invert the comparison
-      - E.g. if using `=` and setting `not: true` then all rows NOT matching the
-        reference value will be returned.
-      - Note that one slightly inconsistent aspect in SQL is that `NOT` is a
-        prefix to negating all operators except `IS NULL` where it is advised to
-        use the special operator `IS NOT NULL` rather than `NOT` + `IS NULL`
-        because of how null comparisons work in SQL. The most consistent user
-        experience would be to still use `not: true` and that we take care of
-        converting that to the operator `IS NOT NULL` behind the scenes, but if
-        that seems complicated we can also introduce this special operator to
-        the user.
-- Note that all the filters used to select a subset of statistical/observational
-  units (e.g. individuals) will be applied to all the resources. This is for
-  GDPR purposes (and other legal/privacy regulations) and for statistical
-  reasons.
-  - For example, if in a survey a condition is `Gender == "Man"`, and in another
-    resource biometrics that doesn't have a condition, the subsetted participant
-    IDs from the survey will be applied to the biometrics, so that all resources
-    contain the same set of participants. This is a legal thing, as much as a
-    statistical thing since nearly all statistical methods require the same
-    observational units within the data (e.g. minimal missingness). It's to
-    ensure that the researcher is only given the data that they need for the
-    analysis, as described in the motivation. Like the principle of "least
-    permissions" but in a data context.
+  - As expected from the YAML structure, the specified columns are just applied
+    to the resource they are listed under; columns with the same name in other
+    resource will not be included unless they are explicitly listed under each
+    resource.
+- `rows`: The conditions used to select rows from the resource. All listed
+  conditions must be met for a row to be included.
+  - If `rows` is empty or not included, all rows from the resource are included.
+  - Contrary to how `columns` work, the row conditions are combined **across**
+    resources rather than only applied to the resource they are listed under. In
+    other words, the rows that are kept represent the statistical units that
+    meet all the row condition listed under all the resources. This is
+    elaborated on with an example at the end of the next section.
 
-Here is an example of what a somewhat complex row filter might look like:
+#### Row conditions
 
-```{.yaml}
-rows:
-  resource-1:
-    - all:
-      - column: "col2"
-        operator: ">="
-        value: "2012-01-01"
-      - column: "col2"
-        operator: "<="
-        value: "2012-12-31"
-  resource-2:
-    - any:
-      - column: "col1"
-        operator: ">"
-        value: "404"
-      - column: "col2"
-        operator: "<"
-        value: "101"
-    - any:
-      - column: "col3"
-        operator: "IN"
-        not: "true"
-        value:
-          - "dog"
-          - "cat"
-      - column: "col4"
-        operator: "is null"
-        not: true
-```
+Row conditions use a structured key-value mapping instead of free-form SQL. This
+maps closely to controls in the web application and TUI and makes it easier to
+check manually edited files for unsupported operators.
 
-- If we wrote the expression in the example above more verbosely, it would read:
-  - col2 from resource1 is greater than or equal to 2012-01-01
-  - AND col2 from resource1 is smaller than or equal to 2012-12-31
-  - AND any of the following comparisons are true:
-    - col1 from resource2 is greater than 404
-    - col2 from resource2 is smaller than 101
-  - AND any of the following comparisons are true:
-    - col3 from resource2 is not one of dog or cat
-    - col4 from resource2 is not null
+
+Each row condition contains:
+
+- `column`: The name of the column to use for the comparison.
+- `operator`: How to compare the column against the reference value. The
+  initially supported operators are:
+  - Equality: `=`
+  - Comparisons: `>`, `>=`, `<`, `<=`
+  - Membership: `IN`
+  - Missing values: `IS NULL` and `IS NOT NULL`
+- `value`: The reference value to compare against. This is not needed for
+  operators that check for missing values. For the `IN` operator it needs to be
+  a list of values.
+- `not`: Invert the condition.
+  - E.g. if using `=` and setting `not: true` then all rows NOT matching the
+    reference value will be returned.
+  - Note that one slightly inconsistent aspect in SQL is that `NOT` is a prefix
+    to negating all operators except `IS NULL` where it is advised to use the
+    special operator `IS NOT NULL` rather than `NOT` + `IS NULL` because of how
+    null comparisons work in SQL. The most consistent user experience would be
+    to still use `not: true` and that we take care of converting that to the
+    operator `IS NOT NULL` behind the scenes, but if that seems complicated we
+    can also introduce this special operator to the user.
+
+As mentioned above, all the row conditions used to select a subset of
+statistical/observational units (e.g. individuals) will be applied to all the
+resources together rather than individually to each reasource. This is for GDPR
+purposes (and other legal/privacy regulations) and for statistical reasons.
+
+For example, if in a survey a condition is `Gender == "Man"`, and in another
+resource biometrics that doesn't have a condition, the subsetted participant IDs
+from the survey will be applied to the biometrics, so that all resources contain
+the same set of participants. This is a legal thing, as much as a statistical
+thing since nearly all statistical methods require the same observational units
+within the data (e.g. minimal missingness). It's to ensure that the researcher
+is only given the data that they need for the analysis, as described in the
+motivation. Like the principle of "least permissions" but in a data context.
 
 ### A complete example
 
 A complete request file might look like this.
 
 ```{.yaml}
-datetime-modified: "2026-07-06T01:45:34-12:00"
-datetime-created: "2026-07-04T01:44:34-12:00"
+datetime-created: "2026-07-04T01:44:34Z"
+datetime-modified: "2026-07-06T01:45:34Z"
 motivation: |
-  We would like access to metabolic and block variables to evaluate
-  our hypothesis regarding ...
+  Explanation of why the data is needed.
 
 requester:
   name: "First Last"
-  email: "TEXT"
+  email: "firstlast@example.org"
+  motivation: |
+    We would like access to metabolic and block variables to evaluate
+    our hypothesis regarding ...
 
 project:
   name: "metabolic-cost"
@@ -317,15 +252,26 @@ data-package:
   name: "example-seed-beetle"
   version: "0.5.1"
 
-columns:
-  metabolic-rate:
-    - "strain"
-    - "activity"
-
-rows:
-  metabolic-rate:
-    - all:
-      - column: "block"
-        operator: "="
-        value: "block1"
+subsets:
+  - resource: "metabolism"
+    columns:
+      - "strain"
+      - "activity"
+    rows:
+      - column: "age"
+        operator: ">="
+        value: "20"
+      - column: "age"
+        operator: "<="
+        value: "40"
+  - resource: "something-else"
+    columns:
+      - "col2"
+    rows:
+      - column: "col2"
+        operator: "is null"
+        not: "true"
+      - column: "color"
+        operator: "IN"
+        value: ["A", "B", "C"]
 ```
