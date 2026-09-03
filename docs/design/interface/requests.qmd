@@ -6,8 +6,8 @@ The request file, `request.yaml`, contains the instructions for requesting a
 subset of data from a data package. The file is created by a Requester through
 the web application, terminal interface, or even manually (though not
 recommended). The file is used by an Owner to check and generate the requested
-data subset. You can
-[read more about the Requester and Owner user types in the Design overview page](/docs/design/interface/inputs.qmd)
+data subset. You can [read more about the Requester and Owner user types in the
+Design overview page](/docs/design/interface/inputs.qmd)
 
 The request file is intended to be both human-readable and machine-readable. It
 should be simple enough for a Requester to understand and, when needed, edit
@@ -159,13 +159,13 @@ subsets:
 Each subset contains:
 
 - `resource`: The name of the data resource to subset. A resource can only be
-  included once in a request and for each resource specified in the request there will be a separate data
-  file created.
+  included once in a request and for each resource specified in the request
+  there will be a separate data file created.
 - `columns`: The columns to include from the resource. Each list item must be
   exactly one column name. Regex and SQL-like shorthands are not supported,
   which keeps the request simple and avoids parsing unsafe queries.
-  - If `columns` is empty or not included, all columns from the resource will
-    be selected and given in the subset.
+  - If `columns` is empty or not included, all columns from the resource will be
+    selected and given in the subset.
   - As expected from the YAML structure, the specified columns are just applied
     to the resource they are listed under; columns with the same name in other
     resource will not be included unless they are explicitly listed under each
@@ -184,7 +184,6 @@ Each subset contains:
 Row conditions use a structured key-value mapping instead of free-form SQL. This
 maps closely to controls in the web application and TUI and makes it easier to
 check manually edited files for unsupported operators.
-
 
 Each row condition contains:
 
