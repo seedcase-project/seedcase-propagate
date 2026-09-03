@@ -329,3 +329,28 @@ pub fn read_request(path: &str) -> Result<Request, Box<dyn Error>> {
     // Ok(request)
     todo!("Planned")
 }
+
+/// Writes a `Request` to a `request.yaml` file on disk.
+///
+/// # Argument:
+///
+/// - `request`: The `Request` struct.
+/// - `path`: The path where to write the `request.yaml` file.
+///
+/// # Errors
+///
+/// Returns `Error` if the file cannot be created (e.g., no sufficient permissions
+/// or if the request file is malformed (i.e., it doesn't contain parsable YAML).
+#[allow(unused_variables)]
+pub fn write_request(request: &request, path: &str) -> Result<PathBuf, Box<dyn Error>> {
+    // May not end up using `Error`, but this is pseudocode for now.
+
+    // Create the file if it doesn't already exist
+    // let file = File::create(path)?;
+    // TODO: Prompt if file exists before overwriting?
+
+    // Serialise into YAML.
+    // let request: Request = write_to_yaml(request, file)?;
+    // Ok(PathBuf::from(path))
+    todo!("Planned")
+}
