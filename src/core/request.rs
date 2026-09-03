@@ -4,6 +4,7 @@ use chrono::{DateTime, Utc};
 use semver::Version;
 use serde::Deserialize;
 use std::error::Error;
+use std::path::PathBuf;
 
 /// A type that maps the contents of `request.yaml`.
 #[derive(Debug, Deserialize)]
@@ -339,8 +340,9 @@ pub fn read_request(path: &str) -> Result<Request, Box<dyn Error>> {
 ///
 /// # Errors
 ///
-/// Returns `Error` if the file cannot be created (e.g., no sufficient permissions
-/// or if the request file is malformed (i.e., it doesn't contain parsable YAML).
+/// Returns `Error` if the file cannot be created (e.g., no sufficient
+/// permissions or if the request file is malformed (i.e., it doesn't contain
+/// parsable YAML).
 #[allow(unused_variables)]
 pub fn write_request(request: &Request, path: &str) -> Result<PathBuf, Box<dyn Error>> {
     // May not end up using `Error`, but this is pseudocode for now.
