@@ -340,9 +340,8 @@ pub fn read_request(path: &str) -> Result<Request, Box<dyn Error>> {
 ///
 /// # Errors
 ///
-/// Returns `Error` if the file cannot be created (e.g., no sufficient
-/// permissions or if the request file is malformed (i.e., it doesn't contain
-/// parsable YAML).
+/// Returns `Error` if the file cannot be created (e.g., not correct
+/// permissions).
 #[allow(unused_variables)]
 pub fn write_request(request: &Request, path: &str) -> Result<PathBuf, Box<dyn Error>> {
     // May not end up using `Error`, but this is pseudocode for now.
