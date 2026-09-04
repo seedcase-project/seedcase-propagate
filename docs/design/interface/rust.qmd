@@ -43,6 +43,15 @@ functionality is very similar to `read_package()`. The signature is:
 read_request(path: &str) -> Result<Request, Error>
 ```
 
+## {{< var planned >}} `write_request()`
+
+This writes the `Request` struct to a `request.yaml` file on disk. The signature
+is:
+
+```text
+write_request(request: &Request, path: &str) -> Result<PathBuf, Error>
+```
+
 ## {{< var planned >}} `check_request()`
 
 The `check_request()` function takes the `Rap` struct that contains the
