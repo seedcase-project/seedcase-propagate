@@ -40,7 +40,7 @@ pub struct Contributor {
     /// The name of the contributor.
     pub title: String,
     /// The email address of the contributor.
-    pub email: String,
+    pub email: Option<String>,
     /// The role of the contributor in the data package. This is only used to
     /// display contributors who are contact persons (corresponding authors)
     /// like the owner or manager.
@@ -195,8 +195,13 @@ pub fn read_package_metadata(source: &PackageSource) -> Result<Package, Box<dyn 
             serde_json::from_str(&contents)?
         }
 
-        PackageSource::Https(_) => {
-            todo!("HTTPS not yet supported")
+        PackageSource::Https(url) => {
+            let response = reqwest::blocking::get(url)?;
+            // println!("status: {}", response.status()); for debugging
+            // response.json::<Package>()? // Make the JSON a Package type for serde to work on
+            let contents = response.text()?; // for using same serde_json function and potential debugging
+            // println!("{contents:?}");  // for debugging
+            serde_json::from_str(&contents)? // uses same function as path (minimize potential inconsistent errors)
         }
 
         PackageSource::GitHub(_) => {
@@ -326,5 +331,19 @@ mod tests {
       let source = PackageSource::Path("nonexistent-datapackage.json".into());
 
       assert!(read_package_metadata(&source).is_err());
+    }
+
+    #[test]
+    fn test_read_package_metadata_using_url_input() {
+        let source = PackageSource::Https("https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/main/datapackage.json"
+            .to_string(),
+    );
+
+        let package = read_package_metadata(&source).unwrap();
+
+        assert_eq!(package.version.as_deref(), Some("0.5.1"));
+        assert_eq!(package.resources.len(), 1);
+        assert_eq!(package.resources[0].name, "metabolic-rate");
+        assert_eq!(package.resources[0].title.as_deref(), Some("Metabolic rate of the seed beetles"));
     }
 }
