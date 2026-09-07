@@ -4,6 +4,7 @@ use chrono::{DateTime, Utc};
 use semver::Version;
 use serde::Deserialize;
 use std::error::Error;
+use std::path::PathBuf;
 
 /// A type that maps the contents of `request.yaml`.
 #[derive(Debug, Deserialize)]
@@ -327,5 +328,29 @@ pub fn read_request(path: &str) -> Result<Request, Box<dyn Error>> {
     // Deserialise into a Request object.
     // let request: Request = read_from_yaml(request)?;
     // Ok(request)
+    todo!("Planned")
+}
+
+/// Writes a `Request` to a `request.yaml` file on disk.
+///
+/// # Argument:
+///
+/// - `request`: The `Request` struct.
+/// - `path`: The path where to write the `request.yaml` file.
+///
+/// # Errors
+///
+/// Returns `Error` if the file cannot be created (e.g., not correct
+/// permissions).
+#[allow(unused_variables)]
+pub fn write_request(request: &Request, path: &str) -> Result<PathBuf, Box<dyn Error>> {
+    // May not end up using `Error`, but this is pseudocode for now.
+
+    // Create the file if it doesn't already exist
+    // let file = File::create(path)?;
+
+    // Serialise into YAML.
+    // write_to_yaml(request, file)?;
+    // Ok(PathBuf::from(path))
     todo!("Planned")
 }
