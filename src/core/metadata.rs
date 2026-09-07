@@ -189,8 +189,8 @@ pub fn read_package_metadata(source: &PackageSource) -> Result<Package, Box<dyn 
     // Ok(package)
     let package = match source {
         PackageSource::Path(path) => {
-          // Note that this is currently faster than serde_json::read_from
-          // https://docs.rs/serde_json/latest/serde_json/fn.from_reader.html and see issue 160.
+            // Note that this is currently faster than serde_json::read_from
+            // https://docs.rs/serde_json/latest/serde_json/fn.from_reader.html and see issue 160.
             let contents = std::fs::read_to_string(path)?;
             serde_json::from_str(&contents)?
         }
@@ -315,22 +315,22 @@ mod tests {
     }
 
     #[test]
-  fn test_read_package_metadata_rejects_non_json_file() {
-      use std::io::Write;
+    fn test_read_package_metadata_rejects_non_json_file() {
+        use std::io::Write;
 
-      let mut file = tempfile::NamedTempFile::new().unwrap();
-      file.write_all(b"This is not JSON").unwrap();
+        let mut file = tempfile::NamedTempFile::new().unwrap();
+        file.write_all(b"This is not JSON").unwrap();
 
-      let source = PackageSource::Path(file.path().to_path_buf());
+        let source = PackageSource::Path(file.path().to_path_buf());
 
-      assert!(read_package_metadata(&source).is_err());
+        assert!(read_package_metadata(&source).is_err());
     }
 
     #[test]
-      fn test_read_package_metadata_file_does_not_exist() {
-      let source = PackageSource::Path("nonexistent-datapackage.json".into());
+    fn test_read_package_metadata_file_does_not_exist() {
+        let source = PackageSource::Path("nonexistent-datapackage.json".into());
 
-      assert!(read_package_metadata(&source).is_err());
+        assert!(read_package_metadata(&source).is_err());
     }
 
     #[test]
@@ -344,6 +344,9 @@ mod tests {
         assert_eq!(package.version.as_deref(), Some("0.5.1"));
         assert_eq!(package.resources.len(), 1);
         assert_eq!(package.resources[0].name, "metabolic-rate");
-        assert_eq!(package.resources[0].title.as_deref(), Some("Metabolic rate of the seed beetles"));
+        assert_eq!(
+            package.resources[0].title.as_deref(),
+            Some("Metabolic rate of the seed beetles")
+        );
     }
 }
