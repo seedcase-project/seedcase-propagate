@@ -155,15 +155,6 @@ pub enum PackageSource {
     GitHub(String),
 }
 
-//#[derive(Debug, thiserror::Error)]
-//pub enum MetadataError {
-//    #[error("failed to read metadata file: {0}")]
-//    Io(#[from] std::io::Error),
-
-//    #[error("invalid datapackage.json: {0}")]
-//    Json(#[from] serde_json::Error),
-//}
-
 /// Reads and parses a data package's metadata file into a `Package` struct.
 ///
 /// # Argument:
@@ -196,14 +187,12 @@ pub fn read_package_metadata(source: &PackageSource) -> Result<Package, Box<dyn 
     // Read the JSON contents of the file as an instance of `Package`.
     // let package: Package = read_from_json(package)?;
     // Ok(package)
-    // todo!("Planned")
-    match source {
+    let package = match source {
         PackageSource::Path(path) => {
           // Note that this is currently faster than serde_json::read_from
           // https://docs.rs/serde_json/latest/serde_json/fn.from_reader.html and see issue 160.
             let contents = std::fs::read_to_string(path)?;
-            let package: Package = serde_json::from_str(&contents)?;
-            Ok(package)
+            serde_json::from_str(&contents)?
         }
 
         PackageSource::Https(_) => {
@@ -213,7 +202,9 @@ pub fn read_package_metadata(source: &PackageSource) -> Result<Package, Box<dyn 
         PackageSource::GitHub(_) => {
             todo!("GitHub not yet supported")
         }
-    }
+    };
+
+    Ok(package)
 }
 
 /// An example of a datapackage.json following the Data Package standard.
@@ -316,5 +307,24 @@ mod tests {
         assert_eq!(package.resources.len(), 1);
         assert_eq!(package.resources[0].name, "patients");
         assert_eq!(package.resources[0].title.as_deref(), Some("Patients Data"));
+    }
+
+    #[test]
+  fn test_read_package_metadata_rejects_non_json_file() {
+      use std::io::Write;
+
+      let mut file = tempfile::NamedTempFile::new().unwrap();
+      file.write_all(b"This is not JSON").unwrap();
+
+      let source = PackageSource::Path(file.path().to_path_buf());
+
+      assert!(read_package_metadata(&source).is_err());
+    }
+
+    #[test]
+      fn test_read_package_metadata_file_does_not_exist() {
+      let source = PackageSource::Path("nonexistent-datapackage.json".into());
+
+      assert!(read_package_metadata(&source).is_err());
     }
 }
