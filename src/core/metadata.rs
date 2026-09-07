@@ -155,6 +155,30 @@ pub enum PackageSource {
     GitHub(String),
 }
 
+/// Converts a GitHub repository reference into a raw URL for its
+/// `datapackage.json` metadata file.
+///
+/// # Argument:
+///
+/// - `source`: A GitHub repository reference in the form `owner/repo` or
+///   `owner/repo@ref`, where `ref` can be a branch, tag, or commit. If no
+///   `ref` is provided, `main` is used.
+///
+/// # Errors
+///
+/// Returns a `String` containing the raw GitHub URL for the package metadata
+/// file.
+fn github_to_raw_url(source: &str) -> String {
+   let source = source.strip_prefix("gh:").unwrap();
+
+   let (repo, reference) = source.split_once('@').unwrap_or((source, "main"));
+   let (owner, repo) = repo.split_once('/').unwrap();
+
+   format!(
+        "https://raw.githubusercontent.com/{owner}/{repo}/{reference}/datapackage.json"
+    )
+}
+
 /// Reads and parses a data package's metadata file into a `Package` struct.
 ///
 /// # Argument:
@@ -204,8 +228,11 @@ pub fn read_package_metadata(source: &PackageSource) -> Result<Package, Box<dyn 
             serde_json::from_str(&contents)? // uses same function as path (minimize potential inconsistent errors)
         }
 
-        PackageSource::GitHub(_) => {
-            todo!("GitHub not yet supported")
+        PackageSource::GitHub(ghrepo) => {
+            let url = github_to_raw_url(ghrepo); // helper function
+            let response = reqwest::blocking::get(url)?;
+            let contents = response.text()?;
+            serde_json::from_str(&contents)?
         }
     };
 
@@ -336,6 +363,23 @@ mod tests {
     #[test]
     fn test_read_package_metadata_using_url_input() {
         let source = PackageSource::Https("https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/main/datapackage.json"
+            .to_string(),
+    );
+
+        let package = read_package_metadata(&source).unwrap();
+
+        assert_eq!(package.version.as_deref(), Some("0.5.1"));
+        assert_eq!(package.resources.len(), 1);
+        assert_eq!(package.resources[0].name, "metabolic-rate");
+        assert_eq!(
+            package.resources[0].title.as_deref(),
+            Some("Metabolic rate of the seed beetles")
+        );
+    }
+
+    #[test]
+    fn test_read_package_metadata_using_ghrepo_input() {
+        let source = PackageSource::GitHub("gh:seedcase-project/example-seed-beetle"
             .to_string(),
     );
 
