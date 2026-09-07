@@ -169,14 +169,12 @@ pub enum PackageSource {
 /// Returns a `String` containing the raw GitHub URL for the package metadata
 /// file.
 fn github_to_raw_url(source: &str) -> String {
-   let source = source.strip_prefix("gh:").unwrap();
+    let source = source.strip_prefix("gh:").unwrap();
 
-   let (repo, reference) = source.split_once('@').unwrap_or((source, "main"));
-   let (owner, repo) = repo.split_once('/').unwrap();
+    let (repo, reference) = source.split_once('@').unwrap_or((source, "main"));
+    let (owner, repo) = repo.split_once('/').unwrap();
 
-   format!(
-        "https://raw.githubusercontent.com/{owner}/{repo}/{reference}/datapackage.json"
-    )
+    format!("https://raw.githubusercontent.com/{owner}/{repo}/{reference}/datapackage.json")
 }
 
 /// Reads and parses a data package's metadata file into a `Package` struct.
@@ -377,9 +375,7 @@ mod tests {
 
     #[test]
     fn test_read_package_metadata_using_ghrepo_input() {
-        let source = PackageSource::GitHub("gh:seedcase-project/example-seed-beetle"
-            .to_string(),
-    );
+        let source = PackageSource::GitHub("gh:seedcase-project/example-seed-beetle".to_string());
 
         let package = read_package_metadata(&source).unwrap();
 
