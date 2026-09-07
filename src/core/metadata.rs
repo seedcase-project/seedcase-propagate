@@ -74,7 +74,7 @@ pub struct Column {
     /// The column name (no spaces) used as an identifier.
     pub name: String,
     /// The column title (human formatted) used for display purposes.
-    pub title: Option<String>,
+    pub title: String,
     /// The column data type.
     #[serde(rename = "type")]
     pub column_type: ColumnType,
@@ -280,26 +280,32 @@ pub const EXAMPLE_DATAPACKAGE_JSON: &str = r##"
         "fields": [
           {
             "name": "id",
+            "title": "Patient ID",
             "type": "integer"
           },
           {
             "name": "age",
+            "title": "Patient's age in years",
             "type": "integer"
           },
           {
             "name": "sex",
+            "title": "Patient's sex",
             "type": "string"
           },
           {
             "name": "height",
+            "title": "Patient's height in cm",
             "type": "number"
           },
           {
             "name": "weight",
+            "title": "Patient's weight in kg",
             "type": "number"
           },
           {
             "name": "diabetes_type",
+            "title": "Diagnosed diabetes type",
             "type": "string"
           }
         ]
