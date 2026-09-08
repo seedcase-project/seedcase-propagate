@@ -1,34 +1,36 @@
 //! Library functionality for making the requested subset from the data package.
 
 use crate::core::CheckedRap;
-use crate::core::request::Request;
+// use crate::core::request::Request;
+use crate::core::request::Subset;
 use polars::prelude::LazyFrame;
 use std::error::Error;
 use std::sync::Arc;
-// use crate::core::request::Subset;
 // use itertools::Itertools;
-// use crate::core::metadata::Resource;
+use crate::core::metadata::Package;
 
 // TODO: Not sure if `Arc` or `Vec` is better here.
 // TODO: Remove `allow` after implementing.
 /// Subsets the resources based on the details in the request.
 ///
 /// This function does not do any checks on the input `Request` and
-/// `Package` (within [`CheckedRap`]), that should be done outside of this function.
-/// Based on the request, this function will read the path to the data package's
-/// resource (given in `Resource`), so some I/O errors may occur at this
-/// point.
+/// `Package` (within [`CheckedRap`]), that should be done outside of this
+/// function. Based on the request, this function will read the path to the data
+/// package's resource (given in `Resource`), so some I/O errors may occur at
+/// this point.
 ///
 /// # Arguments
 ///
-/// - `checked_rap`: The [`CheckedRap`] struct that contains the `Request` and `Package`
-///   structs.
+/// - `checked_rap`: The [`CheckedRap`] struct that contains the `Request` and
+///   `Package` structs.
 ///
 /// # Errors
 ///
 /// Outputs any input errors as well as column and row selection errors.
 #[allow(unused_variables, clippy::needless_pass_by_value)]
-pub fn subset_resources(checked_rap: &CheckedRap) -> Result<Arc<[SubsettedResource]>, Box<dyn Error>> {
+pub fn subset_resources(
+    checked_rap: &CheckedRap,
+) -> Result<Arc<[SubsettedResource]>, Box<dyn Error>> {
     // TODO: Not sure if `Box .. Error` is the right approach here.
 
     // Using `path` in `Package`, read in all resources listed in the request
@@ -40,8 +42,8 @@ pub fn subset_resources(checked_rap: &CheckedRap) -> Result<Arc<[SubsettedResour
     // Using the requested row-filtering, map on all data to keep rows.
 
     // let requested_resources_rows: Arc<[RequestedResource]> = requested_resources
-    //     // TODO: Not sure if we need to clone here, we don't want to consume `requested_resources`
-    //     .clone()
+    //     // TODO: Not sure if we need to clone here, we don't want to consume
+    // `requested_resources`     .clone()
     //     .iter()
     //     .map(keep_requested_rows)
     //     .collect()?;
@@ -51,8 +53,8 @@ pub fn subset_resources(checked_rap: &CheckedRap) -> Result<Arc<[SubsettedResour
     // let kept_resource_ids: Arc<[String]> = requested_resources_rows
     //     .iter()
     //     .map(get_ids)
-    //     .flatten() // TODO: Maybe HashSet or Polars joins instead? Also update flow diagram above.
-    //     .unique(); // from itertools.
+    //     .flatten() // TODO: Maybe HashSet or Polars joins instead? Also update
+    // flow diagram above.     .unique(); // from itertools.
     //     .collect()?
 
     // Add the Ids to the existing `requested_resources` and then subset each
@@ -67,32 +69,36 @@ pub fn subset_resources(checked_rap: &CheckedRap) -> Result<Arc<[SubsettedResour
     todo!("Planned")
 }
 
-
 #[allow(unused_variables, dead_code, clippy::needless_pass_by_value)]
-fn get_requested_resources(checked_rap: CheckedRap) -> Result<Vec<RequestedResource>, Box<dyn Error>> {
+fn get_requested_resources(
+    checked_rap: CheckedRap,
+) -> Result<Vec<RequestedResource>, Box<dyn Error>> {
+    // let requested_resources: Vec<String> = checked_rap.request.subsets
+    //   .iter()
+    //   .map(|s| join_request_with_data(s, checked_rap.package)?)
+    //   .collect();
 
-  // let requested_resources: Vec<String> = checked_rap.request.subsets
-  //   .iter()
-  //   .map(|s| join_request_with_data(s, checked_rap.package)?)
-  //   .collect();
-
-  todo!("Planned")
+    todo!("Planned")
 }
 
-fn join_request_with_data(subset: Subset, package_metadata: Package) -> Result<RequestedResource, Box<dyn Error>> {
-  // let requested_resource = package_metadata.package.resources
-  //   .iter()
-  //   .filter(|r| r.name.contains(subset.resource))
-  //   // TODO: collect into not a vector? There should be only one output here.
-  //   .collect();
+#[allow(unused)]
+fn join_request_with_data(
+    _subset: Subset,
+    _package_metadata: Package,
+) -> Result<RequestedResource, Box<dyn Error>> {
+    // let requested_resource = package_metadata.package.resources
+    //   .iter()
+    //   .filter(|r| r.name.contains(subset.resource))
+    //   // TODO: collect into not a vector? There should be only one output here.
+    //   .collect();
 
-  // let data: LazyFrame = read_parquet(requested_resource.path)?;
+    // let data: LazyFrame = read_parquet(requested_resource.path)?;
 
-  // Ok(RequestedResource {
-  //   subset: subset,
-  //   data: data
-  // })
-  todo!("Planned")
+    // Ok(RequestedResource {
+    //   subset: subset,
+    //   data: data
+    // })
+    todo!("Planned")
 }
 
 #[allow(unused_variables, dead_code, clippy::needless_pass_by_value)]
@@ -156,4 +162,3 @@ pub struct SubsettedResource {
     data: LazyFrame,
     resource_name: String,
 }
-
