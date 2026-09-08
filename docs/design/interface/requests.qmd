@@ -19,13 +19,13 @@ generating the requested data subset.
 
 The request file uses YAML. YAML was chosen because it is more readable for
 manual editing than JSON and less verbose than TOML for lists of columns and row
-filters.
+conditions.
 
 ## Structure
 
 The request file contains the following top-level sections:
 
-- `request`: Information about this specific request.
+- The top level contains information about this specific request.
 - `requester`: Information about the person requesting the data.
 - `project`: Information about the research project that requires the data.
 - `data-package`: Information about the data package the request applies to.
@@ -33,33 +33,32 @@ The request file contains the following top-level sections:
 
 Each of these is elaborated on below:
 
-### Request
+### Top level
 
-The `request` includes information about the request itself, such as when and
+The top level includes information about the request itself, such as when and
 why it was created. This helps an Owner organize and track requests, which is
 especially beneficial for data packages that receive large volumes of requests.
 
 ```yaml
-request:
-  datetime-modified: "DATETIME"
-  datetime-created: "DATETIME"
-  motivation: "TEXT"
+datetime-created: "DATETIME"
+datetime-modified: "DATETIME"
+motivation: "TEXT"
 ```
 
-- `datetime-modified`: When the request was last modified. This can act as an ID
-  which facilitates referring to a specific iteration of a request, e.g. in
-  dialog between the Owner and Requester. Precision to the second should be
-  sufficient.
-  - Note that this field is automatically populated when the request is saved
-    via a user interface (be it the web app or the TUI). If the request is
-    edited manually, it must be updated manually.
+- `datetime-created`: When the first iteration of the request was created.
   - The format should be ISO 8601, e.g. `2026-07-06T01:45:34Z` of the current
     time without time zone information. Propagate assumes that it is very rare
     that Requesters are outside of the Owner's timezone and that it is mostly
     used by people within the same group or institution that are assumed to be
     using Propagate together.
-- `datetime-created`: When the first iteration of the request was created. It is
-  also set at UTC and in ISO 8601 format.
+- `datetime-modified`: When the request was last modified. This can act as an ID
+  which facilitates referring to a specific iteration of a request, e.g. in
+  dialog between the Owner and Requester. Precision to the second should be
+  sufficient. The value is recorded in UTC using the same ISO 8601 format as
+  `datetime-created`.
+  - This field is automatically populated when the request is saved via a user
+    interface (be it the web app or the TUI). If the request is edited manually,
+    it must be updated manually.
 - `motivation`: Explanation for why the requester's project needs access to this
   data subset. This is used by the Owner to check whether the requested data is
   relevant to the project. The motivation is particularly needed for human
@@ -127,3 +126,150 @@ data-package:
   include any spaces. E.g., `my-data-package`.
 - `version`: Helps the Owner detect which version of the data package the
   request is for.
+
+### Subsets
+
+The `subsets` section describes the data the Requester would like to obtain. It
+is a sequence with one item for each requested resource. Note that the subset
+section is not intended to allow for a general-purpose query syntax, e.g. the
+request format should not support joins, grouping, arbitrary functions, random
+sampling, or row selection by position.
+
+```yaml
+subsets:
+  - resource: "RESOURCE-NAME-1"
+    columns:
+      - "COLUMN-NAME-1"
+      - "COLUMN-NAME-2"
+    rows:
+      - column: "COLUMN-NAME-1"
+        operator: "OPERATOR"
+        value: "VALUE-TO-COMPARE-AGAINST"
+        not: "BOOLEAN"
+  - resource: "RESOURCE-NAME-2"
+    columns:
+      - "COLUMN-NAME"
+    rows:
+      - column: "COLUMN-NAME"
+        operator: "OPERATOR"
+        value: "VALUE-TO-COMPARE-AGAINST"
+        not: "BOOLEAN"
+```
+
+Each subset contains:
+
+- `resource`: The name of the data resource to subset. A resource can only be
+  included once in a request and for each resource specified in the request
+  there will be a separate data file created.
+- `columns`: The columns to include from the resource. Each list item must be
+  exactly one column name. Regex and SQL-like shorthands are not supported,
+  which keeps the request simple and avoids parsing unsafe queries.
+  - If `columns` is empty or not included, all columns from the resource will be
+    selected and given in the subset.
+  - As expected from the YAML structure, the specified columns are just applied
+    to the resource they are listed under; columns with the same name in other
+    resource will not be included unless they are explicitly listed under each
+    resource.
+- `rows`: The conditions used to select rows from the resource. All listed
+  conditions must be met for a row to be included.
+  - If `rows` is empty or not included, all rows from the resource are included.
+  - Contrary to how `columns` work, the row conditions are combined **across**
+    resources rather than only applied to the resource they are listed under. In
+    other words, the rows that are kept represent the statistical units that
+    meet all the row conditions listed under all the resources. This is
+    elaborated on with an example at the end of the next section.
+
+#### Row conditions
+
+Row conditions use a structured key-value mapping instead of free-form SQL. This
+maps closely to controls in the web application and TUI and makes it easier to
+check manually edited files for unsupported operators.
+
+Each row condition contains:
+
+- `column`: The name of the column to use for the comparison.
+- `operator`: How to compare the column against the reference value. The
+  initially supported operators are:
+  - Equality: `=`
+  - Comparisons: `>`, `>=`, `<`, `<=`
+  - Membership: `IN`
+  - Missing values: `IS NULL` and `IS NOT NULL`
+- `value`: The reference value to compare against. This is not needed for
+  operators that check for missing values. For the `IN` operator it needs to be
+  a list of values.
+- `not`: Invert the condition.
+  - E.g. if using `=` and setting `not: true` then all rows NOT matching the
+    reference value will be returned.
+  - Note that one slightly inconsistent aspect in SQL is that `NOT` is a prefix
+    to negating all operators except `IS NULL` where it is advised to use the
+    special operator `IS NOT NULL` rather than `NOT` + `IS NULL` because of how
+    null comparisons work in SQL. The most consistent user experience would be
+    to still use `not: true` and that we take care of converting that to the
+    operator `IS NOT NULL` behind the scenes, but if that seems complicated we
+    can also introduce this special operator to the user.
+
+As mentioned above, all the row conditions used to select a subset of
+statistical/observational units (e.g. individuals) will be applied to all the
+resources together rather than individually to each reasource. This is for GDPR
+purposes (and other legal/privacy regulations) and for statistical reasons.
+
+For example, if in a survey a condition is `Gender == "Man"`, and in another
+resource biometrics that doesn't have a condition, the subsetted participant IDs
+from the survey will be applied to the biometrics, so that all resources contain
+the same set of participants. This is a legal thing, as much as a statistical
+thing since nearly all statistical methods require the same observational units
+within the data (e.g. minimal missingness). It's to ensure that the researcher
+is only given the data that they need for the analysis, as described in the
+motivation. Like the principle of "least permissions" but in a data context.
+
+### A complete example
+
+A complete request file might look like this.
+
+```yaml
+datetime-created: "2026-07-04T01:44:34Z"
+datetime-modified: "2026-07-06T01:45:34Z"
+motivation: |
+  Explanation of why the data is needed.
+
+requester:
+  name: "First Last"
+  email: "firstlast@example.org"
+  motivation: |
+    We would like access to metabolic and block variables to evaluate
+    our hypothesis regarding ...
+
+project:
+  name: "metabolic-cost"
+  title: "Metabolic cost estimation"
+  description: |
+    Our project investigates the gas exchange during metabolism
+    with the aim to determine ...
+
+data-package:
+  name: "example-seed-beetle"
+  version: "0.5.1"
+
+subsets:
+  - resource: "metabolism"
+    columns:
+      - "strain"
+      - "activity"
+    rows:
+      - column: "age"
+        operator: ">="
+        value: "20"
+      - column: "age"
+        operator: "<="
+        value: "40"
+  - resource: "something-else"
+    columns:
+      - "col2"
+    rows:
+      - column: "col2"
+        operator: "is null"
+        not: "true"
+      - column: "color"
+        operator: "IN"
+        value: ["A", "B", "C"]
+```

@@ -1,2 +1,51 @@
 //! Library functionality for checking the request itself and the metadata
 //! against the request.
+
+use crate::core::{CheckedRap, Rap};
+use std::error::Error;
+
+// TODO: Might use something other than `Error`
+// TODO: Remove `allow` once implemented.
+/// Checks a request yaml against the metadata file.
+///
+/// The checks include:
+///
+/// - Required sections and keys are present in the request and metadata.
+/// - Data package name and version in the request matches the metadata.
+/// - The resources and columns in the request exist in the metadata.
+/// - The row filters match columns in the metadata.
+///
+/// If the checks pass, will output the same [`Rap`] struct, but as a
+/// [`CheckedRap`] to indicate check status.
+///
+/// # Argument
+///
+/// - `rap`: The [`Rap`] struct contains the `Request` and `Package` structs to
+///   make it easier to pass these two structs around.
+///
+/// # Errors
+///
+/// Errors if any check fails.
+#[allow(unused_variables)]
+pub fn check_request(rap: Rap) -> Result<CheckedRap, Box<dyn Error>> {
+    // TODO: We may need to revise this so we can group all errors together and
+    // output them at the end.
+
+    // Package name and version matches metadata.
+    // check_package_name(&rap)?;
+    // check_package_version(&rap)?;
+
+    // Resource names match metadata.
+    // check_resource_names(&rap)?;
+
+    // Column names match metadata.
+    // check_column_names(&rap)?;
+
+    // Row filters match metadata columns (including whether the operator
+    // types and values are allowed with the column type).
+    // check_row_filters(&rap)?;
+
+    // Ok(CheckedRap(rap))
+
+    todo!("Planned")
+}

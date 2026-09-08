@@ -1,1 +1,1 @@
-//! Functions and types for the `create-request` command.
+//! Functions and types for the `subset` command.
