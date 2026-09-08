@@ -27,13 +27,13 @@ use std::sync::Arc;
 ///
 /// Outputs any input errors as well as column and row selection errors.
 #[allow(unused_variables, clippy::needless_pass_by_value)]
-pub fn subset_resources(rap: &CheckedRap) -> Result<Arc<[SubsettedResources]>, Box<dyn Error>> {
+pub fn subset_resources(rap: &CheckedRap) -> Result<Arc<[SubsettedResource]>, Box<dyn Error>> {
     // TODO: Not sure if `Box .. Error` is the right approach here.
 
     // Using `path` in `Package`, read in all requested resources and add as `data`
     // to `RequestedResources`.
 
-    // let requested_resources: Vec<RequestedResources> =
+    // let requested_resources: Vec<RequestedResource> =
     // get_resource_data(rap)?;
 
     // Using the requested row-filtering, map on all data to keep rows.
