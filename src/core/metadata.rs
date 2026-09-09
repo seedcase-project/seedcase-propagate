@@ -161,8 +161,8 @@ pub enum PackageSource {
 /// # Argument:
 ///
 /// - `source`: A GitHub repository reference in the form `owner/repo` or
-///   `owner/repo@ref`, where `ref` can be a branch, tag, or commit. If no
-///   `ref` is provided, `main` is used.
+///   `owner/repo@ref`, where `ref` can be a branch, tag, or commit. If no `ref`
+///   is provided, `main` is used.
 ///
 /// # Errors
 ///
@@ -176,13 +176,11 @@ fn github_to_raw_url(source: &str) -> Result<String, Box<dyn Error>> {
 
     let (repo, reference) = source.split_once('@').unwrap_or((source, "main"));
 
-    let (owner, repo) = repo
-        .split_once('/')
-        .ok_or("invalid GitHub source")?;
+    let (owner, repo) = repo.split_once('/').ok_or("invalid GitHub source")?;
 
-      Ok(format!(
+    Ok(format!(
         "https://raw.githubusercontent.com/{owner}/{repo}/{reference}/datapackage.json"
-      ))
+    ))
 }
 
 /// Reads and parses a data package's metadata file into a `Package` struct.
@@ -228,7 +226,8 @@ pub fn read_package_metadata(source: &PackageSource) -> Result<Package, Box<dyn 
         PackageSource::Https(url) => {
             let response = reqwest::blocking::get(url)?;
             // println!("status: {}", response.status()); for debugging
-            // response.json::<Package>()? // Make the JSON a Package type for serde to work on
+            // response.json::<Package>()? // Make the JSON a Package type for
+            // serde to work on
             let contents = response.text()?; // for using same serde_json function and potential debugging
             // println!("{contents:?}");  // for debugging
             serde_json::from_str(&contents)? // uses same function as path (minimize potential inconsistent errors)
@@ -327,7 +326,8 @@ mod tests {
 
     #[test]
     fn test_read_package_metadata_using_path_input() {
-        // TODO: Convert this over to not write to an actual file, but just the memory representation of it (to have fewer I/O in tests).
+        // TODO: Convert this over to not write to an actual file, but just the
+        // memory representation of it (to have fewer I/O in tests).
         use std::io::Write;
         // see https://rust-exercises.com/advanced-testing/05_filesystem_isolation/02_tempfile.html
         // for my design choices around tempfile::NamedTempFile
@@ -367,26 +367,26 @@ mod tests {
 
     #[test]
     fn test_github_to_raw_url_short_prefix() -> Result<(), Box<dyn Error>> {
-       let url = github_to_raw_url("gh:seedcase-project/example-seed-beetle")?;
+        let url = github_to_raw_url("gh:seedcase-project/example-seed-beetle")?;
 
-       assert_eq!(
-         url,
-         "https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/main/datapackage.json"
-       );
+        assert_eq!(
+            url,
+            "https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/main/datapackage.json"
+        );
 
-       Ok(())
+        Ok(())
     }
 
     #[test]
     fn test_github_to_raw_url_long_prefix() -> Result<(), Box<dyn Error>> {
-       let url = github_to_raw_url("github:seedcase-project/example-seed-beetle@0.2.0")?;
+        let url = github_to_raw_url("github:seedcase-project/example-seed-beetle@0.2.0")?;
 
-       assert_eq!(
-         url,
-         "https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/0.2.0/datapackage.json"
-       );
+        assert_eq!(
+            url,
+            "https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/0.2.0/datapackage.json"
+        );
 
-       Ok(())
+        Ok(())
     }
 
     #[test]
@@ -398,12 +398,11 @@ mod tests {
         let example_package = std::fs::read_to_string("src/datapackage.json")?;
 
         let mock = server.mock(|when, then| {
-           when.method(GET)
-               .path("/httpsmock/datapackage.json");
+            when.method(GET).path("/httpsmock/datapackage.json");
 
-           then.status(200)
-               .header("content-type", "application/json")
-               .body(example_package.clone());
+            then.status(200)
+                .header("content-type", "application/json")
+                .body(example_package.clone());
         });
 
         let source = PackageSource::Https(server.url("/httpsmock/datapackage.json"));
@@ -414,6 +413,6 @@ mod tests {
         mock.assert();
         assert_eq!(package, expected);
 
-       Ok(())
+        Ok(())
     }
 }
