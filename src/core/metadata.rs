@@ -168,13 +168,21 @@ pub enum PackageSource {
 ///
 /// Returns a `String` containing the raw GitHub URL for the package metadata
 /// file.
-fn github_to_raw_url(source: &str) -> String {
-    let source = source.strip_prefix("gh:").unwrap();
+fn github_to_raw_url(source: &str) -> Result<String, Box<dyn Error>> {
+    let source = source
+        .strip_prefix("gh:")
+        .or_else(|| source.strip_prefix("github:"))
+        .ok_or("invalid GitHub source")?;
 
     let (repo, reference) = source.split_once('@').unwrap_or((source, "main"));
-    let (owner, repo) = repo.split_once('/').unwrap();
 
-    format!("https://raw.githubusercontent.com/{owner}/{repo}/{reference}/datapackage.json")
+    let (owner, repo) = repo
+        .split_once('/')
+        .ok_or("invalid GitHub source")?;
+
+      Ok(format!(
+        "https://raw.githubusercontent.com/{owner}/{repo}/{reference}/datapackage.json"
+      ))
 }
 
 /// Reads and parses a data package's metadata file into a `Package` struct.
@@ -227,7 +235,7 @@ pub fn read_package_metadata(source: &PackageSource) -> Result<Package, Box<dyn 
         }
 
         PackageSource::GitHub(ghrepo) => {
-            let url = github_to_raw_url(ghrepo); // helper function
+            let url = github_to_raw_url(ghrepo)?; // helper function
             let response = reqwest::blocking::get(url)?;
             let contents = response.text()?;
             serde_json::from_str(&contents)?
@@ -319,6 +327,7 @@ mod tests {
 
     #[test]
     fn test_read_package_metadata_using_path_input() {
+        // TODO: Convert this over to not write to an actual file, but just the memory representation of it (to have fewer I/O in tests).
         use std::io::Write;
         // see https://rust-exercises.com/advanced-testing/05_filesystem_isolation/02_tempfile.html
         // for my design choices around tempfile::NamedTempFile
@@ -357,12 +366,12 @@ mod tests {
     }
 
     #[test]
-    fn test_read_package_metadata_using_url_input() {
+    fn test_read_package_metadata_using_url_input() -> Result<(), Box<dyn Error>> {
         let source = PackageSource::Https("https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/main/datapackage.json"
             .to_string(),
         );
 
-        let package = read_package_metadata(&source).unwrap();
+        let package = read_package_metadata(&source)?;
 
         assert_eq!(package.version.as_deref(), Some("0.5.1"));
         assert_eq!(package.resources.len(), 1);
@@ -371,13 +380,15 @@ mod tests {
             package.resources[0].title.as_deref(),
             Some("Metabolic rate of the seed beetles")
         );
+
+        Ok(())
     }
 
     #[test]
-    fn test_read_package_metadata_using_ghrepo_input() {
+    fn test_read_package_metadata_using_ghrepo_input() -> Result<(), Box<dyn Error>> {
         let source = PackageSource::GitHub("gh:seedcase-project/example-seed-beetle".to_string());
 
-        let package = read_package_metadata(&source).unwrap();
+        let package = read_package_metadata(&source)?;
 
         assert_eq!(package.version.as_deref(), Some("0.5.1"));
         assert_eq!(package.resources.len(), 1);
@@ -386,5 +397,24 @@ mod tests {
             package.resources[0].title.as_deref(),
             Some("Metabolic rate of the seed beetles")
         );
+
+        Ok(())
+    }
+
+    #[test]
+    fn test_read_package_metadata_using_githubrepo_input() -> Result<(), Box<dyn Error>> {
+        let source = PackageSource::GitHub("github:seedcase-project/example-seed-beetle".to_string());
+
+        let package = read_package_metadata(&source)?;
+
+        assert_eq!(package.version.as_deref(), Some("0.5.1"));
+        assert_eq!(package.resources.len(), 1);
+        assert_eq!(package.resources[0].name, "metabolic-rate");
+        assert_eq!(
+            package.resources[0].title.as_deref(),
+            Some("Metabolic rate of the seed beetles")
+        );
+
+        Ok(())
     }
 }
