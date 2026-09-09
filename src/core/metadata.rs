@@ -366,55 +366,54 @@ mod tests {
     }
 
     #[test]
-    fn test_read_package_metadata_using_url_input() -> Result<(), Box<dyn Error>> {
-        let source = PackageSource::Https("https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/main/datapackage.json"
-            .to_string(),
-        );
+    fn test_github_to_raw_url_short_prefix() -> Result<(), Box<dyn Error>> {
+       let url = github_to_raw_url("gh:seedcase-project/example-seed-beetle")?;
 
-        let package = read_package_metadata(&source)?;
+       assert_eq!(
+         url,
+         "https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/main/datapackage.json"
+       );
 
-        assert_eq!(package.version.as_deref(), Some("0.5.1"));
-        assert_eq!(package.resources.len(), 1);
-        assert_eq!(package.resources[0].name, "metabolic-rate");
-        assert_eq!(
-            package.resources[0].title.as_deref(),
-            Some("Metabolic rate of the seed beetles")
-        );
-
-        Ok(())
+       Ok(())
     }
 
     #[test]
-    fn test_read_package_metadata_using_ghrepo_input() -> Result<(), Box<dyn Error>> {
-        let source = PackageSource::GitHub("gh:seedcase-project/example-seed-beetle".to_string());
+    fn test_github_to_raw_url_long_prefix() -> Result<(), Box<dyn Error>> {
+       let url = github_to_raw_url("github:seedcase-project/example-seed-beetle@0.2.0")?;
 
-        let package = read_package_metadata(&source)?;
+       assert_eq!(
+         url,
+         "https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/0.2.0/datapackage.json"
+       );
 
-        assert_eq!(package.version.as_deref(), Some("0.5.1"));
-        assert_eq!(package.resources.len(), 1);
-        assert_eq!(package.resources[0].name, "metabolic-rate");
-        assert_eq!(
-            package.resources[0].title.as_deref(),
-            Some("Metabolic rate of the seed beetles")
-        );
-
-        Ok(())
+       Ok(())
     }
 
     #[test]
-    fn test_read_package_metadata_using_githubrepo_input() -> Result<(), Box<dyn Error>> {
-        let source = PackageSource::GitHub("github:seedcase-project/example-seed-beetle".to_string());
+    fn test_read_package_metadata_using_mock_https() -> Result<(), Box<dyn Error>> {
+        use httpmock::prelude::*;
+
+        let server = MockServer::start();
+
+        let example_package = std::fs::read_to_string("src/datapackage.json")?;
+
+        let mock = server.mock(|when, then| {
+           when.method(GET)
+               .path("/httpsmock/datapackage.json");
+
+           then.status(200)
+               .header("content-type", "application/json")
+               .body(example_package.clone());
+        });
+
+        let source = PackageSource::Https(server.url("/httpsmock/datapackage.json"));
 
         let package = read_package_metadata(&source)?;
+        let expected: Package = serde_json::from_str(&example_package)?;
 
-        assert_eq!(package.version.as_deref(), Some("0.5.1"));
-        assert_eq!(package.resources.len(), 1);
-        assert_eq!(package.resources[0].name, "metabolic-rate");
-        assert_eq!(
-            package.resources[0].title.as_deref(),
-            Some("Metabolic rate of the seed beetles")
-        );
+        mock.assert();
+        assert_eq!(package, expected);
 
-        Ok(())
+       Ok(())
     }
 }
