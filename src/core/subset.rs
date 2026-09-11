@@ -41,28 +41,30 @@ pub fn subset_resources(
 
     // Using the requested row-filtering, map on all data to keep rows.
 
-    // let requested_resources_rows: Arc<[RequestedResource]> = requested_resources
-    //     // TODO: Not sure if we need to clone here, we don't want to consume
-    // `requested_resources`     .clone()
+    // let filtered_requested_resources: Arc<[RequestedResource]> =
+    // requested_resources     // TODO: Not sure to clone, we don't want to
+    // consume `requested_resources`     .clone()
     //     .iter()
     //     .map(keep_requested_rows)
     //     .collect()?;
 
-    // TODO: Always output the ids as string?
-    // Join each requested resource subset with the package resource metadata.
-    // let kept_resource_ids: Arc<[String]> = requested_resources_rows
+    // Get ID columns from filtered resources (linking a foreign key to an
+    // ideally central/main resource), then inner-join to keep same ids (and
+    // columns?) between any two data frames, joining all data frames together
+    // via reduce. In the end there should be the same set of IDs (both rows and
+    // columns) from across resources. E.g. if one resource has only one
+    // column and only one row for an ID, than all resources will only have data
+    // for that one column, one row ID.
+    // let kept_obs_unit_ids: Arc<[LazyFrame]> = filtered_requested_resources
     //     .iter()
     //     .map(get_ids)
-    //     .flatten() // TODO: Maybe HashSet or Polars joins instead? Also update
-    // flow diagram above.     .unique(); // from itertools.
-    //     .collect()?
+    //     .reduce(inner_join)
+    //     .collect()?;
 
-    // Add the Ids to the existing `requested_resources` and then subset each
-    // resource by row and column.
-    // let subsetted_data: Arc<[SubsettedResource]> = requested_resources
+    // Subset each resource by kept ID and than select requested columns.
+    // let subsetted_resource: Arc<[SubsettedResource]> = requested_resources
     //     .iter()
-    //     .map(|r| RequestedResource{ids: kept_resource_ids, ..r})
-    //     .map(subset_resource)
+    //     .map(|r| subset_resource(r, kept_obs_unit_ids))
     //     .collect()?;
 
     // Ok(subsetted_data)
@@ -81,21 +83,21 @@ fn get_requested_resources(
     todo!("Planned")
 }
 
-#[allow(unused)]
+#[allow(unused_variables, dead_code, clippy::needless_pass_by_value)]
 fn join_request_with_data(
-    _subset: Subset,
-    _package_metadata: Package,
+    subset: Subset,
+    package_metadata: Package,
 ) -> Result<RequestedResource, Box<dyn Error>> {
     // let requested_resource = package_metadata.package.resources
     //   .iter()
-    //   .filter(|r| r.name.contains(subset.resource))
+    //   .find(|r| r.name == subset.resource)
     //   // TODO: collect into not a vector? There should be only one output here.
     //   .collect();
 
     // let data: LazyFrame = read_parquet(requested_resource.path)?;
 
     // Ok(RequestedResource {
-    //   subset: subset,
+    //   requested_subset: subset,
     //   data: data
     // })
     todo!("Planned")
@@ -112,9 +114,8 @@ fn keep_requested_rows(resource: RequestedResource) -> Result<RequestedResource,
     // Create a new `RequestedResource` with the filtered data.
 
     // RequestedResource {
-    //     request: resource.request,
-    //     data: filtered_data,
-    //     ids: None
+    //     requested_subset: resource.request,
+    //     data: filtered_data
     //   }
     todo!("Planned")
 }
@@ -124,27 +125,22 @@ fn keep_requested_rows(resource: RequestedResource) -> Result<RequestedResource,
 // easier to filter on the kept Ids in all resources.
 #[allow(dead_code)]
 struct RequestedResource {
-    // request: Subset,
+    // requested_subset: Subset,
     // data: LazyFrame,
-    // TODO: This might not be a string, but maybe convert to one?
-    // ids: Option<Arc<String>>,
 }
 
 #[allow(unused, clippy::needless_pass_by_value)]
-fn subset_resource(resource: &RequestedResource) -> Result<SubsettedResource, Box<dyn Error>> {
-    // let kept_rows = keep_rows(resource.data, resource.ids)?;
+fn subset_resource(
+    resource: &RequestedResource,
+    ids: LazyFrame,
+) -> Result<SubsettedResource, Box<dyn Error>> {
+    // Only keep rows in `ids` that match in `data`.
+    // let kept_rows = left_join(ids, resource.data)?;
     // let subsetted_data = select_columns(kept_rows, resource.request.columns)?;
     //   SubsettedResource {
     //     data: subsetted_data,
     //     resource_name: resource.request.resource
     // }
-    todo!("Planned")
-}
-
-// This might be fine to not have a function but instead use Polars directly in
-// the functions above. The args need to be updated, it is a placeholder.
-#[allow(unused, clippy::needless_pass_by_value)]
-fn keep_rows(data: LazyFrame) -> LazyFrame {
     todo!("Planned")
 }
 
