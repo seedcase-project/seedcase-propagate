@@ -55,14 +55,14 @@ This project is licensed under the [MIT License](LICENSE.md).
 
 If you use this package in your work, please cite it as follows:
 
-Brødbæk S.K., Johnston L.W., Ostblom J., Vago M. Seedcase Propagate:
-Submit requests for a subset of data in a data package URL:
-https://propagate.seedcase-project.org
+Brødbæk S.K., Johnston L.W., Mazhari-Jensen D.S., Ostblom J., Vago M.
+Seedcase Propagate: Submit requests for a subset of data in a data
+package URL: https://propagate.seedcase-project.org
 
 Or as a BibTeX entry:
 
     @misc{YourReferenceHere,
-    author = {Brødbæk, Signe Kirk and Johnston, Luke William and Ostblom, Joel and Vago, Marton},
+    author = {Brødbæk, Signe Kirk and Johnston, Luke William and Mazhari-Jensen, Daniel Skak and Ostblom, Joel and Vago, Marton},
     title = {Seedcase Propagate: Submit requests for a subset of data in a data package},
     url = {https://propagate.seedcase-project.org}
     }
