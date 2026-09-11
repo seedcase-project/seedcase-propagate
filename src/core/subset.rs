@@ -17,7 +17,11 @@ use crate::core::metadata::Package;
 /// `Package` (within [`CheckedRap`]), that should be done outside of this
 /// function. Based on the request, this function will read the path to the data
 /// package's resource (given in `Resource`), so some I/O errors may occur at
-/// this point.
+/// this point. Columns listed as primary keys are always kept in the requested
+/// data. Only requested observational units (at the row level) are kept across
+/// all resources. See [Propagate's design
+/// docs](https://propagate.seedcase-project.org/docs/design) for details about
+/// this.
 ///
 /// # Arguments
 ///
