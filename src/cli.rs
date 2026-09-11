@@ -1,9 +1,13 @@
 use clap::{Args, Subcommand};
 use std::path::PathBuf;
-// use crate::core::metadata::Package;
 // use crate::core::request::Request;
-// use crate::core::Rap;
-// use crate::core::check::{check_request;
+// use crate::core::{Rap, CheckedRap};
+// use crate::core::check::check_request;
+// use crate::core::metadata::{Package, read_package_metadata};
+// use crate::core::subset::{create_plan, SubsettedResource,
+// subset_resources, write_resources};
+
+// use std::path::PathBuf; // Or `Path`?
 
 #[derive(Debug, Args)]
 pub struct BuildArgs {
@@ -102,6 +106,52 @@ pub fn check(args: CheckArgs) {
     // match checked_request {
     //   Ok(output) => println!("Request checks passed!"),
     //   Err(e) => eprint!("Request checks failed: {:?}", e)
+    // }
+
+    todo!("Planned")
+}
+
+/// Creates the requested subsets from the data package.
+///
+/// # Argument:
+///
+/// - `args`: This is the [`SubsetArgs`] struct that contains the CLI arguments
+///   for the `subset` command.
+#[allow(unused, clippy::needless_pass_by_value)]
+pub fn subset(args: SubsetArgs) {
+    // TODO: Will we need to include some failure match here for reading issues?
+
+    // let request: Request = read_request(args.request)?;
+
+    // if args.show_plan {
+    //   // TODO: Not sure println is right approach.
+    //   println!("Plan for subsetting: {:?}", create_plan(args.request));
+    //   // End early.
+    //   return;
+    // };
+
+    // TODO: Will we need to include some failure match here for reading issues?
+    // let package_metadata: Package = read_package_metadata(args.source)?;
+
+    // let checked_rap: CheckedRap = check_request(Rap {
+    //   package: package_metadata,
+    //   request: request
+    // });
+
+    // TODO: Not sure if Vec or Arc should be used.
+    // TODO: Need to include failure matches here?
+    // let subsetted_resources: Arc<[SubsettedResource]> =
+    // subset_resources(checked_rap)?;
+
+    // TODO: Not sure if Path or PathBuf is better here.
+    // let written_resources: Result<Path, Error> =
+    // write_resources(subsetted_resources, args.output_dir);
+
+    // TODO: Need to include failure matches here?
+
+    // match written_resources {
+    //   Ok(paths) => println!("Created subset: {:?}", paths),
+    //   Err(e) => eprintln!("Failed to write ")
     // }
 
     todo!("Planned")
