@@ -136,8 +136,10 @@ fn subset_resource(
 ) -> Result<SubsettedResource, Box<dyn Error>> {
     // Only keep rows in `ids` that match in `data`.
     // let kept_rows = left_join(ids, resource.data)?;
-    // let subsetted_data = select_columns(kept_rows, resource.request.columns)?;
-    //   SubsettedResource {
+    // Keep primary keys to maintain row identification.
+    // let keep_column_names = [get_primary_keys(resource.data), resource.request.columns]
+    // let subsetted_data = select_columns(kept_rows, keep_column_names)?;
+    // SubsettedResource {
     //     data: subsetted_data,
     //     resource_name: resource.request.resource
     // }
