@@ -1,10 +1,13 @@
 use clap::{Args, Subcommand};
 use std::path::PathBuf;
+// use crate::core::request::Request;
 // use crate::core::{Rap, CheckedRap};
 // use crate::core::check::check_request;
 // use crate::core::metadata::{Package, read_package_metadata};
-// use crate::core::subset::{create_plan, SubsettedResource, subset_resources,
-// write_resources}; use std::path::PathBuf; // Or `Path`?
+// use crate::core::subset::{create_plan, SubsettedResource,
+// subset_resources, write_resources};
+
+// use std::path::PathBuf; // Or `Path`?
 
 #[derive(Debug, Args)]
 pub struct BuildArgs {
@@ -68,6 +71,44 @@ pub enum Commands {
     /// Produce a subset based on the request and the metadata file of the data
     /// package.
     Subset(SubsetArgs),
+}
+
+/// Function used in the CLI to check the request file against the package
+/// metadata.
+///
+/// # Arguments:
+///
+/// - `args`: This is the [`CheckArgs`] struct that contains the arguments for
+///   the CLI command.
+///
+/// # Errors
+///
+/// Prints any failed checks to `stderr`.
+#[allow(unused, clippy::needless_pass_by_value)]
+pub fn check(args: CheckArgs) {
+    // TODO: Make use of loggers to print information when e.g. using verbose?
+
+    // TODO: Not sure whether we should do custom `match` for errors, e.g. via
+    // `eprintln`?
+
+    // let package_metadata: Package = read_package_metadata(args.source)?;
+
+    // let request: Request = read_request(args.request)?;
+
+    // let rap = Rap {
+    //   package: package_metadata,
+    //   request: request
+    // };
+
+    // let checked_request = check_request(&Rap);
+
+    // TODO: Look into better/prettier output, via clap Styles?
+    // match checked_request {
+    //   Ok(output) => println!("Request checks passed!"),
+    //   Err(e) => eprint!("Request checks failed: {:?}", e)
+    // }
+
+    todo!("Planned")
 }
 
 /// Creates the requested subsets from the data package.
