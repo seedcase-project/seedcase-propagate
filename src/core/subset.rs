@@ -66,12 +66,12 @@ pub fn subset_resources(
     //     .collect()?;
 
     // Subset each resource by kept ID and than select requested columns.
-    // let subsetted_resource: Arc<[SubsettedResource]> = requested_resources
+    // let subsetted_resources: Arc<[SubsettedResource]> = requested_resources
     //     .iter()
     //     .map(|r| subset_resource(r, kept_obs_unit_ids))
     //     .collect()?;
 
-    // Ok(subsetted_data)
+    // Ok(subsetted_resources)
     todo!("Planned")
 }
 
@@ -118,7 +118,7 @@ fn keep_requested_rows(resource: RequestedResource) -> Result<RequestedResource,
     // Create a new `RequestedResource` with the filtered data.
 
     // RequestedResource {
-    //     requested_subset: resource.request,
+    //     requested_subset: resource.requested_subset,
     //     data: filtered_data
     //   }
     todo!("Planned")
