@@ -394,10 +394,10 @@ mod tests {
         let source = PackageSource::Https(server.url("/httpsmock/datapackage.json"));
 
         let package = read_package_metadata(&source)
-        .expect("Failed to read package metadata from mock HTTPS server");
+            .expect("Failed to read package metadata from mock HTTPS server");
 
-        let expected: Package = serde_json::from_str(&example_package)
-            .expect("Failed to read JSON file as Package");
+        let expected: Package =
+            serde_json::from_str(&example_package).expect("Failed to read JSON file as Package");
 
         mock.assert();
         assert_eq!(package, expected);
