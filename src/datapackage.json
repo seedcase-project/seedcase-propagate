@@ -1,0 +1,191 @@
+{
+  "name": "example-seed-beetle",
+  "id": "8dbef2a2-0354-4996-bc9e-71a6c79aec7d",
+  "title": "Complex mitonuclear interactions and metabolic costs of mating in male seed beetles",
+  "description": "Data from the 2015 on metabolic rate, respiratory quotient, body\nweight and ejaculate weight data from seed beetles with different\nmitonuclear genotypes.\n\nThis repository shows how to use the Seedcase Sprout tools on a data set\nof seed beetle data. The data is from a study by [Immonen et al.\n(2015)](https://onlinelibrary.wiley.com/doi/10.1111/jeb.12789) and is\navailable on [Zenodo](https://zenodo.org/records/4932381).\n",
+  "version": "0.5.1",
+  "created": "2025-07-17T14:23:49+02:00",
+  "contributors": [
+    {
+      "title": "Elina Immonen",
+      "path": "https://www.uu.se/en/contact-and-organisation/staff?query=N12-1639",
+      "roles": [
+        "creator"
+      ]
+    },
+    {
+      "title": "Johanna Liljestrand-Rönn",
+      "path": "https://www.uu.se/en/contact-and-organisation/staff?query=N2-1345",
+      "roles": [
+        "creator"
+      ]
+    },
+    {
+      "title": "Christopher Watson",
+      "path": "https://www.uu.se/en/department/ecology-and-genetics/research/evolutionary-biology/immonen-lab",
+      "roles": [
+        "creator"
+      ]
+    },
+    {
+      "title": "David Berger",
+      "path": "https://www.uu.se/en/contact-and-organisation/staff?query=N11-2446",
+      "roles": [
+        "creator"
+      ]
+    },
+    {
+      "title": "Göran Arnqvist",
+      "path": "https://www.uu.se/en/contact-and-organisation/staff?query=N1-1284",
+      "roles": [
+        "creator"
+      ]
+    }
+  ],
+  "licenses": [
+    {
+      "name": "CCO_1.0",
+      "path": "https://creativecommons.org/publicdomain/zero/1.0/legalcode",
+      "title": "CCO 1.0 UNIVERSAL"
+    }
+  ],
+  "resources": [
+    {
+      "name": "metabolic-rate",
+      "path": "resources/metabolic-rate/data.parquet",
+      "type": "table",
+      "title": "Metabolic rate of the seed beetles",
+      "description": "This dataset contains metabolic rate, respiratory quotient, body weight and\nejaculate weight data from seed beetles with different mitonuclear genotypes.",
+      "format": "parquet",
+      "mediatype": "application/parquet",
+      "schema": {
+        "fields": [
+          {
+            "name": "cycle",
+            "title": "Cycle",
+            "type": "integer",
+            "description": "Focal cycle in the respirometry. Note that the number one here\ncorresponds to the real cycle number two, as the first one was\nremoved as a burn-in. Original field name: `CYCLE`."
+          },
+          {
+            "name": "o2_consumed",
+            "title": "O2 consumed",
+            "type": "number",
+            "description": "Original field name: `O2`."
+          },
+          {
+            "name": "co2_produced",
+            "title": "CO2 produced",
+            "type": "number",
+            "description": "Original field name: `CO2`."
+          },
+          {
+            "name": "respiratory_quotient",
+            "title": "Respiratory quotient",
+            "type": "number",
+            "description": "Original field name: `RQ`."
+          },
+          {
+            "name": "block",
+            "title": "Block",
+            "type": "string",
+            "description": "Experimental block. Original field name: `BLOCK`."
+          },
+          {
+            "name": "activity",
+            "title": "Activity",
+            "type": "number",
+            "description": "Original field name: `ACTIVITY`."
+          },
+          {
+            "name": "strain",
+            "title": "Strain",
+            "type": "string",
+            "description": "Line identity. Original field name: `STRAIN`."
+          },
+          {
+            "name": "mitochondrial_dna_lineage",
+            "title": "Mitochondrial DNA lineage",
+            "type": "string",
+            "description": "Original field name: `MT_DNA_HAPLOTYPE`."
+          },
+          {
+            "name": "nuclear_lineage",
+            "title": "Nuclear lineage",
+            "type": "string",
+            "description": "Original field name: `NC_GENOTYPE`."
+          },
+          {
+            "name": "mating_treatment",
+            "title": "Mating treatment",
+            "type": "string",
+            "description": "Mated or virgin. Original field name: `TREATMENT`."
+          },
+          {
+            "name": "coadaptation",
+            "title": "Coadaptation",
+            "type": "integer",
+            "description": "Coadaptation of the mitochondrial and nuclear lineage genomes.\nOriginal field name: `COEVOL`."
+          },
+          {
+            "name": "virgin_body_weight",
+            "title": "Virgin body weight",
+            "type": "number",
+            "description": "Unit: g. Original field name: `W_V`."
+          },
+          {
+            "name": "body_weight_after_mating",
+            "title": "Body weight after mating",
+            "type": "number",
+            "description": "Body weight after mating, prior to respirometry measurements.\nUnit: g. Original field name: `W_M1`."
+          },
+          {
+            "name": "mated_body_weight_after_respirometry",
+            "title": "Mated body weight after respirometry",
+            "type": "number",
+            "description": "Mated male body weight after the respirometry, prior to second\nmating. Unit: g. Original field name: `W_M1R`."
+          },
+          {
+            "name": "ejaculate_weight_first_mating",
+            "title": "Ejaculate weight in the first mating",
+            "type": "number",
+            "description": "Unit: g. Original field name: `EJAC1`."
+          },
+          {
+            "name": "ejaculate_weight_second_mating",
+            "title": "Ejaculate weight in the second mating",
+            "type": "number",
+            "description": "Unit: g. Original field name: `EJAC2`."
+          },
+          {
+            "name": "copulation_duration_first_mating",
+            "title": "Copulation duration of the first mating",
+            "type": "number",
+            "description": "Unit: sec. Original field name: `COPULDUR_1`."
+          },
+          {
+            "name": "copulation_duration_second_mating",
+            "title": "Copulation duration of the second mating",
+            "type": "number",
+            "description": "Unit: sec. Original field name: `COPULDUR_2`."
+          },
+          {
+            "name": "id",
+            "title": "ID",
+            "type": "integer",
+            "description": "Experimental subject identity. Original field name: `ID`."
+          }
+        ],
+        "primaryKey": [
+          "id"
+        ]
+      }
+    }
+  ],
+  "sources": [
+    {
+      "title": "Complex mitonuclear interactions and metabolic costs of mating in male seed beetles",
+      "path": "https://zenodo.org/record/4932381",
+      "version": "V1"
+    }
+  ]
+}
