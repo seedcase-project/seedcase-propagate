@@ -172,11 +172,12 @@ fn github_to_raw_url(source: &str) -> Result<String, Box<dyn Error>> {
     let source = source
         .strip_prefix("gh:")
         .or_else(|| source.strip_prefix("github:"))
-        .ok_or("invalid GitHub source")?;
+        // TODO: Keep as error string or use custom errors?
+        .ok_or("Not a GitHub source")?;
 
     let (repo, reference) = source.split_once('@').unwrap_or((source, "main"));
 
-    let (owner, repo) = repo.split_once('/').ok_or("invalid GitHub source")?;
+    let (owner, repo) = repo.split_once('/').ok_or("Not a GitHub source")?;
 
     Ok(format!(
         "https://raw.githubusercontent.com/{owner}/{repo}/{reference}/datapackage.json"
@@ -204,42 +205,28 @@ pub fn read_package_metadata(source: &PackageSource) -> Result<Package, Box<dyn 
     // like `thiserror`, `anyhow`, and/or `eyre`. Or just bundle the original
     // errors from e.g. the default reader and make reporting of them nicer with
     // `eyre`. Right now, we'll use `?` and see how that goes.
-    // let package = match source {
-    //   PackageSource::Path(file) => open_file(file)?,
-    //   PackageSource::Https(url) => open_url(url)?,
-    //   PackageSource::GitHub(gh) => open_url(gh_to_url(gh))?
-    // };
-
+    //
     // Potentially include a match for if the file is JSON or other file format.
-    // For now, only load in `datapackage.json` structured JSON.
-    // Read the JSON contents of the file as an instance of `Package`.
-    // let package: Package = read_from_json(package)?;
-    // Ok(package)
-    let package = match source {
+    let contents = match source {
         PackageSource::Path(path) => {
             // Note that this is currently faster than serde_json::read_from
             // https://docs.rs/serde_json/latest/serde_json/fn.from_reader.html and see issue 160.
-            let contents = std::fs::read_to_string(path)?;
-            serde_json::from_str(&contents)?
+            std::fs::read_to_string(path)?
         }
 
         PackageSource::Https(url) => {
             let response = reqwest::blocking::get(url)?;
-            // println!("status: {}", response.status()); for debugging
-            // response.json::<Package>()? // Make the JSON a Package type for
-            // serde to work on
-            let contents = response.text()?; // for using same serde_json function and potential debugging
-            // println!("{contents:?}");  // for debugging
-            serde_json::from_str(&contents)? // uses same function as path (minimize potential inconsistent errors)
+            response.text()?
         }
 
         PackageSource::GitHub(ghrepo) => {
-            let url = github_to_raw_url(ghrepo)?; // helper function
+            let url = github_to_raw_url(ghrepo)?;
             let response = reqwest::blocking::get(url)?;
-            let contents = response.text()?;
-            serde_json::from_str(&contents)?
+            response.text()?
         }
     };
+
+    let package = serde_json::from_str(&contents)?;
 
     Ok(package)
 }
@@ -330,7 +317,7 @@ mod tests {
         // memory representation of it (to have fewer I/O in tests).
         use std::io::Write;
         // see https://rust-exercises.com/advanced-testing/05_filesystem_isolation/02_tempfile.html
-        // for my design choices around tempfile::NamedTempFile
+        // for the design choices around tempfile::NamedTempFile
 
         let mut file = tempfile::NamedTempFile::new().unwrap();
         file.write_all(EXAMPLE_DATAPACKAGE_JSON.as_bytes()).unwrap();
@@ -343,7 +330,7 @@ mod tests {
 
         // see https://doc.rust-lang.org/std/cmp/trait.PartialEq.html
         // and https://doc.rust-lang.org/std/macro.assert_eq.html
-        assert_eq!(package, expected); // == uses the PartialEq trait, we can simply run all at once!
+        assert_eq!(package, expected);
     }
 
     #[test]
@@ -366,36 +353,35 @@ mod tests {
     }
 
     #[test]
-    fn test_github_to_raw_url_short_prefix() -> Result<(), Box<dyn Error>> {
-        let url = github_to_raw_url("gh:seedcase-project/example-seed-beetle")?;
+    fn test_github_to_raw_url_short_prefix() {
+        let url = github_to_raw_url("gh:seedcase-project/example-seed-beetle")
+            .expect("Not a GitHub source");
 
         assert_eq!(
             url,
             "https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/main/datapackage.json"
         );
-
-        Ok(())
     }
 
     #[test]
-    fn test_github_to_raw_url_long_prefix() -> Result<(), Box<dyn Error>> {
-        let url = github_to_raw_url("github:seedcase-project/example-seed-beetle@0.2.0")?;
+    fn test_github_to_raw_url_long_prefix() {
+        let url = github_to_raw_url("github:seedcase-project/example-seed-beetle@0.2.0")
+            .expect("Not a GitHub source");
 
         assert_eq!(
             url,
             "https://raw.githubusercontent.com/seedcase-project/example-seed-beetle/0.2.0/datapackage.json"
         );
-
-        Ok(())
     }
 
     #[test]
-    fn test_read_package_metadata_using_mock_https() -> Result<(), Box<dyn Error>> {
+    fn test_read_package_metadata_using_mock_https() {
         use httpmock::prelude::*;
 
         let server = MockServer::start();
 
-        let example_package = std::fs::read_to_string("src/datapackage.json")?;
+        let example_package = std::fs::read_to_string("src/datapackage.json")
+            .expect("Failed to read test datapackage.json");
 
         let mock = server.mock(|when, then| {
             when.method(GET).path("/httpsmock/datapackage.json");
@@ -407,12 +393,13 @@ mod tests {
 
         let source = PackageSource::Https(server.url("/httpsmock/datapackage.json"));
 
-        let package = read_package_metadata(&source)?;
-        let expected: Package = serde_json::from_str(&example_package)?;
+        let package = read_package_metadata(&source)
+        .expect("Failed to read package metadata from mock HTTPS server");
+
+        let expected: Package = serde_json::from_str(&example_package)
+            .expect("Failed to read JSON file as Package");
 
         mock.assert();
         assert_eq!(package, expected);
-
-        Ok(())
     }
 }
