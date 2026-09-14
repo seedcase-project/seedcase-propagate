@@ -17,9 +17,9 @@ use crate::core::metadata::Package;
 /// `Package` (within [`CheckedRap`]), that should be done outside of this
 /// function. Based on the request, this function will read the path to the data
 /// package's resource (given in `Resource`), so some I/O errors may occur at
-/// this point. Columns listed as primary keys are always kept in the requested
-/// data. Only requested observational units (at the row level) are kept across
-/// all resources. See [Propagate's design
+/// this point. Columns listed as primary and foreign keys are always kept in
+/// the requested data. Only requested observational units (at the row level)
+/// are kept across all resources. See [Propagate's design
 /// docs](https://propagate.seedcase-project.org/docs/design) for details about
 /// this.
 ///
@@ -45,14 +45,14 @@ pub fn subset_resources(
 
     // Using the requested row-filtering, map on all data to keep rows.
 
+    // TODO: Not sure to clone, we don't want to consume `requested_resources`
     // let filtered_requested_resources: Arc<[RequestedResource]> =
-    // requested_resources     // TODO: Not sure to clone, we don't want to
-    // consume `requested_resources`     .clone()
+    // requested_resources.clone()
     //     .iter()
     //     .map(keep_requested_rows)
     //     .collect()?;
 
-    // Get ID columns from filtered resources (linking a foreign key to an
+    // Get ID columns from filtered resources (linking maybe a foreign key to an
     // ideally central/main resource), then inner-join to keep same ids (and
     // columns?) between any two data frames, joining all data frames together
     // via reduce. In the end there should be the same set of IDs (both rows and
@@ -140,8 +140,9 @@ fn subset_resource(
 ) -> Result<SubsettedResource, Box<dyn Error>> {
     // Only keep rows in `ids` that match in `data`.
     // let kept_rows = left_join(ids, resource.data)?;
-    // Keep primary keys to maintain row identification.
-    // let keep_column_names = [get_primary_keys(resource.data), resource.request.columns]
+    // Keep primary and foreign keys to maintain row identification.
+    // let keep_column_names = [get_primary_keys(resource.data),
+    // get_foreign_keys(resource.data), resource.request.columns]
     // let subsetted_data = select_columns(kept_rows, keep_column_names)?;
     // SubsettedResource {
     //     data: subsetted_data,
