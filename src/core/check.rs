@@ -27,7 +27,7 @@ use std::error::Error;
 ///
 /// Errors if any check fails.
 #[allow(unused_variables)]
-pub fn check_request(rap: Rap) -> Result<CheckedRap, Box<dyn Error>> {
+pub fn check_request(rap: &Rap) -> Result<CheckedRap, Box<dyn Error>> {
     // TODO: We may need to revise this so we can group all errors together and
     // output them at the end.
 
