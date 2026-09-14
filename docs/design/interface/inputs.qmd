@@ -14,6 +14,13 @@ The inputs include:
   specification. Owners use this file to generate a web application through
   which a Requester can create a data request.
 
+- A set of data files linked within the metadata file that makes up the data
+  package. All the data within the data package must be
+  [tidy](https://sprout.seedcase-project.org/docs/design/inputs) and must
+  contain at least one [observational unit
+  ID](https://sprout.seedcase-project.org/docs/design/inputs) that is shared
+  across resources.
+
 <!-- TODO: Add `data-dict.yaml` as well? -->
 
 - A data request, in a `request.yaml` file, made through the web application or
