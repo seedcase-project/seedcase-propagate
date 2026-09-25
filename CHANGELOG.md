@@ -19,6 +19,56 @@ releases we've made so far, along with what was changed within each release.
 Commits from bots, like `dependabot` or `pre-commit-ci`, are not included in the
 changelog.
 
+## [0.5.0](https://github.com/seedcase-project/seedcase-propagate/compare/0.4.0..0.5.0) - 2026-09-14
+
+### ✨ Features
+
+- Add `read_package_metadata()`
+  [#149](https://github.com/seedcase-project/seedcase-propagate/pull/149) by
+  [`@DanMazJen`](https://github.com/DanMazJen)
+  ([164f84c](https://github.com/seedcase-project/seedcase-propagate/commit/164f84cc05e09cf242dbd55efc729d493b95561f))
+
+### 📝 Documentation
+
+- Add design for subsetting in request file
+  [#93](https://github.com/seedcase-project/seedcase-propagate/pull/93) by
+  [`@joelostblom`](https://github.com/joelostblom)
+  ([c7c5640](https://github.com/seedcase-project/seedcase-propagate/commit/c7c56403d6616a77eae6e5ef998ea350a3a8eb79))
+- Add pseudocode for `subset()` CLI
+  [#137](https://github.com/seedcase-project/seedcase-propagate/pull/137) by
+  [`@lwjohnst86`](https://github.com/lwjohnst86)
+  ([fdec3a2](https://github.com/seedcase-project/seedcase-propagate/commit/fdec3a2ddf45473646ff07cb64e4e316d20cc836))
+- Add pseudocode and design for `write_request()`
+  [#144](https://github.com/seedcase-project/seedcase-propagate/pull/144) by
+  [`@joelostblom`](https://github.com/joelostblom)
+  ([ef8c9d0](https://github.com/seedcase-project/seedcase-propagate/commit/ef8c9d0de0f6f2a7ab48c6686ab9ebde8ba93c68))
+- Change rumdl URL, Lychee started flagging it
+  [#152](https://github.com/seedcase-project/seedcase-propagate/pull/152) by
+  [`@DanMazJen`](https://github.com/DanMazJen)
+  ([a85cee7](https://github.com/seedcase-project/seedcase-propagate/commit/a85cee717fe4340ee7ace059f7fce3fa77037bea))
+- Add `check` command pseudocode
+  [#133](https://github.com/seedcase-project/seedcase-propagate/pull/133) by
+  [`@lwjohnst86`](https://github.com/lwjohnst86)
+  ([0212096](https://github.com/seedcase-project/seedcase-propagate/commit/0212096093cc8c55c5202cf4e5f492340547e04d))
+- Describe the input data in design
+  [#151](https://github.com/seedcase-project/seedcase-propagate/pull/151) by
+  [`@lwjohnst86`](https://github.com/lwjohnst86)
+  ([09f6d78](https://github.com/seedcase-project/seedcase-propagate/commit/09f6d7829a20c54a6f92ad5802faa3c2df168741))
+
+### 💄 Styling
+
+- Format with panache
+  [#145](https://github.com/seedcase-project/seedcase-propagate/pull/145) by
+  [`@joelostblom`](https://github.com/joelostblom)
+  ([2961c87](https://github.com/seedcase-project/seedcase-propagate/commit/2961c871a5550ff5f1dca8f5abc1ff974965eb52))
+
+### 👩‍💻 Miscellaneous
+
+- Add Daniel to author list in CITATION.cff
+  [#150](https://github.com/seedcase-project/seedcase-propagate/pull/150) by
+  [`@DanMazJen`](https://github.com/DanMazJen)
+  ([fb00134](https://github.com/seedcase-project/seedcase-propagate/commit/fb001348a8f3c6175afdfa38ac28210cdc2bba43))
+
 ## [0.4.0](https://github.com/seedcase-project/seedcase-propagate/compare/0.3.1..0.4.0) - 2026-09-01
 
 ### ✨ Features
