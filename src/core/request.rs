@@ -180,13 +180,13 @@ subsets:
       - "copulation_duration_first_mating"
       - "copulation_duration_second_mating"
       - "id"
-	rows:
-	  - column: "age"
-      operator: ">="
-      value: "20"
-    - column: "age"
-      operator: "<="
-      value: "40"
+	  rows:
+	    - column: "age"
+        operator: ">="
+        value: "20"
+      - column: "age"
+        operator: "<="
+        value: "40"
 "#;
 
 #[cfg(test)]
