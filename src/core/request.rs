@@ -180,8 +180,8 @@ subsets:
       - "copulation_duration_first_mating"
       - "copulation_duration_second_mating"
       - "id"
-	  rows:
-	    - column: "age"
+    rows:
+      - column: "age"
         operator: ">="
         value: "20"
       - column: "age"
