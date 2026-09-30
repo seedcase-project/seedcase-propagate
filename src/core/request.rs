@@ -132,6 +132,61 @@ pub enum ConditionValue {
     Sequence(Vec<String>),
 }
 
+pub const EXAMPLE_REQUEST_YAML: &str = r##"
+datetime-created: "2026-09-29T17:33:00+02:00"
+datetime-modified: "2026-09-30T06:49:00+02:00"
+
+motivation: |
+  We would like access to metabolic rate, respiratory quotient, activity,
+  mating treatment, mitochondrial DNA lineage, nuclear lineage,
+  and related variables to investigate metabolic costs and mitonuclear
+  interactions in male seed beetles.
+
+requester:
+  name: "Daniel Jensen"
+  email: "daniel@jensen.com"
+
+project:
+  name: "metabolic-cost"
+  title: "Metabolic cost estimation"
+  description: |
+    This project investigates metabolic costs in male seed beetles,
+    with a particular focus on metabolic rate, respiratory quotient,
+    activity, mating treatment, and mitonuclear genotype.
+    The analysis will compare metabolic measurements across experimental
+    groups and examine associations between metabolic traits and
+    mitonuclear lineage.
+
+data-package:
+  name: "example-seed-beetle"
+  version: "0.5.1"
+
+subsets:
+  - resource: "metabolic-rate"
+    columns:
+      - "cycle"
+      - "o2_consumed"
+      - "co2_produced"
+      - "respiratory_quotient"
+      - "block"
+      - "activity"
+      - "strain"
+      - "mitochondrial_dna_lineage"
+      - "nuclear_lineage"
+      - "mating_treatment"
+      - "coadaptation"
+      - "copulation_duration_first_mating"
+      - "copulation_duration_second_mating"
+      - "id"
+	rows: 
+	- column: "age" 
+     operator: ">=" 
+     value: "20" 
+     - column: "age" 
+     operator: "<="
+     value: "40"
+"##;
+
 #[cfg(test)]
 mod tests {
     // To import all code from above in this file.
