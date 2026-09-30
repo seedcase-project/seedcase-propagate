@@ -181,12 +181,12 @@ subsets:
       - "copulation_duration_second_mating"
       - "id"
 	rows:
-	- column: "age"
-     operator: ">="
-     value: "20"
-     - column: "age"
-     operator: "<="
-     value: "40"
+	  - column: "age"
+      operator: ">="
+      value: "20"
+    - column: "age"
+      operator: "<="
+      value: "40"
 "#;
 
 #[cfg(test)]
