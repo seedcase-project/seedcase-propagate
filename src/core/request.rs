@@ -132,7 +132,9 @@ pub enum ConditionValue {
     Sequence(Vec<String>),
 }
 
-pub const EXAMPLE_REQUEST_YAML: &str = r##"
+/// An example of a request.yaml targeting the `src/datapackage.json`.
+/// Used for testing read, check, and subset functions.
+pub const EXAMPLE_REQUEST_YAML: &str = r#"
 datetime-created: "2026-09-29T17:33:00+02:00"
 datetime-modified: "2026-09-30T06:49:00+02:00"
 
@@ -178,14 +180,14 @@ subsets:
       - "copulation_duration_first_mating"
       - "copulation_duration_second_mating"
       - "id"
-	rows: 
-	- column: "age" 
-     operator: ">=" 
-     value: "20" 
-     - column: "age" 
+	rows:
+	- column: "age"
+     operator: ">="
+     value: "20"
+     - column: "age"
      operator: "<="
      value: "40"
-"##;
+"#;
 
 #[cfg(test)]
 mod tests {

@@ -65,31 +65,31 @@ seedcase-propagate create-request --load request.yaml
 You start in the left pane in navigation mode. Use the following shortcuts to
 move through the request:
 
-  | Shortcut                        | Action                                    |
-  | ------------------------------- | ----------------------------------------- |
-  | `j` / `k` or down / up arrow    | Move to the next or previous item.        |
-  | `h` / `l` or left / right arrow | Collapse or expand the selected section.  |
-  | `Enter`                         | Edit the selected item in the right pane. |
-  | `s` or `Ctrl+S`                 | Save the request.                         |
-  | `?`                             | Show help for the available shortcuts.    |
-  | `q`                             | Quit the TUI.                             |
+  | Shortcut                          | Action                                      |
+  | --------------------------------- | ------------------------------------------- |
+  | `j` / `k` or down / up arrow      | Move to the next or previous item.          |
+  | `h` / `l` or left / right arrow   | Collapse or expand the selected section.    |
+  | `Enter`                           | Edit the selected item in the right pane.   |
+  | `s` or `Ctrl+S`                   | Save the request.                           |
+  | `?`                               | Show help for the available shortcuts.      |
+  | `q`                               | Quit the TUI.                               |
 
 When you press `Enter` on an item in the left pane, focus moves to the right
 pane and the TUI enters editing mode. The shortcuts available there depend on
 the type of information you are editing:
 
-  | Shortcut                     | Action                                         |
-  | ---------------------------- | ---------------------------------------------- |
-  | `Tab` / `Shift+Tab`          | Move to the next or previous control.          |
-  | `j` / `k` or down / up arrow | Move through a selection list or dropdown.     |
-  | `Space`                      | Toggle the selected choice.                    |
-  | `Enter`                      | Open a dropdown or activate a control.         |
-  | `/`                          | Search the current resource or column list.    |
-  | `a`                          | Add a condition, group, or value.              |
-  | `d`                          | Delete the selected item.                      |
-  | `Ctrl+Enter`                 | Apply your edits and return to the left pane.  |
-  | `Esc`                        | Cancel your edits and return to the left pane. |
-  | `Ctrl+S`                     | Apply your edits and save the request.         |
+  | Shortcut                       | Action                                           |
+  | ------------------------------ | ------------------------------------------------ |
+  | `Tab` / `Shift+Tab`            | Move to the next or previous control.            |
+  | `j` / `k` or down / up arrow   | Move through a selection list or dropdown.       |
+  | `Space`                        | Toggle the selected choice.                      |
+  | `Enter`                        | Open a dropdown or activate a control.           |
+  | `/`                            | Search the current resource or column list.      |
+  | `a`                            | Add a condition, group, or value.                |
+  | `d`                            | Delete the selected item.                        |
+  | `Ctrl+Enter`                   | Apply your edits and return to the left pane.    |
+  | `Esc`                          | Cancel your edits and return to the left pane.   |
+  | `Ctrl+S`                       | Apply your edits and save the request.           |
 
 Use `Ctrl+Enter` when you want to save your edits and return to the left pane.
 If you use `Esc` instead, that item is restored to the value it had when you
