@@ -95,8 +95,8 @@ fn join_request_with_data(
     // let requested_resource = package_metadata.package.resources
     //   .iter()
     //   .find(|r| r.name == subset.resource)
-    //   // TODO: collect into not a vector? There should be only one output here.
-    //   .collect();
+    //   // TODO: collect into not a vector? There should be only one output
+    // here.   .collect();
 
     // let data: LazyFrame = read_parquet(requested_resource.path)?;
 
@@ -109,8 +109,8 @@ fn join_request_with_data(
 
 #[allow(unused_variables, dead_code, clippy::needless_pass_by_value)]
 fn keep_requested_rows(resource: RequestedResource) -> Result<RequestedResource, Box<dyn Error>> {
-    // Need to convert the where conditions to SQL (or direct Polars) to apply on
-    // the data.
+    // Need to convert the where conditions to SQL (or direct Polars) to apply
+    // on the data.
 
     // let filtered_data: LazyFrame = keep_rows(resource.data,
     // convert_to_sql(resource.request.rows));
