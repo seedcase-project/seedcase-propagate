@@ -19,6 +19,40 @@ releases we've made so far, along with what was changed within each release.
 Commits from bots, like `dependabot` or `pre-commit-ci`, are not included in the
 changelog.
 
+## [0.6.0](https://github.com/seedcase-project/seedcase-propagate/compare/0.5.0..0.6.0) - 2026-10-06
+
+### ✨ Features
+
+- Add request example
+  [#156](https://github.com/seedcase-project/seedcase-propagate/pull/156) by
+  [`@DanMazJen`](https://github.com/DanMazJen)
+  ([51bbb14](https://github.com/seedcase-project/seedcase-propagate/commit/51bbb14fd61402856e2b1169f407d2635e79fb9d))
+
+### 📝 Documentation
+
+- Add `subset_resources()` design
+  [#116](https://github.com/seedcase-project/seedcase-propagate/pull/116) by
+  [`@signekb`](https://github.com/signekb)
+  ([1649de2](https://github.com/seedcase-project/seedcase-propagate/commit/1649de27614247987c5fac16d10615c30d6b6e51))
+- Rebuild README from `qmd`
+  [#158](https://github.com/seedcase-project/seedcase-propagate/pull/158) by
+  [`@lwjohnst86`](https://github.com/lwjohnst86)
+  ([f39da56](https://github.com/seedcase-project/seedcase-propagate/commit/f39da5610f60b3209a46f14cec9b662efba748dc))
+
+### 💄 Styling
+
+- Update Seedcase Quarto theme
+  [#157](https://github.com/seedcase-project/seedcase-propagate/pull/157) by
+  [`@lwjohnst86`](https://github.com/lwjohnst86)
+  ([f76dc05](https://github.com/seedcase-project/seedcase-propagate/commit/f76dc05c3e279da157e2be7c0ce09524545b2ef5))
+
+### 👩‍💻 Miscellaneous
+
+- Switch to Fru's name
+  [#155](https://github.com/seedcase-project/seedcase-propagate/pull/155) by
+  [`@lwjohnst86`](https://github.com/lwjohnst86)
+  ([da8826d](https://github.com/seedcase-project/seedcase-propagate/commit/da8826d94944ada90a62168145ad6bfd83d96a08))
+
 ## [0.5.0](https://github.com/seedcase-project/seedcase-propagate/compare/0.4.0..0.5.0) - 2026-09-14
 
 ### ✨ Features
@@ -158,7 +192,7 @@ changelog.
   ([1c5adf1](https://github.com/seedcase-project/seedcase-propagate/commit/1c5adf111322206528a8659c0975e9811d618513))
 - Add design overview page
   [#20](https://github.com/seedcase-project/seedcase-propagate/pull/20) by
-  [`@martonvago`](https://github.com/martonvago)
+  [`@fruvago`](https://github.com/fruvago)
   ([16d6c51](https://github.com/seedcase-project/seedcase-propagate/commit/16d6c51986545b0a991793528fe0f0e390393ff9))
 - Add design for input/output interface
   [#25](https://github.com/seedcase-project/seedcase-propagate/pull/25) by
@@ -170,7 +204,7 @@ changelog.
   ([2162666](https://github.com/seedcase-project/seedcase-propagate/commit/2162666b17aa144599dc5f9d4a58584bea00985d))
 - Add architecture design page
   [#23](https://github.com/seedcase-project/seedcase-propagate/pull/23) by
-  [`@martonvago`](https://github.com/martonvago)
+  [`@fruvago`](https://github.com/fruvago)
   ([afcda6b](https://github.com/seedcase-project/seedcase-propagate/commit/afcda6bed879404344f169bc14025c4633e72b92))
 - Reformat Markdown and minor edits
   [#35](https://github.com/seedcase-project/seedcase-propagate/pull/35) by
@@ -218,7 +252,7 @@ changelog.
   ([835b37c](https://github.com/seedcase-project/seedcase-propagate/commit/835b37ceaddacc2006d76ed72888b7c0fff2723f))
 - Add making a web app guide
   [#69](https://github.com/seedcase-project/seedcase-propagate/pull/69) by
-  [`@martonvago`](https://github.com/martonvago)
+  [`@fruvago`](https://github.com/fruvago)
   ([eb0412f](https://github.com/seedcase-project/seedcase-propagate/commit/eb0412f7a4900d04277864783fb6f3355e661b82))
 - Add design docs for the request file
   [#65](https://github.com/seedcase-project/seedcase-propagate/pull/65) by
@@ -398,7 +432,7 @@ changelog.
 - [`@DanMazJen`](https://github.com/DanMazJen) made their first contribution in
   [#82](https://github.com/seedcase-project/seedcase-propagate/pull/82)
 
-- [`@martonvago`](https://github.com/martonvago) made their first contribution
-  in [#69](https://github.com/seedcase-project/seedcase-propagate/pull/69)
+- [`@fruvago`](https://github.com/fruvago) made their first contribution in
+  [#69](https://github.com/seedcase-project/seedcase-propagate/pull/69)
 
 - `@dependabot[bot]` started making automated contributions
